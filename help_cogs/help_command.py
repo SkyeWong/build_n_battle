@@ -6,7 +6,6 @@ from nextcord import Embed
 import nextcord
 
 class HelpDropdown(nextcord.ui.Select):
-    #test
     def __init__(self, help_command: "MyHelpCommand", options: list[nextcord.SelectOption]):
         super().__init__(placeholder="Choose a category...", min_values=1, max_values=1, options=options)
         self._help_command = help_command
@@ -40,7 +39,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
         return f"{self.context.clean_prefix}{command.qualified_name} {command.signature}"
 
     async def _cog_select_options(self) -> list[nextcord.SelectOption]:
-        options: list[nextcord.SelectOption] = [] 
+        options: list[nextcord.SelectOption] = []
         options.append(nextcord.SelectOption(
             label="Home",
             emoji="🏠",
