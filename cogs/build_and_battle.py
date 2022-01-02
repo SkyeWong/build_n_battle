@@ -19,6 +19,8 @@ while i <= 16:
 class build_and_battle(commands.Cog, name='Build & Battle'):
     """My game! ~~i can\'t think of this it will be done later~~"""
 
+    COG_EMOJI = '🎮'
+
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
