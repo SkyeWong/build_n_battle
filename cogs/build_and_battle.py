@@ -147,6 +147,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             user_profile['crops'][i] += (sent_time - user_profile['farm_last_used']) / 60 * random.choice(crop_progress) * grow_speed
             if user_profile['crops'][i] >= 4.5:
                 user_profile['crops'][i] = 5.0
+        test = user_profile['farm_last_used']
         user_profile['farm_last_used'] = sent_time
         crop = ''
         farm_ui = nextcord.Embed()
@@ -177,7 +178,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         farm_ui.colour = random.choice(main.embed_colours)
-        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nPast Weather: {past_weather}\nFarm last used: {user_profile["farm_last_used"]}\nSent time: {sent_time}')
+        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nPast Weather: {past_weather}\nFarm last used: {test}\nSent time: {sent_time}')
         farm_ui.set_footer(text=f'weather: {weather_list.pop()}')
         user_profile = self.update_user_profile(user, user_profile)
         user_profile = self.get_user_profile(user)
