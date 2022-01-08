@@ -1,11 +1,8 @@
 import os
 import json 
-import datetime
-import time
-import random
-import asyncio
 import nextcord
 import logging
+from cogs.build_and_battle import build_and_battle
 from nextcord.ext import commands
 
 TOKEN = os.environ['DISCORD_TOKEN']
@@ -31,6 +28,9 @@ async def on_ready():
     print('Connected servers/guilds:')
     for guild in bot.guilds:
         print(f'  -{guild.name}(id={guild.id})')
+    #run new_weather()
+    if not build_and_battle.new_weather.is_running():
+        build_and_battle.new_weather.start()
 
 @bot.event
 async def on_message(message):
