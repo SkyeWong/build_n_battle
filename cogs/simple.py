@@ -5,14 +5,22 @@ import datetime
 import time
 import random
 import asyncio
+
+from nextcord.ext.commands.core import is_owner
 import main
 from main import bot
 from nextcord.ext import commands
 
-class simple(commands.Cog):
+class dev_only(commands.Cog, name='Dev Only'):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
+
+    COG_EMOJI = '👨‍💻'
+
+    async def cog_check(self, ctx):
+        #Check if user is owner
+        return await is_owner(ctx.author)
 
     @commands.command(name='dm', brief='Send a message!', help='Send some random dm to any user with your own message!', aliases=['message', 'tell'])
     async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
@@ -132,7 +140,6 @@ class simple(commands.Cog):
             await ctx.send(f'You lost! You have only ${money}...')
 
     @commands.command(name='unread_dms', help='Show dm messages for the bot. Only for the owner.', hidden=True)
-    @commands.is_owner()
     async def unread_dms(self, ctx):
         with open('dm.json', 'r') as f:
             dm_messages = json.load(f)
