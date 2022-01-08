@@ -17,7 +17,9 @@ while i <= 16:
     i += 1
 
 class build_and_battle(commands.Cog, name='Build & Battle'):
-    """My game! ~~i can\'t think of this it will be done later~~"""
+    """My game! 
+    ~~i can\'t think of this it will be done later~~
+    """
 
     COG_EMOJI = '🎮'
 

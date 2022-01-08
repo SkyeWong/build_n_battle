@@ -12,11 +12,13 @@ from main import bot
 from nextcord.ext import commands
 
 class dev_only(commands.Cog, name='Dev Only'):
+    """Commands only for the devs."""
+
+    COG_EMOJI = '👨‍💻'
+    
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-
-    COG_EMOJI = '👨‍💻'
 
     async def cog_check(self, ctx):
         #Check if user is owner
@@ -219,3 +221,4 @@ class dev_only(commands.Cog, name='Dev Only'):
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
+    
