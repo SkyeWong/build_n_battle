@@ -63,7 +63,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send('You do not have the correct role for this command.')
 
-for filename in os.listdir('D:/build_n_battle-main/cogs'):
+for filename in os.listdir(os.getcwd()):
     if filename.endswith('py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
