@@ -5,7 +5,6 @@ import datetime
 import time
 import random
 import asyncio
-
 from nextcord.ext.commands.core import is_owner
 import main
 from main import bot
@@ -22,7 +21,8 @@ class dev_only(commands.Cog, name='Dev Only'):
 
     async def cog_check(self, ctx):
         #Check if user is owner
-        return await is_owner(ctx.author)
+        print(ctx.author)
+        return is_owner(ctx.author)
 
     @commands.command(name='dm', brief='Send a message!', help='Send some random dm to any user with your own message!', aliases=['message', 'tell'])
     async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
@@ -221,4 +221,4 @@ class dev_only(commands.Cog, name='Dev Only'):
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
-    
+
