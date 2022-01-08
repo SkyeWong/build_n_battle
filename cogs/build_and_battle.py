@@ -28,12 +28,12 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         self._last_member = None
     
     def get_user_profile_list(self):
-        with open('./user_profile.json', 'r') as f:
+        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         return user_profile_list
 
     def get_user_list(self):
-        with open('./user_profile.json', 'r') as f:
+        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -43,7 +43,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return users
     
     def if_user_present(self, user):
-        with open('./user_profile.json', 'r') as f:
+        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -54,7 +54,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             return True
 
     def get_user_profile(self, user):
-        with open('./user_profile.json', 'r') as f:
+        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -68,7 +68,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
-        with open('./user_profile.json', 'r') as f:
+        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []

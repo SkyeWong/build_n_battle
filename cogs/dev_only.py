@@ -144,7 +144,7 @@ class dev_only(commands.Cog, name='Dev Only'):
 
     @commands.command(name='unread_dms', help='Show dm messages for the bot. Only for the owner.', hidden=True)
     async def unread_dms(self, ctx):
-        with open('dm.json', 'r') as f:
+        with open('D:\build_n_battle-main\dm.json', 'r') as f:
             dm_messages = json.load(f)
         if len(dm_messages) != 0:
             page = 0

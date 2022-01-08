@@ -43,15 +43,15 @@ async def on_message(message):
             content = message.content
             sent_time = message.created_at.strftime('%A, %B %d %Y @ %H:%M:%S %p')+' UTC+0'
             message_data = [author, content, sent_time]
-            with open('dm.json', 'r') as f:
+            with open('D:\build_n_battle-main\dm.json', 'r') as f:
                 dm_messages = json.load(f)
-            with open('dm_backup.json', 'r') as f:
+            with open('D:\build_n_battle-main\dm_backup.json', 'r') as f:
                 dm_backup_messages = json.load(f)
             dm_messages.append(message_data)
             dm_backup_messages.append(message_data)
-            with open('dm.json', 'w+') as f:
+            with open('D:\build_n_battle-main\dm.json', 'w+') as f:
                 json.dump(dm_messages, f, indent=4)
-            with open('dm_backup.json', 'w+') as f:
+            with open('D:\build_n_battle-main\dm_backup.json', 'w+') as f:
                 json.dump(dm_backup_messages, f, indent=4)
     bot_id = bot.user.id
     if message.content.find(f'<@!{str(bot_id)}>') != -1:
