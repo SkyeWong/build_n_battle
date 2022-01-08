@@ -28,9 +28,6 @@ async def on_ready():
     print('Connected servers/guilds:')
     for guild in bot.guilds:
         print(f'  -{guild.name}(id={guild.id})')
-    #run new_weather()
-    if not build_and_battle.new_weather.is_running():
-        build_and_battle.new_weather.start()
 
 @bot.event
 async def on_message(message):
@@ -43,15 +40,15 @@ async def on_message(message):
             content = message.content
             sent_time = message.created_at.strftime('%A, %B %d %Y @ %H:%M:%S %p')+' UTC+0'
             message_data = [author, content, sent_time]
-            with open('D:/build_n_battle-main/dm.json', 'r') as f:
+            with open('dm.json', 'r') as f:
                 dm_messages = json.load(f)
-            with open('D:/build_n_battle-main/dm_backup.json', 'r') as f:
+            with open('dm_backup.json', 'r') as f:
                 dm_backup_messages = json.load(f)
             dm_messages.append(message_data)
             dm_backup_messages.append(message_data)
-            with open('D:/build_n_battle-main/dm.json', 'w+') as f:
+            with open('dm.json', 'w+') as f:
                 json.dump(dm_messages, f, indent=4)
-            with open('D:/build_n_battle-main/dm_backup.json', 'w+') as f:
+            with open('dm_backup.json', 'w+') as f:
                 json.dump(dm_backup_messages, f, indent=4)
     bot_id = bot.user.id
     if message.content.find(f'<@!{str(bot_id)}>') != -1:
@@ -63,7 +60,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send('You do not have the correct role for this command.')
 
-for filename in os.listdir(f'{os.getcwd()}/cogs'):
+for filename in os.listdir(f'cogs'):
     if filename.endswith('py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 

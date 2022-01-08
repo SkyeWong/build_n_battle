@@ -28,12 +28,12 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         self._last_member = None
     
     def get_user_profile_list(self):
-        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
+        with open('user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         return user_profile_list
 
     def get_user_list(self):
-        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
+        with open('user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -43,24 +43,13 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return users
     
     def if_user_present(self, user):
-        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
-            user_profile_list = json.load(f)
-        i = 0
-        users = []
-        while i < len(user_profile_list):
-            users.append(user_profile_list[i]['id'])
-            i += 1
+        users = self.get_user_list()
         if user.id in users:
             return True
 
     def get_user_profile(self, user):
-        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
-            user_profile_list = json.load(f)
-        i = 0
-        users = []
-        while i < len(user_profile_list):
-            users.append(user_profile_list[i]['id'])
-            i += 1
+        user_profile_list = self.get_user_profile_list()
+        users = self.get_user_list()
         user_profile = user_profile_list[users.index(user.id)]
         user_profile['crops'] = user_profile['crops'].split(', ')
         for i in user_profile['crops']:
@@ -68,21 +57,16 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
-        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
-            user_profile_list = json.load(f)
-        i = 0
-        users = []
-        while i < len(user_profile_list):
-            users.append(user_profile_list[i]['id'])
-            i += 1
+        user_profile_list = self.get_user_profile_list()
+        users = self.get_user_list()
         for i in new_profile['crops']:
             new_profile['crops'][new_profile['crops'].index(i)] = str(i)
         new_profile['crops'] = ', '.join(new_profile['crops'])
-        if user.id in users:
+        if self.if_user_present(user):
             user_profile_list[users.index(user.id)] = new_profile
         else:
             user_profile_list.append(new_profile)
-        with open('./user_profile.json', 'w+') as f:
+        with open('user_profile.json', 'w+') as f:
             json.dump(user_profile_list, f, indent=4)
         return new_profile
 
