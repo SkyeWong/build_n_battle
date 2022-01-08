@@ -131,20 +131,20 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         past_weather = weather_list[-(math.floor((sent_time - user_profile['farm_last_used']) / 60 / 60)):]
-        growth = 1
+        grow_speed = 1
         for i in past_weather:
             if i == 'sunny':
-                growth *= 1.2
+                grow_speed *= 1.2
             elif i == 'stormy':
-                growth *= .6
+                grow_speed *= .6
             elif i == 'rainy':
-                growth *= 1.1
+                grow_speed *= 1.1
             elif i == 'windy':
-                growth *= .8
+                grow_speed *= .8
             elif i == 'snowy':
-                growth *= .8
+                grow_speed *= .8
         for i in range(len(user_profile['crops'])):
-            user_profile['crops'][i] += (sent_time - user_profile['farm_last_used']) / 60 * random.choice(crop_progress) * growth
+            user_profile['crops'][i] += (sent_time - user_profile['farm_last_used']) / 60 * random.choice(crop_progress) * grow_speed
             if user_profile['crops'][i] >= 4.5:
                 user_profile['crops'][i] = 5.0
         user_profile['farm_last_used'] = sent_time
@@ -177,6 +177,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         farm_ui.colour = random.choice(main.embed_colours)
+        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nFarm Width: {farm_width}')
         farm_ui.set_footer(text=f'weather: {weather_list.pop()}')
         user_profile = self.update_user_profile(user, user_profile)
         user_profile = self.get_user_profile(user)
