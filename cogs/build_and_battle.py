@@ -120,15 +120,15 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         grow_speed = 1
         for i in past_weather:
             if i == 'sunny':
-                grow_speed *= 1.2
+                grow_speed *= 1.15
             elif i == 'stormy':
-                grow_speed *= 0.6
+                grow_speed *= 0.8
             elif i == 'rainy':
-                grow_speed *= 1.1
+                grow_speed *= 1.3
             elif i == 'windy':
-                grow_speed *= 0.8
+                grow_speed *= 0.95
             elif i == 'snowy':
-                grow_speed *= 0.8
+                grow_speed *= 0.85
         for i in range(len(user_profile['crops'])):
             user_profile['crops'][i] += (sent_time - user_profile['farm_last_used']) / 60 * random.choice(crop_progress) * grow_speed
             if user_profile['crops'][i] >= 4.5:
