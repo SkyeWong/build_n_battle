@@ -136,13 +136,13 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             if i == 'sunny':
                 grow_speed *= 1.2
             elif i == 'stormy':
-                grow_speed *= .6
+                grow_speed *= 0.6
             elif i == 'rainy':
                 grow_speed *= 1.1
             elif i == 'windy':
-                grow_speed *= .8
+                grow_speed *= 0.8
             elif i == 'snowy':
-                grow_speed *= .8
+                grow_speed *= 0.8
         for i in range(len(user_profile['crops'])):
             user_profile['crops'][i] += (sent_time - user_profile['farm_last_used']) / 60 * random.choice(crop_progress) * grow_speed
             if user_profile['crops'][i] >= 4.5:
@@ -228,7 +228,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         else:
             await ctx.send('You do not have a profile! Create one with `+create`')
     
-    @tasks.loop(minutes=1.0)
+    @tasks.loop(minutes=1.0, reconnect=True)
     async def new_weather():
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
