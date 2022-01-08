@@ -218,4 +218,4 @@ class dev_only(commands.Cog, name='Dev Only'):
         await ctx.send(response)
 
 def setup(bot: commands.Bot):
-    bot.add_cog(dev-only(bot))
+    bot.add_cog(dev_only(bot))
