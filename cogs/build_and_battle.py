@@ -177,7 +177,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         farm_ui.colour = random.choice(main.embed_colours)
-        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nFarm Width: {farm_width}')
+        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nPast Weather: {past_weather}\nFarm Width: {farm_width}')
         farm_ui.set_footer(text=f'weather: {weather_list.pop()}')
         user_profile = self.update_user_profile(user, user_profile)
         user_profile = self.get_user_profile(user)
