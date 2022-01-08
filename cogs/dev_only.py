@@ -21,7 +21,7 @@ class dev_only(commands.Cog, name='Dev Only'):
 
     async def cog_check(self, ctx):
         #Check if user is owner
-        print(ctx.author)
+        print(is_owner(ctx.author))
         #return is_owner(ctx.author)
         return True
 
