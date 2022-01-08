@@ -18,7 +18,7 @@ while i <= 16:
 
 class build_and_battle(commands.Cog, name='Build & Battle'):
     """My game! 
-    ~~i can\'t think of this it will be done later~~
+    ~~i can/'t think of this it will be done later~~
     """
 
     COG_EMOJI = '🎮'
@@ -28,12 +28,12 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         self._last_member = None
     
     def get_user_profile_list(self):
-        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
+        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         return user_profile_list
 
     def get_user_list(self):
-        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
+        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -43,7 +43,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return users
     
     def if_user_present(self, user):
-        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
+        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -54,7 +54,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             return True
 
     def get_user_profile(self, user):
-        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
+        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -68,7 +68,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
-        with open('D:\build_n_battle-main\user_profile.json', 'r') as f:
+        with open('D:/build_n_battle-main/user_profile.json', 'r') as f:
             user_profile_list = json.load(f)
         i = 0
         users = []
@@ -175,12 +175,12 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
                 crop = round(crop)
                 farm_ui.description += crop_emojis[crop - 1]
                 index += 1
-            farm_ui.description += '\n'
+            farm_ui.description += '/n'
         user_profile['farm_width'] = farm_width
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         farm_ui.colour = random.choice(main.embed_colours)
-        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nPast Weather: {past_weather}\nFarm last used: {test}\nSent time: {sent_time}')
+        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}/nPast Weather: {past_weather}/nFarm last used: {test}/nSent time: {sent_time}')
         farm_ui.set_footer(text=f'weather: {weather_list.pop()}')
         user_profile = self.update_user_profile(user, user_profile)
         user_profile = self.get_user_profile(user)
@@ -192,7 +192,7 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             farm_ui, user_profile = self.update_farm_ui(ctx.author)
             farm_embed = await ctx.send(embed=farm_ui)
             if ctx.author == ctx.author:
-                emojis = ['🌾', '⏹️']
+                emojis = ['🌾', '⏹']
             else:
                 emojis = ['⏹️']
             for emoji in emojis:
