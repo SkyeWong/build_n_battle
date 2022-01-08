@@ -2,7 +2,7 @@ import os
 import json 
 import nextcord
 import logging
-from cogs.build_and_battle import build_and_battle
+from cogs import build_and_battle
 from nextcord.ext import commands
 
 TOKEN = os.environ['DISCORD_TOKEN']
