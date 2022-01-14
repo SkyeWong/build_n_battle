@@ -20,10 +20,8 @@ class dev_only(commands.Cog, name='Dev Only'):
         self._last_member = None
 
     async def cog_check(self, ctx):
-        #Check if user is owner
-        print(is_owner(ctx.author))
-        #return is_owner(ctx.author)
-        return True
+        #Check if user is owner and return it back
+        return ctx.author.is_owner()
 
     @commands.command(name='dm', brief='Send a message!', help='Send some random dm to any user with your own message!', aliases=['message', 'tell'])
     async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
