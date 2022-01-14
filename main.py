@@ -13,8 +13,11 @@ handler = logging.FileHandler(filename='nextcord.log', encoding='utf-8', mode='w
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.Game(name='+help'), owner_id=806334528230129695)
+bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.Game(name='+help'), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
+
+with open('test.json', 'w+') as f:
+    json.dump(['a', 'b'], f, indent=4)
 
 def roundup(number, round_to):
     return number if number % round_to == 0 else number + round_to - number % round_to
@@ -58,7 +61,7 @@ async def on_message(message):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('You do not have the correct role for this command.')
+        await ctx.send('Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!')
 
 for filename in os.listdir(f'cogs'):
     if filename.endswith('py'):
