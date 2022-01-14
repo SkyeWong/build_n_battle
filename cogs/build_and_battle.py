@@ -18,7 +18,7 @@ while i <= 16:
 
 class build_and_battle(commands.Cog, name='Build & Battle'):
     """My game! 
-    ~~i can/'t think of this it will be done later~~
+    ~~i can\'t think of this it will be done later~~
     """
 
     COG_EMOJI = '🎮'
@@ -159,12 +159,12 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
                 crop = round(crop)
                 farm_ui.description += crop_emojis[crop - 1]
                 index += 1
-            farm_ui.description += '/n'
+            farm_ui.description += '\n'
         user_profile['farm_width'] = farm_width
         with open('weathers.json', 'r') as f:
             weather_list = json.load(f)
         farm_ui.colour = random.choice(main.embed_colours)
-        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}/nPast Weather: {past_weather}/nFarm last used: {test}/nSent time: {sent_time}')
+        farm_ui.add_field(name='Dev Data', value=f'Grow Speed: {grow_speed}\nPast Weather: {past_weather}\nFarm last used: {test}\nSent time: {sent_time}')
         farm_ui.set_footer(text=f'weather: {weather_list.pop()}')
         user_profile = self.update_user_profile(user, user_profile)
         user_profile = self.get_user_profile(user)
