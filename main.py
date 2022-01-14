@@ -16,8 +16,8 @@ logger.addHandler(handler)
 bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.Game(name='+help'), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 
-with open('test.json', 'w+') as f:
-    json.dump(['a', 'b'], f, indent=4)
+with open('test.txt', 'a') as f:
+    f.write('absolutely a test')
 
 def roundup(number, round_to):
     return number if number % round_to == 0 else number + round_to - number % round_to
