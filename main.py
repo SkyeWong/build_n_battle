@@ -17,7 +17,7 @@ bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 
 with open('test.txt', 'a') as f:
-    f.write('absolutely a test')
+    f.write('absolutely a test!!! although annoying...')
 
 with open('test.txt', 'r') as f:
     print(f.read())
