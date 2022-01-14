@@ -19,6 +19,9 @@ embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 with open('test.txt', 'a') as f:
     f.write('absolutely a test')
 
+with open('test.txt', 'r') as f:
+    print(f.read())
+
 def roundup(number, round_to):
     return number if number % round_to == 0 else number + round_to - number % round_to
 
