@@ -28,7 +28,8 @@ async def on_ready():
     print('Connected servers/guilds:')
     for guild in bot.guilds:
         print(f'  -{guild.name}(id={guild.id})')
-        print(guild.emojis.name)
+        for emoji in guild.emojis:
+            print(emoji)
 
 @bot.event
 async def on_message(message):
