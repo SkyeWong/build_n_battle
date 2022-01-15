@@ -208,7 +208,7 @@ class dev_only(commands.Cog, name='Dev Only'):
         for guild in bot.guilds:
             for emoji in guild.emojis:
                 guild_emojis.append(emoji)
-        await ctx.send(guild_emojis)
+        print(guild_emojis)
         for i in emojis:
             emojis_found.append(nextcord.utils.get(guild_emojis, name=i))
         response = 'The emoji(s) you required should be: '
