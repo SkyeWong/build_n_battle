@@ -194,20 +194,22 @@ class dev_only(commands.Cog, name='Dev Only'):
         else:
             await ctx.send('There are no unread messages!')
 
-    @commands.command(name='avatar', help='Shows your avatar!')
+    @commands.command(name='avatar', help='Shows avatar!')
     async def avatar(self, ctx, user: nextcord.Member=None):
         if user == None:
             user = ctx.author
         await ctx.send(user.avatar)
 
-    @commands.command(name='emoji', help='Let the bot find you any emojis in servers that the bot is in!')
+    @commands.command(name='emoji', help='Let the bot find you any emojis in this server.')
     async def emoji(self, ctx, *, emojiname:str):
         emojis = emojiname.split(', ')
         emojis_found = []
+        guild_emojis = []
         for guild in bot.guilds:
-            await ctx.send(guild.emojis)
-            for i in emojis:
-                emojis_found.append(nextcord.utils.get(guild.emojis, name=i))
+            guild_emojis.append(guild.emojis)
+        await ctx.send(guild_emojis)
+        for i in emojis:
+            emojis_found.append(nextcord.utils.get(guild_emojis, name=i))
         response = 'The emoji(s) you required should be: '
         for i in range(len(emojis_found)):
             emoji = emojis_found[i]
