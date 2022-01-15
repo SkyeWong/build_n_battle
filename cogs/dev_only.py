@@ -5,7 +5,6 @@ import datetime
 import time
 import random
 import asyncio
-from nextcord.ext.commands.core import is_owner
 import main
 from main import bot
 from nextcord.ext import commands
