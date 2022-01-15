@@ -206,7 +206,8 @@ class dev_only(commands.Cog, name='Dev Only'):
         emojis_found = []
         guild_emojis = []
         for guild in bot.guilds:
-            guild_emojis.append(guild.emojis)
+            for emoji in guild.emojis:
+                guild_emojis.append(emoji)
         await ctx.send(guild_emojis)
         for i in emojis:
             emojis_found.append(nextcord.utils.get(guild_emojis, name=i))
@@ -218,6 +219,7 @@ class dev_only(commands.Cog, name='Dev Only'):
                 response += f'No emoji is found for \'{emojis[i]}\'! Check the name and try again. Is it a default emoji? The bot only searches for server emojis.'
             else:
                 response += f'{emoji}\n> Name - :{emoji.name}:\n> ID - `{emoji.id}`\n> Url - `{emoji.url}`'
+        response += '\nThe bot only checks for the first match of the emoji. Other emojis with identical names won\'t be found.'
         await ctx.send(response)
 
 def setup(bot: commands.Bot):
