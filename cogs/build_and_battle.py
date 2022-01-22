@@ -226,8 +226,6 @@ class build_and_battle(commands.Cog, name='Build & Battle'):
             weather_list.append(current_weather)
             with open('weathers.json', 'w+') as f:
                 json.dump(weather_list, f, indent=4)
-
-    new_weather.start()
     
 def setup(bot: commands.Bot):
     bot.add_cog(build_and_battle(bot))

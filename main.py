@@ -77,4 +77,4 @@ query = """SELECT *
 
 results = pd.read_sql(query, con)
 
-print(results.to_dict('user_id'))
+print(results.to_dict('user_id') or 'something is WRONG!')
