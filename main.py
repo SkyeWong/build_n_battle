@@ -68,8 +68,17 @@ bot.load_extension('help_cogs.cog')
 
 bot.run(TOKEN)
 
+import psycopg2
+import os
 from connect_database import *
 import pandas as pd
+
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+con = psycopg2.connect(DATABASE_URL)
+
+cur = con.cursor()
 
 query = """SELECT * 
             FROM users
