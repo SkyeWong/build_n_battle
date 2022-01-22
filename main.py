@@ -70,7 +70,6 @@ bot.run(TOKEN)
 
 import psycopg2
 import os
-from connect_database import *
 import pandas as pd
 
 
