@@ -1,5 +1,5 @@
+sqlalchemy
 nextcord
 pandas
-SQLAlchemy
 psycopg2
 python-dotenv
