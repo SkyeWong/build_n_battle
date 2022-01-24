@@ -1,4 +1,4 @@
 nextcord
-psycopg2
 pandas
+psycopg2
 python-dotenv
