@@ -5,6 +5,18 @@ import logging
 from cogs import build_and_battle
 from nextcord.ext import commands
 
+from mysql.connector import connect, Error
+
+try:
+    with connect(
+        host="localhost",
+        user="id15876158_skyewong",
+        password="wMGM6$R%M62-OdFe",
+    ) as connection:
+        print(connection)
+except Error as e:
+    print(e)
+
 TOKEN = os.environ['DISCORD_TOKEN']
 
 logger = logging.getLogger('nextcord')
@@ -67,22 +79,3 @@ for filename in os.listdir(f'cogs'):
 bot.load_extension('help_cogs.cog')
 
 bot.run(TOKEN)
-
-import psycopg2
-import os
-import pandas as pd
-
-
-DATABASE_URL = os.environ.get('DATABASE_URL')
-
-con = psycopg2.connect(DATABASE_URL)
-
-cur = con.cursor()
-
-query = """SELECT * 
-            FROM users
-        """
-
-results = pd.read_sql(query, con)
-
-print(results.to_dict('user_id') or 'something is WRONG!')
