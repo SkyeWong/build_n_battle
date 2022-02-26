@@ -8,9 +8,9 @@ from mysql.connector import connect, Error
 
 try:
     with connect(
-        host="localhost",
-        user="id15876158_skyewong",
-        password="wMGM6$R%M62-OdFe",
+        host="bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com",
+        user="umjpzdqlwm5z2ht6",
+        password="qkc9t25BSaJbc59OFDLj",
     ) as connection:
         print(connection)
 except Error as e:
