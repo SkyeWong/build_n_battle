@@ -138,61 +138,61 @@ class dev_only(commands.Cog, name='Dev Only'):
         if money <= 10:
             await ctx.send(f'You lost! You have only ${money}...')
 
-    @commands.command(name='unread_dms', help='Show dm messages for the bot. Only for the owner.', hidden=True)
-    async def unread_dms(self, ctx):
-        with open('dm.json', 'r') as f:
-            dm_messages = json.load(f)
-        if len(dm_messages) != 0:
-            page = 0
-            dm_ui = nextcord.Embed()
-            dm_ui.title = f'Unread DM Messages for {bot.user}:'
-            dm_ui.description = f'From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}'
-            dm_ui.colour = random.choice(main.embed_colours)
-            dm_ui.set_footer(text=f'If messages aren\'t cached, you can\'t see them!\nPage {page+1}/{len(dm_messages)}')
-            dm_embed = await ctx.send(embed=dm_ui)
-            reacted_emoji = ''
-            emojis = ['◀️', '▶️', '⏮️', '⏭️', '⏹️', '🗑️']
-            for emoji in emojis:
-                await dm_embed.add_reaction(emoji)
-            while reacted_emoji != '⏹️' and reacted_emoji != '🗑️':
-                dm_ui.description = f'From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}'
-                dm_ui.set_footer(text=f'If messages aren\'t cached, you can\'t see them!\nPage {page+1}/{len(dm_messages)}')
-                await dm_embed.edit(embed=dm_ui)
-                def check(reaction, user):
-                    for emoji in emojis:
-                        if str(reaction.emoji) == emoji:
-                            correct_emoji = True
-                    return user == ctx.author and correct_emoji
-                try:
-                    reaction, user = await bot.wait_for('reaction_add', timeout=15.0, check=check)
-                except asyncio.TimeoutError:
-                    break
-                else:
-                    reacted_emoji = str(reaction.emoji)
-                    await dm_embed.remove_reaction(reaction.emoji, ctx.author)
-                    dm_ui.clear_fields()
-                    if reacted_emoji == '▶️':
-                        if page+1 != len(dm_messages):
-                            page+=1
-                        else:
-                            dm_ui.add_field(name='Error', value='You can\'t go forwards!', inline=True)
-                    elif reacted_emoji == '◀️':
-                        if page != 0:
-                            page-=1
-                        else:
-                            dm_ui.add_field(name='Error', value='You can\'t go backwards!', inline=False)
-                    elif reacted_emoji == '⏮️':
-                        page = 0
-                    elif reacted_emoji == '⏭️':
-                        page = len(dm_messages)-1
-                    elif reacted_emoji == '🗑️':
-                        with open('dm.json', 'w+') as f:
-                            json.dump([], f, indent=4)
-                        await ctx.send('All your messages are set to read!')
-                    await dm_embed.edit(embed=dm_ui)    
-            await dm_embed.delete()
-        else:
-            await ctx.send('There are no unread messages!')
+    #@commands.command(name='unread_dms', help='Show dm messages for the bot. Only for the owner.', hidden=True)
+    #async def unread_dms(self, ctx):
+        #with open('dm.json', 'r') as f:
+            #dm_messages = json.load(f)
+        #if len(dm_messages) != 0:
+            #page = 0
+            #dm_ui = nextcord.Embed()
+            #dm_ui.title = f'Unread DM Messages for {bot.user}:'
+            #dm_ui.description = f'From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}'
+            #dm_ui.colour = random.choice(main.embed_colours)
+            #dm_ui.set_footer(text=f'If messages aren\'t cached, you can\'t see them!\nPage {page+1}/{len(dm_messages)}')
+            #dm_embed = await ctx.send(embed=dm_ui)
+            #reacted_emoji = ''
+            #emojis = ['◀️', '▶️', '⏮️', '⏭️', '⏹️', '🗑️']
+            #for emoji in emojis:
+                #await dm_embed.add_reaction(emoji)
+            #while reacted_emoji != '⏹️' and reacted_emoji != '🗑️':
+                #dm_ui.description = f'From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}'
+                #dm_ui.set_footer(text=f'If messages aren\'t cached, you can\'t see them!\nPage {page+1}/{len(dm_messages)}')
+                #await dm_embed.edit(embed=dm_ui)
+                #def check(reaction, user):
+                    #for emoji in emojis:
+                        #if str(reaction.emoji) == emoji:
+                            #correct_emoji = True
+                    #return user == ctx.author and correct_emoji
+                #try:
+                    #reaction, user = await bot.wait_for('reaction_add', timeout=15.0, check=check)
+                #except asyncio.TimeoutError:
+                    #break
+                #else:
+                    #reacted_emoji = str(reaction.emoji)
+                    #await dm_embed.remove_reaction(reaction.emoji, ctx.author)
+                    #dm_ui.clear_fields()
+                    #if reacted_emoji == '▶️':
+                        #if page+1 != len(dm_messages):
+                            #page+=1
+                        #else:
+                            #dm_ui.add_field(name='Error', value='You can\'t go forwards!', inline=True)
+                    #elif reacted_emoji == '◀️':
+                        #if page != 0:
+                            #page-=1
+                        #else:
+                            #dm_ui.add_field(name='Error', value='You can\'t go backwards!', inline=False)
+                    #elif reacted_emoji == '⏮️':
+                        #page = 0
+                    #elif reacted_emoji == '⏭️':
+                        #page = len(dm_messages)-1
+                    #elif reacted_emoji == '🗑️':
+                        #with open('dm.json', 'w+') as f:
+                            #json.dump([], f, indent=4)
+                        #await ctx.send('All your messages are set to read!')
+                    #await dm_embed.edit(embed=dm_ui)    
+            #await dm_embed.delete()
+        #else:
+            #await ctx.send('There are no unread messages!')
 
     @commands.command(name='avatar', help='Shows avatar!')
     async def avatar(self, ctx, user: nextcord.Member=None):
@@ -200,8 +200,11 @@ class dev_only(commands.Cog, name='Dev Only'):
             user = ctx.author
         await ctx.send(user.avatar)
 
-    @commands.command(name='emoji', help='Let the bot find you any emojis in this server.')
+    @commands.command(name='emoji')
     async def emoji(self, ctx, *, emojiname:str):
+        """Let the bot find you any emojis in any servers that the bot is in.
+        Search the emoji by typing the emoji name. Seperate emojis with ','.
+        Please note that the bot ONLY searches for server emojis. Default emojis will **NOT** be searched."""
         emojis = emojiname.split(', ')
         emojis_found = []
         guild_emojis = []
