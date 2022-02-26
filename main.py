@@ -16,9 +16,9 @@ try:
 except Error as e:
     print(e)
 
-TOKEN = os.environ['DISCORD_TOKEN']
+TOKEN = os.environ["DISCORD_TOKEN"]
 
-bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.Game(name='+help'), owner_ids={806334528230129695, 706126877668147272})
+bot = commands.Bot(command_prefix="+", case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 
 def roundup(number, round_to):
@@ -29,10 +29,10 @@ def rounddown(number, round_to):
                 
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
-    print('Connected servers/guilds:')
+    print(f"{bot.user.name} has connected to Discord!")
+    print("Connected servers/guilds:")
     for guild in bot.guilds:
-        print(f'  -{guild.name}(id={guild.id})')
+        print(f"  -{guild.name}(id={guild.id})")
 
 @bot.event
 async def on_message(message):
@@ -40,34 +40,34 @@ async def on_message(message):
     if message.author == bot.user:
         return
     #if isinstance(message.channel, nextcord.channel.DMChannel):
-        #if not message.content.lower().startswith('+'):
+        #if not message.content.lower().startswith("+"):
             #author = message.author.name+message.author.discriminator
             #content = message.content
-            #sent_time = message.created_at.strftime('%A, %B %d %Y @ %H:%M:%S %p')+' UTC+0'
+            #sent_time = message.created_at.strftime("%A, %B %d %Y @ %H:%M:%S %p")+" UTC+0"
             #message_data = [author, content, sent_time]
-            #with open('dm.json', 'r') as f:
+            #with open("dm.json", "r") as f:
                 #dm_messages = json.load(f)
-            #with open('dm_backup.json', 'r') as f:
+            #with open("dm_backup.json", "r") as f:
                 #dm_backup_messages = json.load(f)
             #dm_messages.append(message_data)
             #dm_backup_messages.append(message_data)
-            #with open('dm.json', 'w+') as f:
+            #with open("dm.json", "w+") as f:
                 #json.dump(dm_messages, f, indent=4)
-            #with open('dm_backup.json', 'w+') as f:
+            #with open("dm_backup.json", "w+") as f:
                 #json.dump(dm_backup_messages, f, indent=4)
-    if message.content.find(f'<@!{str(bot.user.id)}>') != -1:
-        response = 'Hello! I\'m SkyeBot, created by Skye Wong!'
+    if message.content.find(f"<@!{str(bot.user.id)}>") != -1:
+        response = "Hello! I\"m SkyeBot, created by Skye Wong!"
         await message.channel.send(response)
 
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!')
+        await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
 
-for filename in os.listdir(f'cogs'):
-    if filename.endswith('py'):
-        bot.load_extension(f'cogs.{filename[:-3]}')
+for filename in os.listdir(f"cogs"):
+    if filename.endswith("py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
 
-bot.load_extension('help_cogs.cog')
+bot.load_extension("help_cogs.cog")
 
 bot.run(TOKEN)
