@@ -1,7 +1,6 @@
 import os
 import json 
 import nextcord
-import logging
 from cogs import build_and_battle
 from nextcord.ext import commands
 
@@ -18,12 +17,6 @@ except Error as e:
     print(e)
 
 TOKEN = os.environ['DISCORD_TOKEN']
-
-logger = logging.getLogger('nextcord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='nextcord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix='+', case_insensitive=True, activity=nextcord.Game(name='+help'), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
