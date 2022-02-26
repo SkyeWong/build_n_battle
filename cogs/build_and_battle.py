@@ -101,8 +101,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             profile_ui = nextcord.Embed()
             profile_ui.colour = random.choice(main.embed_colours)
             profile_ui.set_author(name=f"{user.name}\"s Profile:", icon_url=user.avatar)
-            profile_ui.add_field(name="Gold", value=f"${user_profile["gold"]}", inline=False)
-            profile_ui.add_field(name="XP", value=f"{user_profile["xp"]}/{main.roundup(user_profile["xp"], 100) if user_profile["xp"] != 0 else 100}", inline=False)
+            profile_ui.add_field(name="Gold", value=f'${user_profile["gold"]}', inline=False)
+            profile_ui.add_field(name="XP", value=f'{user_profile["xp"]}/{main.roundup(user_profile["xp"], 100) if user_profile["xp"] != 0 else 100}', inline=False)
             farm_width = main.rounddown(user_profile["xp"], 100) / 100 + 2
             if farm_width >= 12:
                 farm_width = 12
