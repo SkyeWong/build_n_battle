@@ -59,6 +59,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
 
     def update_user_profile(self, user, new_profile):
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+        print(new_profile)
         with db.cursor() as cursor:
             db.execute(sql, new_profile)
             db.commit()
