@@ -75,7 +75,15 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         # with open("user_profile.json", "w+") as f:
         #     json.dump(user_profile_list, f, indent=4)
         # return new_profile
-
+    
+    @commands.command(name="usersview")
+    async def usersview(self, ctx):
+        sql = "SELECT * from users"
+        with db.cursor() as cursor:
+            cursor.execute(sql)
+            for row in cursor.fetchall():
+                ctx.send(row)
+                
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
