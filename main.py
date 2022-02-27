@@ -4,18 +4,6 @@ import nextcord
 from cogs import build_and_battle
 from nextcord.ext import commands
 
-from mysql.connector import connect, Error
-
-try:
-    with connect(
-        host="bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com",
-        user="umjpzdqlwm5z2ht6",
-        password="qkc9t25BSaJbc59OFDLj",
-    ) as connection:
-        print(connection)
-except Error as e:
-    print(e)
-
 TOKEN = os.environ["DISCORD_TOKEN"]
 
 bot = commands.Bot(command_prefix="+", case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
