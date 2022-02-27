@@ -82,8 +82,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         with db.cursor() as cursor:
             cursor.execute(sql)
             for row in cursor.fetchall():
-                ctx.send(row)
-                
+                await ctx.send(row)
+
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
