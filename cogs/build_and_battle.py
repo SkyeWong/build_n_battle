@@ -91,8 +91,10 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             await ctx.send("You already have a profile!")
         else:
             val = (ctx.author.id, 1000, 1000)
-            #for i in range(pow(create_profile["farm_width"], 2)):
-                #create_profile["crops"].append(1)
+            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+            with db.cursor() as cursor:
+                cursor.execute(sql, val)
+                db.commit()
             self.update_user_profile(ctx.author, val)
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
 
