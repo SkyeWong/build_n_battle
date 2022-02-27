@@ -39,7 +39,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.add_field(name="From:", value=ctx.author, inline=True)
         embed.add_field(name="To:", value=recipient, inline=True)
         embed.add_field(name="Message:", value=message, inline=True)
-        embed.add_field(name="Sent at:", value=datetime.datetime.now().strftime("%A, %B %d %Y @ %H:%M:%S %p")+" UTC+0", inline=True)
+        embed.add_field(name="Sent at:", value=f'<t:{int(datetime.datetime.now())}', inline=True)
         embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
         await ctx.send(embed=embed)
 
