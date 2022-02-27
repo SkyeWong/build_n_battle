@@ -7,6 +7,7 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
+from connect_db import db
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -57,18 +58,22 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
-        user_profile_list = self.get_user_profile_list()
-        users = self.get_user_list()
-        for i in new_profile["crops"]:
-            new_profile["crops"][new_profile["crops"].index(i)] = str(i)
-        new_profile["crops"] = ", ".join(new_profile["crops"])
-        if self.if_user_present(user):
-            user_profile_list[users.index(user.id)] = new_profile
-        else:
-            user_profile_list.append(new_profile)
-        with open("user_profile.json", "w+") as f:
-            json.dump(user_profile_list, f, indent=4)
-        return new_profile
+        sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+        with db.cursor() as cursor:
+            db.execute(sql, new_profile)
+            db.commit()
+        # user_profile_list = self.get_user_profile_list()
+        # users = self.get_user_list()
+        # for i in new_profile["crops"]:
+        #     new_profile["crops"][new_profile["crops"].index(i)] = str(i)
+        # new_profile["crops"] = ", ".join(new_profile["crops"])
+        # if self.if_user_present(user):
+        #     user_profile_list[users.index(user.id)] = new_profile
+        # else:
+        #     user_profile_list.append(new_profile)
+        # with open("user_profile.json", "w+") as f:
+        #     json.dump(user_profile_list, f, indent=4)
+        # return new_profile
 
     @commands.command(name="create")
     async def create(self, ctx):
@@ -76,17 +81,10 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         if self.if_user_present(ctx.author):
             await ctx.send("You already have a profile!")
         else:
-            create_profile = {
-                "id": ctx.author.id,
-                "gold": 0,
-                "xp": 0,
-                "farm_width": 2,
-                "crops": [],
-                "farm_last_used": int(datetime.now().timestamp())
-            }
-            for i in range(pow(create_profile["farm_width"], 2)):
-                create_profile["crops"].append(1)
-            self.update_user_profile(ctx.author, create_profile)
+            val = (ctx.author.id, 1000, 1000)
+            #for i in range(pow(create_profile["farm_width"], 2)):
+                #create_profile["crops"].append(1)
+            self.update_user_profile(ctx.author, val)
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
 
     @commands.command(name="profile")
