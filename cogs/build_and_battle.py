@@ -95,7 +95,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         with db.cursor() as cursor:
             cursor.execute(sql, val)
             db.commit()
-        self.update_user_profile(ctx.author, val)
+        #self.update_user_profile(ctx.author, val)
         await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
 
     @commands.command(name="profile")
