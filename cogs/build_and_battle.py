@@ -61,7 +61,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         print(new_profile)
         with db.cursor() as cursor:
-            db.execute(sql, new_profile)
+            cursor.execute(sql, new_profile)
             db.commit()
         # user_profile_list = self.get_user_profile_list()
         # users = self.get_user_list()
@@ -78,6 +78,11 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="usersview")
     async def usersview(self, ctx):
+        sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+        print(new_profile)
+        with db.cursor() as cursor:
+            db.execute(sql, new_profile)
+            db.commit()
         sql = "SELECT * from users"
         with db.cursor() as cursor:
             cursor.execute(sql)
