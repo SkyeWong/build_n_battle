@@ -87,16 +87,16 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
-        if self.if_user_present(ctx.author):
-            await ctx.send("You already have a profile!")
-        else:
-            val = (ctx.author.id, 1000, 1000)
-            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
-            with db.cursor() as cursor:
-                cursor.execute(sql, val)
-                db.commit()
-            self.update_user_profile(ctx.author, val)
-            await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
+        # if self.if_user_present(ctx.author):
+        #     await ctx.send("You already have a profile!")
+        # else:
+        sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+        val = (ctx.author.id, 1000, 1000)
+        with db.cursor() as cursor:
+            cursor.execute(sql, val)
+            db.commit()
+        self.update_user_profile(ctx.author, val)
+        await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
 
     @commands.command(name="profile")
     async def profile(self, ctx, user: nextcord.Member=None):
