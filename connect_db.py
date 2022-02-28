@@ -6,3 +6,4 @@ db = connect(
         password= os.environ['MYSQL_PW'],
         database='bsuvufmpxye5uuutqete'
 )
+print(db)
