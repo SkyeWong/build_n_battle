@@ -1,7 +1,6 @@
 import os
 import json 
 import nextcord
-from cogs import build_and_battle
 from nextcord.ext import commands
 
 TOKEN = os.environ["DISCORD_TOKEN"]
