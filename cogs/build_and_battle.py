@@ -8,6 +8,7 @@ from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
 from connect_db import db
+from mysql.connector import connect, Error
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -75,6 +76,15 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         # with open("user_profile.json", "w+") as f:
         #     json.dump(user_profile_list, f, indent=4)
         # return new_profile
+    
+    @commands.command(name="connectdb")
+    async def connectdb(self, ctx):
+        db = connect(
+            host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
+            user='umjpzdqlwm5z2ht6',
+            password= os.environ['MYSQL_PW'],
+            database='bsuvufmpxye5uuutqete'
+    )
     
     @commands.command(name="usersview")
     async def usersview(self, ctx):
