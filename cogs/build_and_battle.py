@@ -81,8 +81,6 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="connectdb")
     async def connectdb(self, ctx):
         await ctx.send('test')
-        print(db)
-        await ctx.send(db)
         if db == None:
             db = connect(
                 host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
@@ -91,7 +89,6 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
                 database='bsuvufmpxye5uuutqete'
             )
             await ctx.send('Database successfully connected!')
-            await ctx.send(db)
         else:
             await ctx.send('Database already connected!')
     
