@@ -1,3 +1,4 @@
+import os
 import nextcord
 import json
 import random
@@ -79,6 +80,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="connectdb")
     async def connectdb(self, ctx):
+        await ctx.send('test')
         print(db)
         await ctx.send(db)
         if db == None:
