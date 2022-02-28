@@ -79,14 +79,17 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="connectdb")
     async def connectdb(self, ctx):
-        db = connect(
-            host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
-            user='umjpzdqlwm5z2ht6',
-            password= os.environ['MYSQL_PW'],
-            database='bsuvufmpxye5uuutqete'
-        )
-        await ctx.send('Database successfully connected!')
-        await ctx.send(db)
+        if db == None:
+            db = connect(
+                host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
+                user='umjpzdqlwm5z2ht6',
+                password= os.environ['MYSQL_PW'],
+                database='bsuvufmpxye5uuutqete'
+            )
+            await ctx.send('Database successfully connected!')
+            await ctx.send(db)
+        else:
+            await ctx.send('Database already connected!')
     
     @commands.command(name="usersview")
     async def usersview(self, ctx):
