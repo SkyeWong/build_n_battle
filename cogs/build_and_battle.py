@@ -84,7 +84,9 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             user='umjpzdqlwm5z2ht6',
             password= os.environ['MYSQL_PW'],
             database='bsuvufmpxye5uuutqete'
-    )
+        )
+        await ctx.send('Database successfully connected!')
+        await ctx.send(db)
     
     @commands.command(name="usersview")
     async def usersview(self, ctx):
