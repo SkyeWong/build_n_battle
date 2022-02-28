@@ -79,6 +79,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="connectdb")
     async def connectdb(self, ctx):
+        await ctx.send(db)
         if db == None:
             db = connect(
                 host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
