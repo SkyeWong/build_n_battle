@@ -83,6 +83,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         sql = "SELECT * from users"
         await ctx.send("Creating query...")
         cursor = db.execute_query(sql)
+        print(cursor)
+        print(cursor.fetchall())
         await ctx.send("Executing query...")
         for row in cursor.fetchall():
             await ctx.send("Sending results...")
@@ -97,7 +99,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         val = (ctx.author.id, 1000, 1000)
         with db.cursor() as cursor:
-            execute_sql(sql, cursor)
+            execute_query(sql, cursor)
             db.commit()
         #self.update_user_profile(ctx.author, val)
         await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
