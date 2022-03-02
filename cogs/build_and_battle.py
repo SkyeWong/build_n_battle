@@ -8,8 +8,7 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
-from connect_db import db
-from mysql.connector import connect, Error
+from connect_db import start_database, __execute_sql
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -60,6 +59,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
+        db = start_database()
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         print(new_profile)
         with db.cursor() as cursor:
@@ -78,25 +78,12 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         #     json.dump(user_profile_list, f, indent=4)
         # return new_profile
     
-    @commands.command(name="connectdb")
-    async def connectdb(self, ctx):
-        await ctx.send('test')
-        if db == None:
-            db = connect(
-                host='bsuvufmpxye5uuutqete-mysql.services.clever-cloud.com',
-                user='umjpzdqlwm5z2ht6',
-                password= os.environ['MYSQL_PW'],
-                database='bsuvufmpxye5uuutqete'
-            )
-            await ctx.send('Database successfully connected!')
-        else:
-            await ctx.send('Database already connected!')
-    
     @commands.command(name="usersview")
     async def usersview(self, ctx):
         sql = "SELECT * from users"
+        db = start_database()
         with db.cursor() as cursor:
-            cursor.execute(sql)
+            __execute_sql(sql, cursor)
             for row in cursor.fetchall():
                 await ctx.send(row)
 
@@ -108,8 +95,9 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         # else:
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         val = (ctx.author.id, 1000, 1000)
+        db = start_database()
         with db.cursor() as cursor:
-            cursor.execute(sql, val)
+            execute_sql(sql, cursor)
             db.commit()
         #self.update_user_profile(ctx.author, val)
         await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
