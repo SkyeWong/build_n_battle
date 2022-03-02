@@ -9,6 +9,7 @@ def start_database():
             password= os.environ['MYSQL_PW'],
             database='bsuvufmpxye5uuutqete'
     )
+    print(db)
     return(db)
 
 def __execute_sql(cursor, sql, val: Optional[tuple] = None):
