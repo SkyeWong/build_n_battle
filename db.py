@@ -13,12 +13,12 @@ def start():
     print(conn)
     return(conn)
 
-def execute(self, sql):
+def execute_query(self, sql):
     print("i'm running!")
     try:
       cursor = conn.cursor()
       cursor.execute(sql)
-    except (AttributeError, mysql.connection.OperationalError):
+    except (AttributeError, mysql.connector.OperationalError):
       start()
       cursor = conn.cursor()
       cursor.execute(sql)
