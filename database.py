@@ -1,7 +1,6 @@
 import os
 from mysql.connector import connect, Error
 
-conn = None
 
 def start():
     conn = connect(
@@ -11,6 +10,7 @@ def start():
             database='bsuvufmpxye5uuutqete'
     )
     print(conn)
+    return(conn)
 
 def execute_query(sql):
     print("i'm running!")
@@ -20,6 +20,7 @@ def execute_query(sql):
     except (AttributeError, Error):
         start()
         print("the database isn't started, i restarted it and now i'm gonna execute the query!")
+        conn = start()
         print(conn)
         cursor = conn.cursor()
         print("the cursor is created, if everything works i'm gonna execute it!")
