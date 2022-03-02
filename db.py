@@ -11,7 +11,6 @@ def start():
             database='bsuvufmpxye5uuutqete'
     )
     print(conn)
-    return(conn)
 
 def execute_query(self, sql):
     print("i'm running!")

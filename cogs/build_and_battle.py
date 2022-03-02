@@ -79,14 +79,11 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="users")
     async def usersview(self, ctx):
-        conn = db.start()
         await ctx.send("Fetching results...")
         sql = "SELECT * from users"
-        with conn.cursor() as cursor:
-            cursor.execute(sql)
-        #cursor = db.execute_query(sql)
-            for row in cursor.fetchall():
-                await ctx.send(row)
+        cursor = db.execute_query(sql)
+        for row in cursor.fetchall():
+            await ctx.send(row)
 
     @commands.command(name="create")
     async def create(self, ctx):
