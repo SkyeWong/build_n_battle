@@ -8,7 +8,7 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
-from connect_db import start_database, __execute_sql
+from db_functions import start_database, __execute_sql
 
 db = start_database()
 
