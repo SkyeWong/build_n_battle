@@ -18,9 +18,8 @@ def execute_query(sql):
         cursor = conn.cursor()
         cursor.execute(sql)
     except (AttributeError, Error):
-        start()
-        print("the database isn't started, i restarted it and now i'm gonna execute the query!")
         conn = start()
+        print("the database isn't started, i restarted it and now i'm gonna execute the query!")
         print(conn)
         cursor = conn.cursor()
         print("the cursor is created, if everything works i'm gonna execute it!")
