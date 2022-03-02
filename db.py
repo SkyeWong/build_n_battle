@@ -18,7 +18,7 @@ def execute(self, sql):
     try:
       cursor = conn.cursor()
       cursor.execute(sql)
-    except (AttributeError, MySQLdb.OperationalError):
+    except (AttributeError, mysql.connection.OperationalError):
       start()
       cursor = conn.cursor()
       cursor.execute(sql)
