@@ -77,12 +77,12 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         #     json.dump(user_profile_list, f, indent=4)
         # return new_profile
     
-    @commands.command(name="usersview")
+    @commands.command(name="users")
     async def usersview(self, ctx):
-        db.start()
+        conn = db.start()
         await ctx.send("Fetching results...")
         sql = "SELECT * from users"
-        with db.cursor() as cursor:
+        with conn.cursor() as cursor:
             cursor.execute(sql)
         #cursor = db.execute_query(sql)
             for row in cursor.fetchall():
