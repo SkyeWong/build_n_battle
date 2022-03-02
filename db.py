@@ -18,7 +18,7 @@ def execute_query(self, sql):
     try:
       cursor = conn.cursor()
       cursor.execute(sql)
-    except (AttributeError, mysql.connector.OperationalError):
+    except (AttributeError, Error):
       start()
       cursor = conn.cursor()
       cursor.execute(sql)
