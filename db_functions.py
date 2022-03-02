@@ -11,15 +11,10 @@ def start_database():
     print(db)
     return(db)
 
-def __execute_sql(cursor, sql, val=None):
+def __execute_sql(cursor, sql):
     try:
-        if val:
-            print(sql)
-            print(val)
-            cursor.execute(sql, val)
-        else:
-            print(sql)
-            cursor.execute(sql)
+        print(sql)
+        cursor.execute(sql)
         return 1
     except mysql.connector.OperationalError as e:            
         if e[0] == 2006:
