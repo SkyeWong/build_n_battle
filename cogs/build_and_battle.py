@@ -10,6 +10,8 @@ from datetime import datetime
 from nextcord.ext import commands, tasks
 from connect_db import start_database, __execute_sql
 
+db = start_database()
+
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
 i = 10
@@ -81,7 +83,6 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="usersview")
     async def usersview(self, ctx):
         sql = "SELECT * from users"
-        db = start_database()
         with db.cursor() as cursor:
             __execute_sql(sql, cursor)
             for row in cursor.fetchall():
@@ -95,7 +96,6 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         # else:
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         val = (ctx.author.id, 1000, 1000)
-        db = start_database()
         with db.cursor() as cursor:
             execute_sql(sql, cursor)
             db.commit()
