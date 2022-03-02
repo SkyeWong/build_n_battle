@@ -83,11 +83,9 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         sql = "SELECT * from users"
         await ctx.send("Creating query...")
         cursor = db.execute_query(sql)
-        print(cursor)
-        print(cursor.fetchall())
         await ctx.send("Executing query...")
+        await ctx.send("Sending results...")
         for row in cursor.fetchall():
-            await ctx.send("Sending results...")
             await ctx.send(row)
 
     @commands.command(name="create")
