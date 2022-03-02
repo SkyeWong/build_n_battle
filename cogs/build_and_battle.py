@@ -8,9 +8,7 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
-from db_functions import start_database, __execute_sql
-
-db = start_database()
+import db
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -61,7 +59,6 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         return user_profile
 
     def update_user_profile(self, user, new_profile):
-        db = start_database()
         sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
         print(new_profile)
         with db.cursor() as cursor:
@@ -83,10 +80,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="usersview")
     async def usersview(self, ctx):
         sql = "SELECT * from users"
-        with db.cursor() as cursor:
-            if (__execute_sql(sql, cursor)) == 0:
-                __execute_sql(sql, cursor)
-            for row in cursor.fetchall():
+        db.execute(sql)
+        for row in cursor.fetchall():
                 await ctx.send(row)
 
     @commands.command(name="create")
