@@ -79,12 +79,9 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     
     @commands.command(name="users")
     async def usersview(self, ctx):
-        await ctx.send("Fetching results...")
         sql = "SELECT * from users"
-        await ctx.send("Creating query...")
         cursor = db.execute_query(sql)
-        await ctx.send("Executing query...")
-        await ctx.send("Sending results...")
+        await ctx.send("Users:")
         for row in cursor.fetchall():
             await ctx.send(row)
 

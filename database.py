@@ -14,14 +14,11 @@ def start():
     print(conn)
 
 def execute_query(sql):
-    print("i'm running!")
     try:
         cursor = conn.cursor()
         cursor.execute(sql)
     except (AttributeError, Error):
         start()
-        print("the database isn't started, i restarted it and now i'm gonna create the cursor!")
         cursor = conn.cursor()
-        print("the cursor is created, if everything works i'm gonna execute it!")
         cursor.execute(sql)
     return cursor
