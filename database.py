@@ -12,7 +12,7 @@ def start():
     )
     print(conn)
 
-def execute_query(self, sql):
+def execute_query(sql):
     print("i'm running!")
     try:
       cursor = conn.cursor()

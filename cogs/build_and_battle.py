@@ -9,7 +9,7 @@ from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
 import database as db
-db.execute_query('something')
+
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
 i = 10
