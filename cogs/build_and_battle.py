@@ -84,7 +84,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     async def usersview(self, ctx):
         sql = "SELECT * from users"
         with db.cursor() as cursor:
-            __execute_sql(sql, cursor)
+            if (__execute_sql(sql, cursor)) == 0:
+                __execute_sql(sql, cursor)
             for row in cursor.fetchall():
                 await ctx.send(row)
 

@@ -24,8 +24,4 @@ def __execute_sql(cursor, sql, val=None):
     except mysql.connector.OperationalError as e:            
         if e[0] == 2006:
             start_database()
-            if val:
-                __execute_sql(cursor, sql, val)
-            else: 
-                __execute_sql(cursor, sql)
             return 0
