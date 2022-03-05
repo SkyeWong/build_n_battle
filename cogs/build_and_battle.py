@@ -58,7 +58,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
                 UPDATE 
                     users
                 SET
-                    gold = {new_profile[1]}
+                    gold = {new_profile[1]},
                     xp = {new_profile[2]}
                 WHERE
                     id = {str(new_profile[0])}
@@ -137,7 +137,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             profile = list(self.get_user_profile(ctx.author))
             print(profile)
             profile[1] += 500
-            profile = self.update_user_profile(ctx.author, tuple(profile))
+            profile = self.update_user_profile(ctx.author, profile)
             print(profile)
             await interaction.response.send_message("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
         gold_button.callback = gold_generate
@@ -145,7 +145,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             profile = list(self.get_user_profile(ctx.author))
             print(profile)
             profile[2] += random.choice(range(6))
-            profile = self.update_user_profile(ctx.author, tuple(profile))
+            profile = self.update_user_profile(ctx.author, profile)
             print(profile)
             await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
         xp_button.callback = xp_generate
