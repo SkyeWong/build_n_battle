@@ -150,7 +150,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             print(profile)
             await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
         xp_button.callback = xp_generate
-        view = view.ButtonsCmdView()
+        view = View()
         view.add_item(gold_button)
         view.add_item(xp_button)
         await ctx.send(embed=buttons_ui, view=view)
