@@ -80,11 +80,14 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
-        sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
-        val = (ctx.author.id, 1000, 1000)
-        cursor = db.execute_query(sql, val)
-        db.conn.commit()
-        await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
+        if not(self.if_user_present):
+            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+            val = (ctx.author.id, 1000, 1000)
+            cursor = db.execute_query(sql, val)
+            db.conn.commit()
+            await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
+        else:
+            await ctx.send("WTF are you thinking? You are already a player and you are creating another player?!")
 
     @commands.command(name="profile")
     async def profile(self, ctx, user: nextcord.Member=None):
@@ -96,11 +99,13 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         if self.if_user_present(user):
             user_profile = self.get_user_profile(user)
             print(user_profile)
+            print(f"Gold: {user_profile[1]}")
+            print(f"XP: {user_profile[2]}")
             profile_ui = nextcord.Embed()
             profile_ui.colour = random.choice(main.embed_colours)
-            profile_ui.set_author(name=f"{user.name}\"s Profile:", icon_url=user.avatar)
+            profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
             profile_ui.add_field(name="Gold", value=f'${user_profile[1]}', inline=False)
-            profile_ui.add_field(name="XP", value=f'{user_profile[2]}/{main.roundup(user_profile["xp"], 100) if user_profile["xp"] != 0 else 100}', inline=False)
+            profile_ui.add_field(name="XP", value=f'{user_profile[2]}/{main.roundup(user_profile[2], 100) if user_profile[2] != 0 else 100}', inline=False)
             # farm_width = main.rounddown(user_profile["xp"], 100) / 100 + 2
             # if farm_width >= 12:
             #     farm_width = 12
