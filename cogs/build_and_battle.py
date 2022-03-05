@@ -135,6 +135,12 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             style = nextcord.ButtonStyle.grey,
             emoji = "💎"
         )
+        async def gold_generate(interaction):
+            await interaction.responsesend_message("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
+        gold_button.callback = gold_generate
+        async def xp_generate(interaction):
+            await interaction.responsesend_message("You take your time and read a book, and learnt something new!", ephemeral=True)
+        xp_button.callback = xp_generate
         view = View()
         view.add_item(gold_button)
         view.add_item(xp_button)
