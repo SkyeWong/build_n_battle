@@ -53,23 +53,23 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         return cursor.fetchall()[0]
 
     def update_user_profile(self, user, new_profile):
-        sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
-        print(new_profile)
-        with db.cursor() as cursor:
-            cursor.execute(sql, new_profile)
-            db.commit()
-        # user_profile_list = self.get_user_profile_list()
-        # users = self.get_user_list()
-        # for i in new_profile["crops"]:
-        #     new_profile["crops"][new_profile["crops"].index(i)] = str(i)
-        # new_profile["crops"] = ", ".join(new_profile["crops"])
-        # if self.if_user_present(user):
-        #     user_profile_list[users.index(user.id)] = new_profile
-        # else:
-        #     user_profile_list.append(new_profile)
-        # with open("user_profile.json", "w+") as f:
-        #     json.dump(user_profile_list, f, indent=4)
-        # return new_profile
+        if self.if_user_present(user):
+            sql = f"""
+                UPDATE 
+                    users
+                SET
+                    gold = {new_profile[1]}
+                    xp = {new_profile[2]}
+                WHERE
+                    id = {new_profile[0]}
+                """
+            db.execute_query(sql)
+            db.conn.commit()
+        else:
+            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+            db.execute_query(sql, new_profile)
+            db.conn.commit()
+        return new_profile
     
     @commands.command(name="users")
     async def usersview(self, ctx):
@@ -83,9 +83,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
         if not(self.if_user_present):
-            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
-            val = (ctx.author.id, 1000, 1000)
-            cursor = db.execute_query(sql, val)
+            self.update_user_profile(ctx.author, (ctx.author.id, 1000, 1000))
             db.conn.commit()
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
         else:
@@ -136,9 +134,15 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             emoji = "💎"
         )
         async def gold_generate(interaction):
+            profile = self.get_user_profile(ctx.author)
+            profile[1] += 500
+            self.update_user_profile(ctx.author, profile)
             await interaction.response.send_message("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
         gold_button.callback = gold_generate
         async def xp_generate(interaction):
+            profile = self.get_user_profile(ctx.author)
+            profile[2] += random.choice(range(6))
+            self.update_user_profile(ctx.author, profile)
             await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
         xp_button.callback = xp_generate
         view = View()
