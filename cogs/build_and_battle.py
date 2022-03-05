@@ -11,6 +11,7 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
+import view.view as view
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -149,11 +150,15 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             print(profile)
             await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
         xp_button.callback = xp_generate
-        view = View()
+        view = view.ButtonsCmdView()
         view.add_item(gold_button)
         view.add_item(xp_button)
         await ctx.send(embed=buttons_ui, view=view)
 
+    @commands.command(name="viewtest")
+    async def viewtest(self, ctx):
+        view = view.TestView()
+        await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     # def update_farm_ui(self, user):
     #     user_profile = self.get_user_profile(user)
     #     sent_time = int(datetime.now().timestamp())
