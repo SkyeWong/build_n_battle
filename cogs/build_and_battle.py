@@ -11,7 +11,7 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
-import view.view as view
+import view.view as ViewClasses
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -157,7 +157,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
 
     @commands.command(name="viewtest")
     async def viewtest(self, ctx):
-        view = view.TestView()
+        view = ViewClasses.TestView()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     
     # def update_farm_ui(self, user):
