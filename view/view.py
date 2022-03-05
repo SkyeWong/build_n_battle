@@ -2,11 +2,7 @@ from nextcord.ui import Button, View
 import nextcord
 
 class TestView(View):
-    @nextcord.ui.button(
-                label = "End Interaction", 
-                style = nextcord.ButtonStyle.red,
-                emoji = "⏹️")
-
+    @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
     async def button_callback(self, button, interaction):
         button.label = "Interaction ended"
         button.disabled = True

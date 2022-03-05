@@ -159,6 +159,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     async def viewtest(self, ctx):
         view = view.TestView()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
+    
     # def update_farm_ui(self, user):
     #     user_profile = self.get_user_profile(user)
     #     sent_time = int(datetime.now().timestamp())
