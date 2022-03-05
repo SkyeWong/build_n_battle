@@ -9,6 +9,6 @@ class TestView(View):
 
     async def button_callback(self, button, interaction):
         button.label = "Interaction ended"
-        button.Disabled = True
+        button.disabled = True
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("Interaction ended.")
