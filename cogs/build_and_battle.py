@@ -8,6 +8,8 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands, tasks
+from nextcord import Embed
+from nextcord.ui import Button, View
 import database as db
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
@@ -101,7 +103,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             print(user_profile)
             print(f"Gold: {user_profile[1]}")
             print(f"XP: {user_profile[2]}")
-            profile_ui = nextcord.Embed()
+            profile_ui = Embed()
             profile_ui.colour = random.choice(main.embed_colours)
             profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
             profile_ui.add_field(name="Gold", value=f'${user_profile[1]}', inline=False)
@@ -113,6 +115,24 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             profile_msg = await ctx.send(embed=profile_ui)
         else:
             await ctx.send("The user do not have a profile! Create one with `+create`")
+        
+    @commands.command(name="buttons")
+    async def buttons(self, ctx):
+        """uh... so this is a test for buttons, that i'm gonna implement it in the bot
+        ||some time soon||
+        """
+        buttons_ui = Embed()
+        buttons_ui.color = random.choice(main.embed_colours)
+        buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
+        buttons_ui.description = "Click the buttons below to test the buttons."
+        gold_button = Button(
+            label = "Generate gold!",
+            style = nextcord.ButtonStyle.grey,
+            emoji = "💰"
+        )
+        view = View()
+        view.add_item(gold_button)
+        await ctx.send(embed=buttons_ui, view=view)
 
     # def update_farm_ui(self, user):
     #     user_profile = self.get_user_profile(user)
@@ -139,7 +159,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     #     test = user_profile["farm_last_used"]
     #     user_profile["farm_last_used"] = sent_time
     #     crop = ""
-    #     farm_ui = nextcord.Embed()
+    #     farm_ui = Embed()
     #     farm_ui.set_author(name=f"{user.name}\"s Farm:", icon_url=user.avatar)
     #     farm_ui.description = ""
     #     index = 0
