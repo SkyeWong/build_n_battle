@@ -136,7 +136,8 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             emoji = "💎"
         )
         view = View()
-        view.add_item(gold_button, xp_button)
+        view.add_item(gold_button)
+        view.add_item(xp_button)
         await ctx.send(embed=buttons_ui, view=view)
 
     # def update_farm_ui(self, user):
