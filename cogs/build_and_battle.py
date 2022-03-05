@@ -128,10 +128,15 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         gold_button = Button(
             label = "Generate gold!",
             style = nextcord.ButtonStyle.grey,
-            emoji = "💰"
+            emoji = "🪙"
+        )
+        xp_button = Button(
+            label = "Generate XP!",
+            style = nextcord.ButtonStyle.grey,
+            emoji = "💎"
         )
         view = View()
-        view.add_item(gold_button)
+        view.add_item(gold_button, xp_button)
         await ctx.send(embed=buttons_ui, view=view)
 
     # def update_farm_ui(self, user):
