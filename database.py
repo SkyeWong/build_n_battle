@@ -13,12 +13,18 @@ def start():
     )
     print(conn)
 
-def execute_query(sql):
+def execute_query(sql, val=None):
     try:
         cursor = conn.cursor()
-        cursor.execute(sql)
+        if val:
+            cursor.execute(sql, val)
+        else:
+            cursor.execute(sql)
     except (AttributeError, Error):
         start()
         cursor = conn.cursor()
-        cursor.execute(sql)
+        if val:
+            cursor.execute(sql, val)
+        else:
+            cursor.execute(sql)
     return cursor
