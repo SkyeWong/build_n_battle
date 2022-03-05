@@ -61,7 +61,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
                     gold = {new_profile[1]}
                     xp = {new_profile[2]}
                 WHERE
-                    id = {new_profile[0]}
+                    id = {str(new_profile[0])}
                 """
             db.execute_query(sql)
             db.conn.commit()
