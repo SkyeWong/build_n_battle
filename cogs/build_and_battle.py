@@ -134,13 +134,13 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
             emoji = "💎"
         )
         async def gold_generate(interaction):
-            profile = self.get_user_profile(ctx.author)
+            profile = list(self.get_user_profile(ctx.author))
             profile[1] += 500
             self.update_user_profile(ctx.author, profile)
             await interaction.response.send_message("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
         gold_button.callback = gold_generate
         async def xp_generate(interaction):
-            profile = self.get_user_profile(ctx.author)
+            profile = list(self.get_user_profile(ctx.author))
             profile[2] += random.choice(range(6))
             self.update_user_profile(ctx.author, profile)
             await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
