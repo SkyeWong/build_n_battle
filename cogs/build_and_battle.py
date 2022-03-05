@@ -89,12 +89,13 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
     @commands.command(name="profile")
     async def profile(self, ctx, user: nextcord.Member=None):
         """Check the profile of your own or others.
-        If you left the `<user>` parameter blank, the bot shows your own profile.
+        If you left the `[user]` parameter blank, the bot shows your own profile.
         Otherwise, it shows other users" profiles."""
         if user == None:
             user = ctx.author
         if self.if_user_present(user):
             user_profile = self.get_user_profile(user)
+            print(user_profile)
             profile_ui = nextcord.Embed()
             profile_ui.colour = random.choice(main.embed_colours)
             profile_ui.set_author(name=f"{user.name}\"s Profile:", icon_url=user.avatar)
