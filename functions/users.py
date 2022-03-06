@@ -15,6 +15,9 @@ import nextcord
 class Users():
     """Functions about users."""
     
+    def __init__(self):
+        print("init")
+    
     def if_user_present(self, user):
         sql = f"""
             SELECT id, gold, xp
@@ -27,8 +30,7 @@ class Users():
         else:
             return False
 
-    def get_user_profile(self):
-        user = bot.get_user(806334528230129695)
+    def get_user_profile(self, user):
         sql = f"""
             SELECT id, gold, xp
             FROM users
@@ -55,3 +57,5 @@ class Users():
             db.execute_query(sql, new_profile)
             db.conn.commit()
         return new_profile
+
+Users()
