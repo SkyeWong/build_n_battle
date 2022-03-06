@@ -32,8 +32,8 @@ class Currency(commands.Cog, name="Currency"):
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
         users = Users(ctx.author)
-        if not(users.if_user_present(ctx.author)):
-            users.update_user_profile(ctx.author, (ctx.author.id, 1000, 1000))
+        if not(users.if_user_present()):
+            users.update_user_profile((ctx.author.id, 1000, 1000))
             db.conn.commit()
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
         else:
