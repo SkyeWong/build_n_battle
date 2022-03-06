@@ -46,7 +46,7 @@ class Currency(commands.Cog, name="Currency"):
         Otherwise, it shows other users" profiles."""
         if user == None:
             user = ctx.author
-        if self.if_user_present(user):
+        if Users.if_user_present(user):
             user_profile = Users.get_user_profile(user)
             print(user_profile)
             print(f"Gold: {user_profile[1]}")

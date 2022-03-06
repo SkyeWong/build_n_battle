@@ -10,6 +10,7 @@ from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
 from typing import Optional
+import nextcord
 
 class Users():
     """Functions about users.
