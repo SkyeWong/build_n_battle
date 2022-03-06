@@ -2,7 +2,7 @@ from nextcord.ui import Button, View
 import nextcord
 from typing import Optional
 import random
-from cogs.build_and_battle import build_and_battle as bnb
+from cogs.build_and_battle import users
 class EndInteraction(View):
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
     async def button_callback(self, button, interaction):
@@ -19,9 +19,9 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
     async def gold_generate(self, button, interaction):
-        profile = list(bnb.get_user_profile(self.ctx.author))
+        profile = list(users.get_user_profile(self.ctx.author))
         profile[1] += 500
-        profile = bnb.update_user_profile(self.ctx.author, profile)
+        profile = users.update_user_profile(self.ctx.author, profile)
         button.label = "Gold optained!"
         button.disabled = True
         await interaction.response.edit_message(view=self)
@@ -29,9 +29,9 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
     async def xp_generate(self, button, interaction):
-        profile = list(bnb.get_user_profile(self.ctx.author))
+        profile = list(users.get_user_profile(self.ctx.author))
         profile[2] += random.choice(range(6))
-        profile = bnb.update_user_profile(self.ctx.author, profile)
+        profile = users.update_user_profile(self.ctx.author, profile)
         button.label = "No more books..."
         button.disabled = True
         await interaction.response.edit_message(view=self)
