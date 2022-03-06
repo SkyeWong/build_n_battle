@@ -7,7 +7,7 @@ import main
 import math 
 from main import bot
 from datetime import datetime
-from nextcord.ext import commands, tasks
+from nextcord.ext import commands
 from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
