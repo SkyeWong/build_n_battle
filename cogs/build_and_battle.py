@@ -129,7 +129,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
 
     @commands.command(name="viewtest")
     async def viewtest(self, ctx):
-        view = ViewClasses.TestView()
+        view = ViewClasses.EndInteraction()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     
     # def update_farm_ui(self, user):
