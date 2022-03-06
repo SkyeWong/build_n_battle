@@ -124,35 +124,7 @@ class build_and_battle(commands.Cog, name="Build & Battle"):
         buttons_ui.color = random.choice(main.embed_colours)
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
-        gold_button = Button(
-            label = "Generate gold!",
-            style = nextcord.ButtonStyle.grey,
-            emoji = "🪙"
-        )
-        xp_button = Button(
-            label = "Generate XP!",
-            style = nextcord.ButtonStyle.grey,
-            emoji = "💎"
-        )
-        async def gold_generate(interaction):
-            profile = list(self.get_user_profile(ctx.author))
-            print(profile)
-            profile[1] += 500
-            profile = self.update_user_profile(ctx.author, profile)
-            print(profile)
-            await interaction.response.send_message("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
-        gold_button.callback = gold_generate
-        async def xp_generate(interaction):
-            profile = list(self.get_user_profile(ctx.author))
-            print(profile)
-            profile[2] += random.choice(range(6))
-            profile = self.update_user_profile(ctx.author, profile)
-            print(profile)
-            await interaction.response.send_message("You take your time and read a book, and learnt something new!", ephemeral=True)
-        xp_button.callback = xp_generate
-        view = View()
-        view.add_item(gold_button)
-        view.add_item(xp_button)
+        view = ViewClasses.generate()
         await ctx.send(embed=buttons_ui, view=view)
 
     @commands.command(name="viewtest")
