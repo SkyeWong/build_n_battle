@@ -2,6 +2,7 @@ from nextcord.ui import Button, View
 import nextcord
 from typing import Optional
 import random
+from cogs import build_n_battle as bnb
 
 class TestView(View):
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
@@ -19,9 +20,9 @@ class generate(View):
     
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
     async def gold_generate(self, button, interaction):
-        profile = list(self.get_user_profile(self.ctx.author))
+        profile = list(bnb.get_user_profile(self.ctx.author))
         profile[1] += 500
-        profile = self.update_user_profile(self.ctx.author, profile)
+        profile = bnb.update_user_profile(self.ctx.author, profile)
         button.label = "Gold optained!"
         button.disabled = True
         await interaction.response.edit_message(view=self)
@@ -29,9 +30,9 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
     async def xp_generate(self, button, interaction):
-        profile = list(self.get_user_profile(self.ctx.author))
+        profile = list(bnb.get_user_profile(self.ctx.author))
         profile[2] += random.choice(range(6))
-        profile = self.update_user_profile(self.ctx.author, profile)
+        profile = bnb.update_user_profile(self.ctx.author, profile)
         button.label = "No more books..."
         button.disabled = True
         await interaction.response.edit_message(view=self)
