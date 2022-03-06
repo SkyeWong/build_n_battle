@@ -47,3 +47,10 @@ class generate(View):
         button.disabled = True
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("You take your time and read a book, and learnt something new!", ephemeral=True)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user == self.ctx.author:
+            await interaction.followup.send("This is not for you.", ephemeral=True)
+            return False
+        else:
+            return True
