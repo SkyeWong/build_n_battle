@@ -15,14 +15,14 @@ import nextcord
 class Users():
     """Functions about users."""
     
-    def __init__(self):
-        print("init")
+    def __init__(self, user):
+        self.user = user
     
-    def if_user_present(self, user):
+    def if_user_present(self):
         sql = f"""
             SELECT id, gold, xp
             FROM users
-            WHERE id = {user.id};
+            WHERE id = {self.user.id};
             """
         cursor = db.execute_query(sql)
         if cursor.fetchall() != []:
@@ -30,17 +30,17 @@ class Users():
         else:
             return False
 
-    def get_user_profile(self, user):
+    def get_user_profile(self):
         sql = f"""
             SELECT id, gold, xp
             FROM users
-            WHERE id = {user.id};
+            WHERE id = {self.user.id};
             """
         cursor = db.execute_query(sql)
         return cursor.fetchall()[0]
 
-    def update_user_profile(self, user, new_profile):
-        if self.if_user_present(user):
+    def update_user_profile(self, new_profile):
+        if self.if_user_present(self.user):
             sql = f"""
                 UPDATE 
                     users

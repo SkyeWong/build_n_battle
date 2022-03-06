@@ -12,8 +12,6 @@ import database as db
 from typing import Optional
 from functions.users import Users
 from views.currency_views import EndInteraction, generate
-
-usersFunctions = Users()
 class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
@@ -33,8 +31,9 @@ class Currency(commands.Cog, name="Currency"):
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
-        if not(usersFunctions.if_user_present(ctx.author)):
-            usersFunctions.update_user_profile(ctx.author, (ctx.author.id, 1000, 1000))
+        users = Users(ctx.author)
+        if not(users.if_user_present(ctx.author)):
+            users.update_user_profile(ctx.author, (ctx.author.id, 1000, 1000))
             db.conn.commit()
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
         else:
@@ -47,8 +46,9 @@ class Currency(commands.Cog, name="Currency"):
         Otherwise, it shows other users" profiles."""
         if user == None:
             user = ctx.author
-        if usersFunctions.if_user_present(user):
-            user_profile = usersFunctions.get_user_profile(user)
+        users = Users(user)
+        if users.if_user_present(user):
+            user_profile = users.get_user_profile()
             print(user_profile)
             print(f"Gold: {user_profile[1]}")
             print(f"XP: {user_profile[2]}")

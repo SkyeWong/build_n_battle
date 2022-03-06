@@ -11,8 +11,6 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-
-usersFunctions = Users()
 class EndInteraction(View):
 
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
@@ -30,9 +28,10 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
     async def gold_generate(self, button, interaction):
-        profile = list(usersFunctions.get_user_profile())
+        users = Users(self.ctx.author)
+        profile = list(users.get_user_profile())
         profile[1] += 500
-        profile = usersFunctions.update_user_profile(self.ctx.author, profile)
+        profile = users.update_user_profile(profile)
         button.label = "Gold optained!"
         button.disabled = True
         await interaction.response.edit_message(view=self)
@@ -40,9 +39,10 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
     async def xp_generate(self, button, interaction):
-        profile = list(usersFunctions.get_user_profile(self.ctx.author))
+        users = Users(self.ctx.author)
+        profile = list(users.get_user_profile())
         profile[2] += random.choice(range(6))
-        profile = usersFunctions.update_user_profile(self.ctx.author, profile)
+        profile = users.update_user_profile(profile)
         button.label = "No more books..."
         button.disabled = True
         await interaction.response.edit_message(view=self)
