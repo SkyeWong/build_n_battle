@@ -32,7 +32,7 @@ class generate(View):
         profile = list(users.get_user_profile())
         profile[1] += 500
         profile = users.update_user_profile(profile)
-        button.label = "Gold optained!"
+        button.label = "Gold obtained!"
         button.disabled = True
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
