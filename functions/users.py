@@ -28,7 +28,7 @@ class Users():
         else:
             return False
 
-    def get_user_profile(self, user):
+    def get_user_profile(self, user: Optional[nextcord.User]):
         sql = f"""
             SELECT id, gold, xp
             FROM users

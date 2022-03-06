@@ -29,7 +29,6 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
     async def gold_generate(self, button, interaction):
-        print(self.ctx.author.name)
         profile = list(Users.get_user_profile(self.ctx.author))
         profile[1] += 500
         profile = Users.update_user_profile(self.ctx.author, profile)
