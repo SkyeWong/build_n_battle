@@ -123,12 +123,12 @@ class BuildAndBattle(commands.Cog, name="Build & Battle"):
         buttons_ui.color = random.choice(main.embed_colours)
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
-        view = ViewClasses.generate(ctx)
+        view = self.ViewClasses.generate(ctx)
         await ctx.send(embed=buttons_ui, view=view)
 
     @commands.command(name="viewtest")
     async def viewtest(self, ctx):
-        view = ViewClasses.EndInteraction()
+        view = self.ViewClasses.EndInteraction()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     
     # def update_farm_ui(self, user):
