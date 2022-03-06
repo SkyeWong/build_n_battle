@@ -21,7 +21,7 @@ while i <= 16:
     crop_progress.append(i / 1000)
     i += 1
 
-class users(commands.Cog, name="Build & Battle"):
+class Users(commands.Cog, name="Build & Battle"):
     """My game! 
     ~~i can\"t think of this it will be done later~~
     """
