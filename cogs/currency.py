@@ -47,7 +47,7 @@ class Currency(commands.Cog, name="Currency"):
         if user == None:
             user = ctx.author
         users = Users(user)
-        if users.if_user_present(user):
+        if users.if_user_present():
             user_profile = users.get_user_profile()
             print(user_profile)
             print(f"Gold: {user_profile[1]}")
