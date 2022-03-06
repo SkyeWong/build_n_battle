@@ -1,8 +1,6 @@
 import os
 import nextcord
-import json
 import random
-import asyncio
 import main
 import math 
 from main import bot
@@ -11,17 +9,41 @@ from nextcord.ext import commands
 from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
+from typing import Optional
 
-weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
-crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
-i = 10
-crop_progress = []
-while i <= 16:
-    crop_progress.append(i / 1000)
-    i += 1
+class EndInteraction(View):
+    @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
+    async def button_callback(self, button, interaction):
+        button.label = "Interaction ended"
+        button.disabled = True
+        await interaction.response.edit_message(view=self)
+        await interaction.followup.send("Interaction ended.")
+class generate(View):
 
-class BuildAndBattle(commands.Cog, name="Build & Battle"):
-    import view as ViewClasses
+    def __init__(self, ctx, timeout: Optional[float] = 30):
+        super().__init__(timeout=timeout)
+        self.ctx = ctx
+
+    @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
+    async def gold_generate(self, button, interaction):
+        profile = list(BuildAndBattle.get_user_profile(self.ctx.author))
+        profile[1] += 500
+        profile = BuildAndBattle.update_user_profile(self.ctx.author, profile)
+        button.label = "Gold optained!"
+        button.disabled = True
+        await interaction.response.edit_message(view=self)
+        await interaction.followup.send("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
+
+    @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
+    async def xp_generate(self, button, interaction):
+        profile = list(BuildAndBattle.get_user_profile(self.ctx.author))
+        profile[2] += random.choice(range(6))
+        profile = BuildAndBattle.update_user_profile(self.ctx.author, profile)
+        button.label = "No more books..."
+        button.disabled = True
+        await interaction.response.edit_message(view=self)
+        await interaction.followup.send("You take your time and read a book, and learnt something new!", ephemeral=True)
+class Users(commands.Cog, name="Build & Battle"):
     """Check info of users.
     """
 
@@ -123,12 +145,12 @@ class BuildAndBattle(commands.Cog, name="Build & Battle"):
         buttons_ui.color = random.choice(main.embed_colours)
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
-        view = self.ViewClasses.generate(ctx)
+        view = generate(ctx)
         await ctx.send(embed=buttons_ui, view=view)
 
     @commands.command(name="viewtest")
     async def viewtest(self, ctx):
-        view = self.ViewClasses.EndInteraction()
+        view = EndInteraction()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     
     # def update_farm_ui(self, user):
