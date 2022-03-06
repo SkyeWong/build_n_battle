@@ -12,10 +12,10 @@ class EndInteraction(View):
         await interaction.followup.send("Interaction ended.")
 
 class generate(View):
-    
-    # def __init__(self, ctx):
-    #     super().__init__(timeout=30)
-    #     self.ctx = ctx
+
+    def __init__(self, ctx):
+        super().__init__(timeout=30)
+        #self.ctx = ctx
     
     @nextcord.ui.button(label = "Test", emoji="😀")
     async def whatever(self, button, interaction):
