@@ -11,7 +11,6 @@ from nextcord.ext import commands
 from nextcord import Embed
 from nextcord.ui import Button, View
 import database as db
-import view as ViewClasses
 
 weathers = ["sunny", "rainy", "stormy", "windy", "snowy"]
 crop_emojis = ["<:crop_1:919601339464560650>", "<:crop_2:919601339338735616>", "<:crop_3:919601339082879027>", "<:crop_4:919601339456180264>", "<:crop_5:919601339447799848>"]
@@ -21,9 +20,9 @@ while i <= 16:
     crop_progress.append(i / 1000)
     i += 1
 
-class Users(commands.Cog, name="Build & Battle"):
-    """My game! 
-    ~~i can\"t think of this it will be done later~~
+class BuildAndBattle(commands.Cog, name="Build & Battle"):
+    import view as ViewClasses
+    """Check info of users.
     """
 
     COG_EMOJI = "🎮"
