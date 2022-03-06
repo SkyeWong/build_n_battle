@@ -57,5 +57,3 @@ class Users():
             db.execute_query(sql, new_profile)
             db.conn.commit()
         return new_profile
-
-Users()
