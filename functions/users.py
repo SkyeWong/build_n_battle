@@ -13,8 +13,7 @@ from typing import Optional
 import nextcord
 
 class Users():
-    """Functions about users.
-    """
+    """Functions about users."""
     
     def if_user_present(self, user):
         sql = f"""
@@ -28,7 +27,8 @@ class Users():
         else:
             return False
 
-    def get_user_profile(self, user: Optional[nextcord.User]):
+    def get_user_profile(self):
+        user = bot.get_user(806334528230129695)
         sql = f"""
             SELECT id, gold, xp
             FROM users
