@@ -271,4 +271,4 @@ class Users(commands.Cog, name="Build & Battle"):
     #             json.dump(weather_list, f, indent=4)
     
 def setup(bot: commands.Bot):
-    bot.add_cog(build_and_battle(bot))
+    bot.add_cog(Users(bot))
