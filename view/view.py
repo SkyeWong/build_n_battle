@@ -2,8 +2,7 @@ from nextcord.ui import Button, View
 import nextcord
 from typing import Optional
 import random
-from cogs import build_n_battle as bnb
-
+import cogs.build_n_battle as bnb
 class TestView(View):
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
     async def button_callback(self, button, interaction):
