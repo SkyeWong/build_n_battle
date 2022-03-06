@@ -40,7 +40,7 @@ class Users():
         return cursor.fetchall()[0]
 
     def update_user_profile(self, new_profile):
-        if self.if_user_present(self.user):
+        if self.if_user_present():
             sql = f"""
                 UPDATE 
                     users
