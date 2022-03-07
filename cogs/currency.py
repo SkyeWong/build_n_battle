@@ -66,6 +66,7 @@ class Currency(commands.Cog, name="Currency"):
             await ctx.send("The user do not have a profile! Create one with `+create`")
         
     @commands.command(name="buttons")
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def buttons(self, ctx):
         """uh... so this is a test for buttons, that i'm gonna implement it in the bot
         ||some time soon||
