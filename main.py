@@ -54,7 +54,7 @@ async def on_command_error(ctx, error):
 	elif isinstance(error, commands.CommandOnCooldown):
 		cd_ui = Embed()
 		cd_ui.title = "Woah, chill."
-		cd_ui.description = f"Wait {round(error.retry_after, 2)} seconds left before using it again."
+		cd_ui.description = f"Wait **{round(error.retry_after, 0)}** seconds left before using it again."
 		await ctx.send(embed=cd_ui)
 
 for filename in os.listdir(f"cogs"):
