@@ -23,7 +23,7 @@ class EndInteraction(View):
 class generate(View):
 
     def __init__(self, ctx):
-        super().__init__(timeout=5)
+        super().__init__(timeout=30)
         self.ctx = ctx
 
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
