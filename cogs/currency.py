@@ -66,6 +66,7 @@ class Currency(commands.Cog, name="Currency"):
             await ctx.send("The user do not have a profile! Create one with `+create`")
         
     @commands.command(name="buttons")
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def buttons(self, ctx):
         """uh... so this is a test for buttons, that i'm gonna implement it in the bot
         ||some time soon||
@@ -75,7 +76,7 @@ class Currency(commands.Cog, name="Currency"):
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
         view = generate(ctx)
-        await ctx.send(embed=buttons_ui, view=view)
+        view.message = await ctx.send(embed=buttons_ui, view=view)
 
     @commands.command(name="viewtest")
     async def viewtest(self, ctx):
