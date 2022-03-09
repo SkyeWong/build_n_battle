@@ -88,6 +88,7 @@ class Currency(commands.Cog, name="Currency"):
         """A command including multiple pages that you can switch to!"""
         class CreatePageUi():
             def __init__():
+                print('something')
                 return self
             
             def create_page_a():
@@ -114,6 +115,8 @@ class Currency(commands.Cog, name="Currency"):
                             )
                 return page_ui_b
         page_ui = CreatePageUi()
+        print(page_ui)
+        print(page_ui.create_page_a)
         await ctx.send(embed=page_ui.create_page_a())
 
 def setup(bot: commands.Bot):
