@@ -94,18 +94,28 @@ class Currency(commands.Cog, name="Currency"):
                     )
         page_ui_a.add_field(
                     name = "Page A",
-                    value = "Click the buttons to change to Page B"
+                    value = "Select the page you want to see."
                     )
         page_ui_b = Embed()
         page_ui_b.set_author(
-                    name = ctx.author.name,
-                    icon_url = ctx.author.avatar
+                    name = bot.get_user(270904126974590976).name,
+                    icon_url = bot.get_user(270904126974590976).avatar
                     )
         page_ui_b.add_field(
                     name = "Page B",
-                    value = "Click the buttons to change to Page A"
+                    value = "I'll add something"
                     )
-        view = multipage(ctx)
+        page_ui_c = Embed()
+        page_ui_c.set_author(
+                    name = bot.user.name,
+                    icon_url = bot.user.avatar
+                    )
+        page_ui_c.add_field(
+                    name = "Everything can be completely different",
+                    value = "whatever... this is advanced :) i'll make one using buttons"
+                    )
+        pages = [page_ui_a, page_ui_b, page_ui_c]
+        view = multipage(ctx, pages)
         await ctx.send(embed=page_ui_a, view=view)
 
 def setup(bot: commands.Bot):

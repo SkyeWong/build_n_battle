@@ -63,13 +63,18 @@ class generate(View):
 
 class multipage(View):
 
-    def __init__(self, ctx):
+    def __init__(self, ctx, pages):
         super().__init__(timeout=30)
         self.ctx = ctx
+        self.pages = pages
 
     @nextcord.ui.select(
         placeholder = "Go to page:", 
         options = [
+            SelectOption(
+                label = "Go to page A",
+                value = "page A"
+            ),
             SelectOption(
                 label = "Go to page B",
                 value = "page B"
@@ -83,7 +88,14 @@ class multipage(View):
         max_values = 1
     )
     async def select_menu(self, select, interaction):
-        await interaction.response.send_message(f'You chose {select.values[0]}')
+        if select.values[0] == "page A":
+            page_ui = self.pages[0]
+        elif select.values[0] == "page B":
+            page_ui = self.pages[1]
+        elif select.values[0] == "page C":
+            page_ui = self.pages[2]
+        await interaction.response.edit_message(embed=page_ui)
+        await interaction.followup.send(f'You chose {select.values[0]}', ephemeral = True)
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
