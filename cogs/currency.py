@@ -87,7 +87,7 @@ class Currency(commands.Cog, name="Currency"):
     async def advanced_cmd(self, ctx):
         """A command including multiple pages that you can switch to!
         The name is from Keith, not me."""
-        page_ui_a = page_ui_b = page_ui_c = Embed()
+        page_ui_a = Embed()
         page_ui_a.set_author(
                     name = ctx.author.name,
                     icon_url = ctx.author.avatar
@@ -96,6 +96,7 @@ class Currency(commands.Cog, name="Currency"):
                     name = "Page A",
                     value = "Select the page you want to see."
                     )
+        page_ui_b = Embed()
         page_ui_b.set_author(
                     name = await bot.get_user(270904126974590976).name,
                     icon_url = await bot.get_user(270904126974590976).avatar
@@ -104,6 +105,7 @@ class Currency(commands.Cog, name="Currency"):
                     name = "Page B",
                     value = "I'll add something"
                     )
+        page_ui_c = Embed()
         page_ui_c.set_author(
                     name = bot.user.name,
                     icon_url = bot.user.avatar
