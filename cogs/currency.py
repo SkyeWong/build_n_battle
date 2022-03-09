@@ -87,7 +87,6 @@ class Currency(commands.Cog, name="Currency"):
     async def advanced_cmd(self, ctx):
         """A command including multiple pages that you can switch to!
         The name is from Keith, not me."""
-        await ctx.send("i'm working")
         page_ui_a = Embed()
         page_ui_a.set_author(
                     name = ctx.author.name,
@@ -103,8 +102,8 @@ class Currency(commands.Cog, name="Currency"):
                     icon_url = ctx.author.avatar
                     )
         page_ui_b.add_field(
-                    name = "Page A",
-                    value = "Click the buttons to change to Page B"
+                    name = "Page B",
+                    value = "Click the buttons to change to Page A"
                     )
         view = multipage(ctx)
         await ctx.send(embed=page_ui_a, view=view)

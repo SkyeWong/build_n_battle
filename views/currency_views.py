@@ -71,17 +71,19 @@ class multipage(View):
         placeholder = "Go to page:", 
         options = [
             SelectOption(
-                label = "Go to page B", 
+                label = "Go to page B",
+                value = "page B"
             ),
             SelectOption(
                 label = "Go to page C",
+                value = "page C"
             )
         ],
         min_values = 1, 
         max_values = 1
     )
     async def select_menu(self, select, interaction):
-        await interaction.response.send_message(f'You chose {self.values[0]}')
+        await interaction.response.send_message(f'You chose {select.values[0]}')
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
