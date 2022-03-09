@@ -86,6 +86,7 @@ class Currency(commands.Cog, name="Currency"):
     @commands.command(name="multipage")
     async def multipage(self, ctx):
         """A command including multiple pages that you can switch to!"""
+        await ctx.send("i'm working")
         class CreatePageUi():
             def __init__():
                 print('something')
