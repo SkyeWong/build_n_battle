@@ -88,13 +88,13 @@ class MultiplePages(View):
         max_values = 1
     )
     async def select_menu(self, select, interaction):
-        # if select.values[0] == "page A":
-        #     page_ui = self.pages[0]
-        # elif select.values[0] == "page B":
-        #     page_ui = self.pages[1]
-        # elif select.values[0] == "page C":
-        #     page_ui = self.pages[2]
-        # await interaction.response.edit_message(embed=page_ui)
+        if select.values[0] == "page A":
+            page_ui = self.pages[0]
+        elif select.values[0] == "page B":
+            page_ui = self.pages[1]
+        elif select.values[0] == "page C":
+            page_ui = self.pages[2]
+        await interaction.response.edit_message(embed=page_ui)
         await interaction.response.send_message(f'You chose {select.values[0]}', ephemeral = True)
 
     async def interaction_check(self, interaction) -> bool:
