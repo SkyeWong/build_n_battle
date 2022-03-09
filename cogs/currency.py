@@ -97,7 +97,8 @@ class Currency(commands.Cog, name="Currency"):
                     value = "Select the page you want to see."
                     )
         page_ui_b.set_author(
-                    name = "Keith sucks!"
+                    name = await bot.get_user(270904126974590976).name,
+                    icon_url = await bot.get_user(270904126974590976).avatar
                     )
         page_ui_b.add_field(
                     name = "Page B",
