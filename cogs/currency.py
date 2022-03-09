@@ -112,7 +112,7 @@ class Currency(commands.Cog, name="Currency"):
                     )
         page_ui_c.add_field(
                     name = "Everything can be completely different",
-                    value = "whatever... this is advanced :) i'll make one using buttons"
+                    value = "whatever... i'll make one using buttons"
                     )
         pages = [page_ui_a, page_ui_b, page_ui_c]
         view = MultiplePages(ctx, pages)

@@ -67,6 +67,7 @@ class MultiplePages(View):
         super().__init__(timeout=30)
         self.ctx = ctx
         self.pages = pages
+        print(self.pages)
 
     @nextcord.ui.select(
         placeholder = "Go to page:", 
@@ -88,6 +89,7 @@ class MultiplePages(View):
         max_values = 1
     )
     async def select_menu(self, select, interaction):
+        print(f"You selected: {select.values[0]}")
         if select.values[0] == "page A":
             page_ui = self.pages[0]
         elif select.values[0] == "page B":
