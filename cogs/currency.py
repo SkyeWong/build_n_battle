@@ -11,7 +11,7 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-from views.currency_views import EndInteraction, generate, multipage
+from views.currency_views import EndInteraction, generate, MultiplePages
 class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
@@ -97,8 +97,7 @@ class Currency(commands.Cog, name="Currency"):
                     value = "Select the page you want to see."
                     )
         page_ui_b.set_author(
-                    name = bot.get_user(270904126974590976).name,
-                    icon_url = bot.get_user(270904126974590976).avatar
+                    name = "Keith sucks!"
                     )
         page_ui_b.add_field(
                     name = "Page B",
@@ -113,7 +112,7 @@ class Currency(commands.Cog, name="Currency"):
                     value = "whatever... this is advanced :) i'll make one using buttons"
                     )
         pages = [page_ui_a, page_ui_b, page_ui_c]
-        view = multipage(ctx, pages)
+        view = MultiplePages(ctx, pages)
         await ctx.send(embed=page_ui_a, view=view)
 
 def setup(bot: commands.Bot):

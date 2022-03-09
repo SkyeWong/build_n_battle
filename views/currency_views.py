@@ -61,7 +61,7 @@ class generate(View):
         else:
             return True
 
-class multipage(View):
+class MultiplePages(View):
 
     def __init__(self, ctx, pages):
         super().__init__(timeout=30)
