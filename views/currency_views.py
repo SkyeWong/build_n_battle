@@ -25,9 +25,11 @@ class generate(View):
     def __init__(self, ctx):
         super().__init__(timeout=30)
         self.ctx = ctx
+        self.interaction = None
 
     @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
     async def gold_generate(self, button, interaction):
+        self.interaction = interaction
         users = Users(self.ctx.author)
         profile = list(users.get_user_profile())
         profile[1] += 500
@@ -39,6 +41,7 @@ class generate(View):
 
     @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
     async def xp_generate(self, button, interaction):
+        self.interaction = interaction
         users = Users(self.ctx.author)
         profile = list(users.get_user_profile())
         profile[2] += random.choice(range(6))
@@ -47,9 +50,14 @@ class generate(View):
         button.disabled = True
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("You take your time and read a book, and learnt something new!", ephemeral=True)
+    
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.interaction.response.edit_message(view=self)
 
     async def interaction_check(self, interaction) -> bool:
-        if interaction.user == self.ctx.author:
+        if interaction.user != self.ctx.author:
             await interaction.followup.send("This is not for you.", ephemeral=True)
             return False
         else:

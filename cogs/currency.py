@@ -81,6 +81,39 @@ class Currency(commands.Cog, name="Currency"):
     async def viewtest(self, ctx):
         view = EndInteraction()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
+    
+    @commands.command(name="multipage")
+    async def multipage(self, ctx):
+        """A command including multiple pages that you can switch to!"""
+        class CreatePageUi():
+            def __init__():
+                return self
+            
+            def create_page_a():
+                page_ui_a = Embed()
+                page_ui_a.set_author(
+                            name = ctx.author.name,
+                            icon_url = ctx.author.avatar
+                            )
+                page_ui_a.add_field(
+                            name = "Page A",
+                            value = "Click the buttons to change to Page B"
+                            )
+                return page_ui_a
+            
+            def create_page_b():
+                page_ui_b = Embed()
+                page_ui_b.set_author(
+                            name = ctx.author.name,
+                            icon_url = ctx.author.avatar
+                            )
+                page_ui_b.add_field(
+                            name = "Page A",
+                            value = "Click the buttons to change to Page B"
+                            )
+                return page_ui_b
+        page_ui = CreatePageUi()
+        await ctx.send(embed=page_ui.create_page_a())
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))
