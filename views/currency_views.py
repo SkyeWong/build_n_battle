@@ -1,4 +1,5 @@
 import os
+from discord import SelectOption
 import nextcord
 import random
 import main
@@ -52,6 +53,35 @@ class generate(View):
         for i in self.children:
             i.disabled = True
         await self.message.edit(view=self)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.ctx.author:
+            await interaction.followup.send("This is not for you.", ephemeral=True)
+            return False
+        else:
+            return True
+
+class multipage(View):
+
+    def __init__(self, ctx):
+        super().__init__(timeout=30)
+        self.ctx = ctx
+
+    @nextcord.ui.select(
+        placeholder = "Go to page:", 
+        options = [
+            SelectOption(
+                label = "Go to page B", 
+            ),
+            SelectOption(
+                label = "Go to page C",
+            )
+        ],
+        min_values = 1, 
+        max_values = 1
+    )
+    async def select_menu(self, select, interaction):
+        await interaction.response.send_message(f'You chose {self.values[0]}')
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:

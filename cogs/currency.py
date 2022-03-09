@@ -11,7 +11,7 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-from views.currency_views import EndInteraction, generate
+from views.currency_views import EndInteraction, generate, multipage
 class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
@@ -83,9 +83,10 @@ class Currency(commands.Cog, name="Currency"):
         view = EndInteraction()
         await ctx.send("Test:\n`absolutely nothing :)`", view=view)
     
-    @commands.command(name="multipage")
-    async def multipage(self, ctx):
-        """A command including multiple pages that you can switch to!"""
+    @commands.command(name="advanced_cmd")
+    async def advanced_cmd(self, ctx):
+        """A command including multiple pages that you can switch to!
+        The name is from Keith, not me."""
         await ctx.send("i'm working")
         page_ui_a = Embed()
         page_ui_a.set_author(
@@ -105,7 +106,8 @@ class Currency(commands.Cog, name="Currency"):
                     name = "Page A",
                     value = "Click the buttons to change to Page B"
                     )
-        await ctx.send(embed=page_ui_a)
+        view = multipage(ctx)
+        await ctx.send(embed=page_ui_a, view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))
