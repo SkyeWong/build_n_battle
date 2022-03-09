@@ -87,38 +87,25 @@ class Currency(commands.Cog, name="Currency"):
     async def multipage(self, ctx):
         """A command including multiple pages that you can switch to!"""
         await ctx.send("i'm working")
-        class CreatePageUi():
-            def __init__():
-                print('something')
-                return self
-            
-            def create_page_a():
-                page_ui_a = Embed()
-                page_ui_a.set_author(
-                            name = ctx.author.name,
-                            icon_url = ctx.author.avatar
-                            )
-                page_ui_a.add_field(
-                            name = "Page A",
-                            value = "Click the buttons to change to Page B"
-                            )
-                return page_ui_a
-            
-            def create_page_b():
-                page_ui_b = Embed()
-                page_ui_b.set_author(
-                            name = ctx.author.name,
-                            icon_url = ctx.author.avatar
-                            )
-                page_ui_b.add_field(
-                            name = "Page A",
-                            value = "Click the buttons to change to Page B"
-                            )
-                return page_ui_b
-        page_ui = CreatePageUi()
-        print(page_ui)
-        print(page_ui.create_page_a)
-        await ctx.send(embed=page_ui.create_page_a())
+        page_ui_a = Embed()
+        page_ui_a.set_author(
+                    name = ctx.author.name,
+                    icon_url = ctx.author.avatar
+                    )
+        page_ui_a.add_field(
+                    name = "Page A",
+                    value = "Click the buttons to change to Page B"
+                    )
+        page_ui_b = Embed()
+        page_ui_b.set_author(
+                    name = ctx.author.name,
+                    icon_url = ctx.author.avatar
+                    )
+        page_ui_b.add_field(
+                    name = "Page A",
+                    value = "Click the buttons to change to Page B"
+                    )
+        await ctx.send(embed=page_ui_a)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))
