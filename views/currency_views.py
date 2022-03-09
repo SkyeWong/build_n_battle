@@ -97,7 +97,7 @@ class MultiplePages(View):
         elif select.values[0] == "page C":
             page_ui = self.pages[2]
         await interaction.response.edit_message(embed=page_ui)
-        await interaction.response.send_message(f'You chose {select.values[0]}', ephemeral = True)
+        await interaction.followup.send_message(f'You chose {select.values[0]}', ephemeral = True)
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
