@@ -88,14 +88,14 @@ class Currency(commands.Cog, name="Currency"):
         """A command including multiple pages that you can switch to!
         The name is from Keith, not me."""
         class Pages():
-            def __init__():
-                pass
+            def __init__(self, ctx):
+                self.ctx = ctx
             
-            def page_ui_a():
+            def page_ui_a(self):
                 page = Embed()
                 page.set_author(
-                    name = ctx.author.name,
-                    icon_url = ctx.author.avatar
+                    name = self.ctx.author.name,
+                    icon_url = self.ctx.author.avatar
                 )
                 page.add_field(
                     name = "Page A",
@@ -103,7 +103,7 @@ class Currency(commands.Cog, name="Currency"):
                 )
                 return page
             
-            def page_ui_b():
+            def page_ui_b(self):
                 page = Embed()
                 page.set_author(
                             name = "hi"
@@ -114,7 +114,7 @@ class Currency(commands.Cog, name="Currency"):
                             )
                 return page
             
-            def page_ui_c():
+            def page_ui_c(self):
                 page = Embed()
                 page.set_author(
                             name = bot.user.name,
@@ -125,9 +125,9 @@ class Currency(commands.Cog, name="Currency"):
                             value = "whatever... this is advanced :) i'll make one using buttons"
                             )
                 return page
-                
-        view = MultiplePages(ctx, Pages())
-        await ctx.send(embed=Pages().page_ui_a, view=view)
+        pages = Pages(ctx)
+        view = MultiplePages(ctx, pages)
+        await ctx.send(embed=pages.page_ui_a(), view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))
