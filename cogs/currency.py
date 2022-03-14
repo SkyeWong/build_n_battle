@@ -87,33 +87,47 @@ class Currency(commands.Cog, name="Currency"):
     async def advanced_cmd(self, ctx):
         """A command including multiple pages that you can switch to!
         The name is from Keith, not me."""
-        page_ui_a = page_ui_b = page_ui_c = Embed()
-        page_ui_a.set_author(
+        class Pages():
+            def __init__():
+                pass
+            
+            def page_ui_a():
+                page = Embed()
+                page.set_author(
                     name = ctx.author.name,
                     icon_url = ctx.author.avatar
-                    )
-        page_ui_a.add_field(
+                )
+                page.add_field(
                     name = "Page A",
                     value = "Select the page you want to see."
-                    )
-        page_ui_b.set_author(
-                    name = "hi"
-                    )
-        page_ui_b.add_field(
-                    name = "Page B",
-                    value = "I'll add something"
-                    )
-        page_ui_c.set_author(
-                    name = bot.user.name,
-                    icon_url = bot.user.avatar
-                    )
-        page_ui_c.add_field(
-                    name = "Everything can be completely different",
-                    value = "whatever... this is advanced :) i'll make one using buttons"
-                    )
-        pages = [page_ui_a, page_ui_b, page_ui_c]
-        view = MultiplePages(ctx, pages)
-        await ctx.send(embed=page_ui_a, view=view)
+                )
+                return page
+            
+            def page_ui_b():
+                page = Embed()
+                page.set_author(
+                            name = "hi"
+                            )
+                page.add_field(
+                            name = "Page B",
+                            value = "I'll add something"
+                            )
+                return page
+            
+            def page_ui_c():
+                page = Embed()
+                page.set_author(
+                            name = bot.user.name,
+                            icon_url = bot.user.avatar
+                            )
+                page.add_field(
+                            name = "Everything can be completely different",
+                            value = "whatever... this is advanced :) i'll make one using buttons"
+                            )
+                return page
+                
+        view = MultiplePages(ctx, Pages())
+        await ctx.send(embed=Pages().page_ui_a, view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))

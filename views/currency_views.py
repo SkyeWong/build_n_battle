@@ -68,6 +68,9 @@ class MultiplePages(View):
         self.ctx = ctx
         self.pages = pages
         print(self.pages)
+        print(self.pages.page_ui_a())
+        print(self.pages.page_ui_b())
+        print(self.pages.page_ui_c())
 
     @nextcord.ui.select(
         placeholder = "Go to page:", 
@@ -91,11 +94,11 @@ class MultiplePages(View):
     async def select_menu(self, select, interaction):
         print(f"You selected: {select.values[0]}")
         if select.values[0] == "page A":
-            page_ui = self.pages[0]
+            page_ui = self.pages.page_ui_a()
         elif select.values[0] == "page B":
-            page_ui = self.pages[1]
+            page_ui = self.pages.page_ui_b()
         elif select.values[0] == "page C":
-            page_ui = self.pages[2]
+            page_ui = self.pages.page_ui_c()
         await interaction.response.edit_message(embed=page_ui)
         await interaction.followup.send(f'You chose {select.values[0]}', ephemeral = True)
 
