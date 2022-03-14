@@ -27,7 +27,11 @@ class generate(View):
         super().__init__(timeout=30)
         self.ctx = ctx
 
-    @nextcord.ui.button(label = "Generate gold!", style = nextcord.ButtonStyle.grey, emoji = "🪙")
+    @nextcord.ui.button(
+        label = "Generate gold!", 
+        style = nextcord.ButtonStyle.grey, 
+        emoji = "🪙"
+    )
     async def gold_generate(self, button, interaction):
         users = Users(self.ctx.author)
         profile = list(users.get_user_profile())
@@ -38,7 +42,11 @@ class generate(View):
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
 
-    @nextcord.ui.button(label = "Generate XP!", style = nextcord.ButtonStyle.grey, emoji = "📚")
+    @nextcord.ui.button(
+        label = "Generate XP!", 
+        style = nextcord.ButtonStyle.grey, 
+        emoji = "📚"
+    )
     async def xp_generate(self, button, interaction):
         users = Users(self.ctx.author)
         profile = list(users.get_user_profile())
@@ -67,10 +75,11 @@ class MultiplePages(View):
         super().__init__(timeout=30)
         self.ctx = ctx
         self.pages = pages
-        print(self.pages)
-        print(self.pages.page_ui_a())
-        print(self.pages.page_ui_b())
-        print(self.pages.page_ui_c())
+        self.go_back_btn = Button(
+            label = "Go Back",
+            style = nextcord.ButtonStyle.grey,
+            row = 5
+        )
 
     @nextcord.ui.select(
         placeholder = "Go to page:", 
@@ -92,7 +101,6 @@ class MultiplePages(View):
         max_values = 1
     )
     async def select_menu(self, select, interaction):
-        print(f"You selected: {select.values[0]}")
         if select.values[0] == "page A":
             page_ui = self.pages.page_ui_a()
         elif select.values[0] == "page B":
@@ -101,6 +109,27 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_c()
         await interaction.response.edit_message(embed=page_ui)
         await interaction.followup.send(f'You chose {select.values[0]}', ephemeral = True)
+
+    @nextcord.ui.button(
+        label = "Go to page B",
+        style = nextcord.ButtonStyle.grey,
+        emoji = "🔖"
+    )
+    async def to_page_b(self, button, interaction):
+        page_ui = self.pages.page_ui_b()
+        go_back_btn = self.go_back_btn
+        async def go_back(go_back_interaction):
+            page_ui = self.pages.page_ui_a()
+            self.remove_item(go_back_btn)
+            await go_back_interaction.response.edit_message(embed=page_ui, view=self)
+        go_back_btn.callback = go_back
+        self.add_item(go_back_btn)
+        await interaction.response.edit_message(embed=page_ui, view=self)
+        
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.message.edit(view=self)
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
