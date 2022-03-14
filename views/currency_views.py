@@ -78,7 +78,7 @@ class MultiplePages(View):
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
-            row = 5
+            row = 4
         )
 
     @nextcord.ui.select(
