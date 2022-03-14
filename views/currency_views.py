@@ -136,4 +136,8 @@ class MultiplePages(View):
             await interaction.followup.send("This is not for you.", ephemeral=True)
             return False
         else:
+            if self.message.embeds[0] == self.pages.page_ui_b():
+                self.remove_item(self.to_page_b)
+            else:
+                self.add_item(self.to_page_b)
             return True

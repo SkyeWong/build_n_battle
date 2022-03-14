@@ -127,7 +127,7 @@ class Currency(commands.Cog, name="Currency"):
                 return page
         pages = Pages(ctx)
         view = MultiplePages(ctx, pages)
-        await ctx.send(embed=pages.page_ui_a(), view=view)
+        view.message = await ctx.send(embed=pages.page_ui_a(), view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))
