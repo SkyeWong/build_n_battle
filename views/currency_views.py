@@ -139,12 +139,12 @@ class MultiplePages(View):
             await interaction.followup.send("This is not for you.", ephemeral=True)
             return False
         else:
-            to_page_b_btn = [i for i in self.children if i.custom_id=="to_page_b"][0]
-            if self.message.embeds[0] == self.pages.page_ui_b():
-                self.remove_item(to_page_b_btn)
-                self.add_item(self.go_back_btn)
-            else:
-                self.add_item(to_page_b_btn)
-            if self.page_to_return:
-                self.add_item(self.go_back_btn)
+            # to_page_b_btn = [i for i in self.children if i.custom_id=="to_page_b"][0]
+            # if self.message.embeds[0] == self.pages.page_ui_b():
+            #     self.remove_item(to_page_b_btn)
+            #     self.add_item(self.go_back_btn)
+            # else:
+            #     self.add_item(to_page_b_btn)
+            # if self.page_to_return:
+            #     self.add_item(self.go_back_btn)
             return True
