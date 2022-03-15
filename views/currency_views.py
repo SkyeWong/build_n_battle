@@ -84,7 +84,6 @@ class MultiplePages(View):
         async def go_back(go_back_interaction):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return
-                self.remove_item([i for i in self.children if i.custom_id=="go_back"][0])
                 self.page_to_return = None
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
         self.go_back_btn.callback = go_back
@@ -144,8 +143,11 @@ class MultiplePages(View):
                 self.remove_item(to_page_b_btn)
                 self.add_item(self.go_back_btn)
             else:
-                self.add_item(to_page_b_btn)
+                if not to_page_b_btn:
+                    self.add_item(to_page_b_btn)
             if self.page_to_return:
                 self.add_item(self.go_back_btn)
+            else:
+                self.remove_item([i for i in self.children if i.custom_id=="go_back"][0])
             await self.message.edit(view=self)
             return True
