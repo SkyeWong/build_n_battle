@@ -11,7 +11,6 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-from views.useful_view import UsefulComponents
 class EndInteraction(View):
 
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
