@@ -141,7 +141,6 @@ class MultiplePages(View):
             to_page_b_btn = [i for i in self.children if i.custom_id=="to_page_b"][0]
             if self.message.embeds[0] == self.pages.page_ui_b():
                 self.remove_item(to_page_b_btn)
-                self.add_item(self.go_back_btn)
             else:
                 if not to_page_b_btn:
                     self.add_item(to_page_b_btn)
