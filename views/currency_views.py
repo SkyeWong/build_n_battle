@@ -1,5 +1,4 @@
 import os
-from discord import SelectOption
 import nextcord
 import random
 import main
@@ -7,11 +6,12 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
-from nextcord import Embed
+from nextcord import Embed, SelectOption
 from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
+from views.useful_view import UsefulComponents
 class EndInteraction(View):
 
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
@@ -80,6 +80,13 @@ class MultiplePages(View):
             style = nextcord.ButtonStyle.grey,
             row = 4
         )
+        self.page_to_return = None
+        async def go_back(go_back_interaction):
+            if self.page_to_return:
+                page_ui = self.page_to_return
+                self.remove_item(self.go_back_btn)
+                await go_back_interaction.response.edit_message(embed=page_ui, view=self)
+        self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
         placeholder = "Go to page:", 
@@ -116,16 +123,10 @@ class MultiplePages(View):
         emoji = "🔖"
     )
     async def to_page_b(self, button, interaction):
-        page_ui = self.pages.page_ui_b()
-        go_back_btn = self.go_back_btn
-        async def go_back(go_back_interaction):
-            page_ui = self.pages.page_ui_a()
-            self.remove_item(go_back_btn)
-            await go_back_interaction.response.edit_message(embed=page_ui, view=self)
-        go_back_btn.callback = go_back
-        self.add_item(go_back_btn)
+        page_ui = self.pages.page_ui_b()        
+        self.page_to_return = self.message.embeds[0]
         await interaction.response.edit_message(embed=page_ui, view=self)
-        
+
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True
@@ -138,6 +139,7 @@ class MultiplePages(View):
         else:
             if self.message.embeds[0] == self.pages.page_ui_b():
                 self.remove_item(self.to_page_b)
+                self.add_item(self.go_back_btn)
             else:
                 self.add_item(self.to_page_b)
             return True
