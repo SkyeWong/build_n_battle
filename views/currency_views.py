@@ -77,13 +77,15 @@ class MultiplePages(View):
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
-            row = 4
+            row = 4,
+            custom_id = "go_back"
         )
         self.page_to_return = None
         async def go_back(go_back_interaction):
             if self.page_to_return:
                 page_ui = self.page_to_return
-                self.remove_item(self.go_back_btn)
+                self.remove_item([i for i in self.children if i.custom_id=="go_back"][0])
+                self.page_to_return = None
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
         self.go_back_btn.callback = go_back
 
@@ -119,7 +121,8 @@ class MultiplePages(View):
     @nextcord.ui.button(
         label = "Go to page B",
         style = nextcord.ButtonStyle.grey,
-        emoji = "🔖"
+        emoji = "🔖",
+        custom_id = "to_page_b"
     )
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
@@ -136,9 +139,12 @@ class MultiplePages(View):
             await interaction.followup.send("This is not for you.", ephemeral=True)
             return False
         else:
+            to_page_b_btn = [i for i in self.children if i.custom_id=="to_page_b"][0]
             if self.message.embeds[0] == self.pages.page_ui_b():
-                self.remove_item(self.to_page_b)
+                self.remove_item(to_page_b_btn)
                 self.add_item(self.go_back_btn)
             else:
-                self.add_item(self.to_page_b)
+                self.add_item(to_page_b_btn)
+            if self.page_to_return:
+                self.add_item(self.go_back_btn)
             return True
