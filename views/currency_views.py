@@ -145,12 +145,11 @@ class MultiplePages(View):
                     go_back_btn = i
             if self.message.embeds[0] == self.pages.page_ui_b():
                 self.remove_item(to_page_b_btn)
+                self.add_item(self.go_back_btn)
             else:
                 if not to_page_b_btn:
                     self.add_item(to_page_b_btn)
-            if self.page_to_return:
-                self.add_item(self.go_back_btn)
-            else:
+            if not self.page_to_return:
                 if go_back_btn:
                     self.remove_item(go_back_btn)
             await self.message.edit(view=self)
