@@ -77,11 +77,11 @@ class MultiplePages(View):
         self.pages = pages
         self.page_to_return = None
         self.go_back_btn = Button(
-            label = "Go Back",
-            style = nextcord.ButtonStyle.grey,
-            row = 4,
-            custom_id = "go_back"
-        )
+			label = "Go Back",
+			style = nextcord.ButtonStyle.grey,
+			row = 4,
+			custom_id = "go_back"
+      	)
         async def go_back(go_back_interaction):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
