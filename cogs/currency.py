@@ -141,7 +141,7 @@ class Currency(commands.Cog, name="Currency"):
                             name = hoho.name,
                             icon_url = hoho.avatar
                             )
-                page.title =  "Page 2 - Nothing. Really.",
+                page.title =  "Page 2 - Nothing. Really."
                 page.description = "Keith sucks."
                 return page
             
@@ -151,7 +151,7 @@ class Currency(commands.Cog, name="Currency"):
                             name = bot.user.name,
                             icon_url = bot.user.avatar
                             )
-                page.title = "Page 3 - Everything can be completely different",
+                page.title = "Page 3 - Everything can be completely different"
                 page.description = "i made one using buttons check it out with `advanced_cmd`"
                 return page
         pages = Pages(ctx)
