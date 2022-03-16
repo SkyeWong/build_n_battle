@@ -21,7 +21,7 @@ class EndInteraction(View):
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("Interaction ended.")
 
-class generate(View):
+class Generate(View):
 
     def __init__(self, ctx):
         super().__init__(timeout=30)
@@ -77,6 +77,7 @@ class MultiplePages(View):
         self.pages = pages
         self.page_to_return = None
         self.to_page_b_btn = None
+        self.to_page_c_btn = None
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
@@ -87,53 +88,20 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
-                to_page_b_btn = None
+                to_page_b_btn = to_page_c_btn = None
                 for i in self.children:
                     if i.custom_id == "to_page_b":
                         to_page_b_btn = i
+                    elif i.custom_id == "to_page_c":
+                        to_page_c_btn = i
                 if not to_page_b_btn:
                     self.add_item(self.to_page_b_btn)
+                if not to_page_c_btn:
+                    self.add_item(self.to_page_c_btn)
                 self.remove_item(self.go_back_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 self.message = await self.ctx.fetch_message(self.message.id)
         self.go_back_btn.callback = go_back
-
-    @nextcord.ui.select(
-        placeholder = "Go to page:",  
-        options = [
-            SelectOption(
-                label = "Go to page A",
-                value = "page A"
-            ),
-            SelectOption(
-                label = "Go to page B",
-                value = "page B"
-            ),
-            SelectOption(
-                label = "Go to page C",
-                value = "page C"
-            )
-        ],
-        min_values = 1, 
-        max_values = 1
-    )
-    async def select_menu(self, select, interaction):
-        if select.values[0] == "page A":
-            page_ui = self.pages.page_ui_a()
-        elif select.values[0] == "page B":
-            page_ui = self.pages.page_ui_b()
-        elif select.values[0] == "page C":
-            page_ui = self.pages.page_ui_c()
-        self.page_to_return = self.message.embeds[0]
-        go_back_btn = None
-        for i in self.children:
-            if i.custom_id == "go_back":
-                go_back_btn = i
-        if not go_back_btn:
-            self.add_item(self.go_back_btn)
-        await interaction.response.edit_message(embed=page_ui, view=self)
-        self.message = await self.ctx.fetch_message(self.message.id)
-        await interaction.followup.send(f"You arrived at {select.values[0]}", ephemeral = True)
 
     @nextcord.ui.button(
         label = "Go to page B",
@@ -166,6 +134,84 @@ class MultiplePages(View):
         self.page_to_return = self.message.embeds[0]
         self.to_page_b_btn = button
         self.remove_item(button)
+        go_back_btn = None
+        for i in self.children:
+            if i.custom_id == "go_back":
+                go_back_btn = i
+        if not go_back_btn:
+            self.add_item(self.go_back_btn)
+        await interaction.response.edit_message(embed=page_ui, view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
+
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.message.edit(view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.ctx.author:
+            await interaction.followup.send("This is not for you.", ephemeral=True)
+            return False
+        else:
+            return True
+
+class PagesWithButtons(View):
+
+    def __init__(self, ctx, pages):
+        super().__init__(timeout=30)
+        self.ctx = ctx
+        self.pages = pages
+        self.page_to_return = None
+        self.to_page_b_btn = None
+        self.go_back_btn = Button(
+            label = "Go Back",
+            style = nextcord.ButtonStyle.grey,
+            row = 4,
+            custom_id = "go_back"
+      	)
+        async def go_back(go_back_interaction):
+            if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
+                page_ui = self.page_to_return 
+                self.page_to_return = None
+                to_page_b_btn = None
+                for i in self.children:
+                    if i.custom_id == "to_page_b":
+                        to_page_b_btn = i
+                if not to_page_b_btn:
+                    self.add_item(self.to_page_b_btn)
+                self.remove_item(self.go_back_btn)
+                await go_back_interaction.response.edit_message(embed=page_ui, view=self)
+                self.message = await self.ctx.fetch_message(self.message.id)
+        self.go_back_btn.callback = go_back
+
+    @nextcord.ui.select(
+        placeholder = "Go to page:",  
+        options = [
+            SelectOption(
+                label = "Go to page 1",
+                value = "page A"
+            ),
+            SelectOption(
+                label = "Go to page 2",
+                value = "page B"
+            ),
+            SelectOption(
+                label = "Go to page 3",
+                value = "page C"
+            )
+        ],
+        min_values = 1, 
+        max_values = 1
+    )
+    async def select_menu(self, select, interaction):
+        if select.values[0] == "page A":
+            page_ui = self.pages.page_ui_a()
+        elif select.values[0] == "page B":
+            page_ui = self.pages.page_ui_b()
+        elif select.values[0] == "page C":
+            page_ui = self.pages.page_ui_c()
+        self.page_to_return = self.message.embeds[0]
         go_back_btn = None
         for i in self.children:
             if i.custom_id == "go_back":

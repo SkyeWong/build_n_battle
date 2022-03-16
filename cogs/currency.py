@@ -11,7 +11,7 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-from views.currency_views import EndInteraction, generate, MultiplePages
+from views.currency_views import EndInteraction, Generate, MultiplePages
 class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
@@ -75,7 +75,7 @@ class Currency(commands.Cog, name="Currency"):
         buttons_ui.color = random.choice(main.embed_colours)
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
-        view = generate(ctx)
+        view = Generate(ctx)
         view.message = await ctx.send(embed=buttons_ui, view=view)
 
     @commands.command(name="viewtest")
@@ -141,10 +141,8 @@ class Currency(commands.Cog, name="Currency"):
                     name = self.ctx.author.name,
                     icon_url = self.ctx.author.avatar
                 )
-                page.add_field(
-                    name = "Page A",
-                    value = "Select the page you want to see."
-                )
+                page.title = "Page 1 - Something in somewhere"
+                page.description = "Select the page you want to see."
                 return page
             
             async def keith_sucks(self):
@@ -154,10 +152,8 @@ class Currency(commands.Cog, name="Currency"):
                             name = hoho.name,
                             icon_url = hoho.avatar
                             )
-                page.add_field(
-                            name = "Page B",
-                            value = "Keith sucks."
-                            )
+                page.title =  "Page 2 - Nothing. Really.",
+                page.description = "Keith sucks."
                 return page
             
             def everything(self):
@@ -166,10 +162,8 @@ class Currency(commands.Cog, name="Currency"):
                             name = bot.user.name,
                             icon_url = bot.user.avatar
                             )
-                page.add_field(
-                            name = "Everything can be completely different",
-                            value = "i made one using buttons check it out with `advanced_cmd`"
-                            )
+                page.title = "Page 3 - Everything can be completely different",
+                page.description = "i made one using buttons check it out with `advanced_cmd`"
                 return page
         pages = Pages(ctx)
         view = MultiplePages(ctx, pages)
