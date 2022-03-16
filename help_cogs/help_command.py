@@ -55,10 +55,16 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             if not filtered:
                 continue
             emoji = getattr(cog, "COG_EMOJI", None)
+            description = ""
+            if cog and cog.description:
+                if len(cog.description) > 90:
+                    description = f"{cog.description[:90]}..."
+                else:
+                    description = cog.description
             options.append(nextcord.SelectOption(
                 label=cog.qualified_name if cog else "No Category",
                 emoji=emoji,
-                description=cog.description[:100] if cog and cog.description else None
+                description=description if cog and cog.description else "..."
             ))
 
         return options

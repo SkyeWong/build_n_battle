@@ -11,7 +11,7 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
-from views.currency_views import EndInteraction, Generate, MultiplePages
+from views.currency_views import EndInteraction, Generate, MultiplePages, PagesWithSelect
 class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
@@ -166,7 +166,7 @@ class Currency(commands.Cog, name="Currency"):
                 page.description = "i made one using buttons check it out with `advanced_cmd`"
                 return page
         pages = Pages(ctx)
-        view = MultiplePages(ctx, pages)
+        view = PagesWithSelect(ctx, pages)
         view.message = await ctx.send(embed=pages.something(), view=view)
 
 

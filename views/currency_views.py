@@ -64,7 +64,7 @@ class Generate(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send("This is not for you.", ephemeral=True)
+            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
@@ -132,7 +132,7 @@ class MultiplePages(View):
     async def to_page_c(self, button, interaction):
         page_ui = self.pages.page_ui_c()        
         self.page_to_return = self.message.embeds[0]
-        self.to_page_b_btn = button
+        self.to_page_c_btn = button
         self.remove_item(button)
         go_back_btn = None
         for i in self.children:
@@ -151,12 +151,12 @@ class MultiplePages(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send("This is not for you.", ephemeral=True)
+            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
 
-class PagesWithButtons(View):
+class PagesWithSelect(View):
 
     def __init__(self, ctx, pages):
         super().__init__(timeout=30)
@@ -229,7 +229,7 @@ class PagesWithButtons(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send("This is not for you.", ephemeral=True)
+            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
