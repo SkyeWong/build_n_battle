@@ -95,7 +95,7 @@ class MultiplePages(View):
     	self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
-        placeholder = "Go to page:", 
+        placeholder = "Go to page:",  
         options = [
             SelectOption(
                 label = "Go to page A",
