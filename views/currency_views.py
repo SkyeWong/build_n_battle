@@ -74,8 +74,8 @@ class MultiplePages(View):
     def __init__(self, ctx, pages):
         super().__init__(timeout=30)
         self.ctx = ctx
-	self.pages = pages
-	self.page_to_return = None
+		self.pages = pages
+		self.page_to_return = None
         self.go_back_btn = Button(
 			label = "Go Back",
 			style = nextcord.ButtonStyle.grey,
