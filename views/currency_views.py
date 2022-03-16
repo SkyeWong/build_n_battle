@@ -85,13 +85,13 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
             	page_ui = self.page_to_return 
             	self.page_to_return = None
-				to_page_b_btn = None
-		    	for i in self.children:
-		        	if i.custom_id == "to_page_b":
-                    	to_page_b_btn = i
-            	if to_page_b_btn:
-                	self.add_item(to_page_b_btn)
-             	await go_back_interaction.response.edit_message(embed=page_ui, view=self)
+                to_page_b_btn = None
+                for i in self.children:
+                    if i.custom_id == "to_page_b":
+                        to_page_b_btn = i
+                if to_page_b_btn:
+                    self.add_item(to_page_b_btn)
+                await go_back_interaction.response.edit_message(embed=page_ui, view=self)
     	self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
