@@ -76,6 +76,7 @@ class MultiplePages(View):
         self.ctx = ctx
         self.pages = pages
         self.page_to_return = None
+        self.to_page_b_btn = None
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
@@ -86,12 +87,11 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
-                to_page_b_btn = None
                 for i in self.children:
                     if i.custom_id == "to_page_b":
                         to_page_b_btn = i
                 if not to_page_b_btn:
-                    self.add_item(to_page_b_btn)
+                    self.add_item(self.to_page_b_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 await go_back_interaction.followup.send("You clicked GO BACK!")
         self.go_back_btn.callback = go_back
@@ -142,6 +142,7 @@ class MultiplePages(View):
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
+        self.to_page_b_btn = button
         print(self.page_to_return.fields[0].name)
         self.remove_item(button)
         go_back_btn = None
