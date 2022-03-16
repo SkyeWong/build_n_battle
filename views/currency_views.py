@@ -85,6 +85,7 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return
                 self.page_to_return = None
+                self.add_item(
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
         self.go_back_btn.callback = go_back
 
@@ -115,7 +116,7 @@ class MultiplePages(View):
         elif select.values[0] == "page C":
             page_ui = self.pages.page_ui_c()
         await interaction.response.edit_message(embed=page_ui)
-        await interaction.followup.send(f'You chose {select.values[0]}', ephemeral = True)
+        await interaction.followup.send(f'You will arrive at {select.values[0]}', ephemeral = True)
 
     @nextcord.ui.button(
         label = "Go to page B",
@@ -126,6 +127,8 @@ class MultiplePages(View):
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
+        self.remove_item(button)
+		self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
 
     async def on_timeout(self) -> None:
@@ -138,20 +141,4 @@ class MultiplePages(View):
             await interaction.followup.send("This is not for you.", ephemeral=True)
             return False
         else:
-            to_page_b_btn = [i for i in self.children if i.custom_id=="to_page_b"][0]
-            go_back_btn = None
-            for i in self.children:
-                if i.custom_id=="go_back":
-                    go_back_btn = i
-            if self.message.embeds[0] == self.pages.page_ui_b():
-                self.remove_item(to_page_b_btn)
-            else:
-                if not to_page_b_btn:
-                    self.add_item(to_page_b_btn)
-            if self.page_to_return:
-                self.add_item(self.go_back_btn)
-            else:
-                if go_back_btn:
-                    self.remove_item(go_back_btn)
-            await self.message.edit(view=self)
             return True
