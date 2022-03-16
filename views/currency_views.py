@@ -134,7 +134,7 @@ class MultiplePages(View):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
         self.remove_item(button)
-	self.add_item(self.go_back_btn)
+        self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
 
     async def on_timeout(self) -> None:
