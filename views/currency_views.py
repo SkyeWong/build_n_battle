@@ -154,8 +154,6 @@ class PagesWithSelect(View):
                 self.message = await self.ctx.fetch_message(self.message.id)
         self.go_back_btn.callback = go_back
 
-    def get_embed_title():
-
     @nextcord.ui.select(
         placeholder = "Go to page:",  
         options = [
