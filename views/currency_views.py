@@ -11,6 +11,7 @@ from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
+
 class EndInteraction(View):
 
     @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
@@ -74,17 +75,17 @@ class MultiplePages(View):
         super().__init__(timeout=30)
         self.ctx = ctx
         self.pages = pages
+		self.page_to_return = None
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
             row = 4,
             custom_id = "go_back"
         )
-        self.page_to_return = None
         async def go_back(go_back_interaction):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
-            	page_ui = self.page_to_return 
-            	self.page_to_return = None
+                page_ui = self.page_to_return 
+                self.page_to_return = None
                 to_page_b_btn = None
                 for i in self.children:
                     if i.custom_id == "to_page_b":
