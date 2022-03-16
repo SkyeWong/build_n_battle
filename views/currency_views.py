@@ -129,7 +129,7 @@ class MultiplePages(View):
         style = nextcord.ButtonStyle.grey,
         emoji = "🔖",
         custom_id = "to_page_b"
-    )
+    ) 
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
