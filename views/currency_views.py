@@ -84,6 +84,7 @@ class MultiplePages(View):
             custom_id = "go_back"
       	)
         async def go_back(go_back_interaction):
+            print("going back - ")
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
@@ -127,7 +128,7 @@ class MultiplePages(View):
         print(self.page_to_return.fields[0].name)
         go_back_btn = None
         for i in self.children:
-            if i.custom_id == "to_page_b":
+            if i.custom_id == "go_back":
                 go_back_btn = i
         if not go_back_btn:
             self.add_item(self.go_back_btn)
@@ -148,7 +149,7 @@ class MultiplePages(View):
         self.remove_item(button)
         go_back_btn = None
         for i in self.children:
-            if i.custom_id == "to_page_b":
+            if i.custom_id == "go_back":
                 go_back_btn = i
         if not go_back_btn:
             self.add_item(self.go_back_btn)
