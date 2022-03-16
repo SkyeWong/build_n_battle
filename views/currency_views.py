@@ -95,6 +95,7 @@ class MultiplePages(View):
                 if not to_page_b_btn:
                     self.add_item(self.to_page_b_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
+                self.message = await self.ctx.fetch_message(self.message.id)
                 await go_back_interaction.followup.send("You clicked GO BACK!")
         self.go_back_btn.callback = go_back
 
@@ -126,9 +127,7 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_c()
         for i in self.message.embeds:
             embeds += f"{i.fields[0].name}\n"
-        await interaction.followup.send(f"Some dev data that you shouldn\'t even care.\n{embeds}", ephemeral = True)
         self.page_to_return = self.message.embeds[0]
-        print(self.page_to_return.fields[0].name)
         go_back_btn = None
         for i in self.children:
             if i.custom_id == "go_back":
@@ -136,6 +135,7 @@ class MultiplePages(View):
         if not go_back_btn:
             self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
         await interaction.followup.send(f"You arrived at {select.values[0]}", ephemeral = True)
 
     @nextcord.ui.button(
@@ -148,7 +148,6 @@ class MultiplePages(View):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
         self.to_page_b_btn = button
-        print(self.page_to_return.fields[0].name)
         self.remove_item(button)
         go_back_btn = None
         for i in self.children:
@@ -157,11 +156,13 @@ class MultiplePages(View):
         if not go_back_btn:
             self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
 
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True
         await self.message.edit(view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
