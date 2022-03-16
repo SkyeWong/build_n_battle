@@ -84,7 +84,6 @@ class MultiplePages(View):
             custom_id = "go_back"
       	)
         async def go_back(go_back_interaction):
-            print("going back - ")
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
