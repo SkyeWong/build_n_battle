@@ -31,7 +31,11 @@ class HelpView(nextcord.ui.View):
         await self._help_command.response.edit(view=self)
 
     async def interaction_check(self, interaction: nextcord.Interaction) -> bool:
-        return self._help_command.context.author == interaction.user
+        if interaction.user != self._help_command.context.author:
+            await interaction.followup.send("This is not for you.", ephemeral=True)
+            return False
+        else:
+            return True
 
 
 class MyHelpCommand(commands.MinimalHelpCommand):
@@ -87,14 +91,10 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                 name = cog.qualified_name if cog else "No category"
                 emoji = getattr(cog, "COG_EMOJI", None)
                 cog_label = f"{emoji} {name}" if emoji else name
-                # \u2002 is an en-space
-                cmd_list = "\u2002".join(
-                    f"`{self.context.clean_prefix}{cmd.name}`" for cmd in filtered
-                )
                 value = (
-                    f"{cog.description}\n{cmd_list}"
+                    f"{cog.description}"
                     if cog and cog.description
-                    else cmd_list
+                    else ""
                 )
                 embed.add_field(name=cog_label, value=value)
         embed.colour = random.choice(main.embed_colours)
