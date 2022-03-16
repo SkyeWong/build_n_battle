@@ -137,7 +137,7 @@ class PagesWithSelect(View):
         super().__init__(timeout=30)
         self.ctx = ctx
         self.pages = pages
-        self.page_to_return = None
+        self.page_to_return = []
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
@@ -145,13 +145,16 @@ class PagesWithSelect(View):
             custom_id = "go_back"
       	)
         async def go_back(go_back_interaction):
-            if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
-                page_ui = self.page_to_return 
-                self.page_to_return = None
-                self.remove_item(self.go_back_btn)
+            if self.page_to_return != [] and [i for i in self.children if i.custom_id=="go_back"][0]:
+                page_ui = self.page_to_return[-1]
+                self.page_to_return.pop()
+                if self.page_to_return == []:
+                    self.remove_item(self.go_back_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 self.message = await self.ctx.fetch_message(self.message.id)
         self.go_back_btn.callback = go_back
+
+    def get_embed_title():
 
     @nextcord.ui.select(
         placeholder = "Go to page:",  
@@ -179,7 +182,7 @@ class PagesWithSelect(View):
             page_ui = await self.pages.keith_sucks()
         elif select.values[0] == "page C":
             page_ui = self.pages.everything()
-        self.page_to_return = self.message.embeds[0]
+        self.page_to_return.append(self.message.embeds[0])
         go_back_btn = None
         for i in self.children:
             if i.custom_id == "go_back":
