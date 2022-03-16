@@ -93,7 +93,7 @@ class MultiplePages(View):
                 if to_page_b_btn:
                     self.add_item(to_page_b_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
-    	self.go_back_btn.callback = go_back
+        self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
         placeholder = "Go to page:",  
