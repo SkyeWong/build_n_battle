@@ -138,7 +138,6 @@ class PagesWithSelect(View):
         self.ctx = ctx
         self.pages = pages
         self.page_to_return = None
-        self.to_page_b_btn = None
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
@@ -149,12 +148,6 @@ class PagesWithSelect(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
-                to_page_b_btn = None
-                for i in self.children:
-                    if i.custom_id == "to_page_b":
-                        to_page_b_btn = i
-                if not to_page_b_btn:
-                    self.add_item(self.to_page_b_btn)
                 self.remove_item(self.go_back_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 self.message = await self.ctx.fetch_message(self.message.id)
