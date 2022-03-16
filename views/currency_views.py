@@ -93,7 +93,7 @@ class MultiplePages(View):
                 if to_page_b_btn:
                     self.add_item(to_page_b_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
-                await go_back_interaction.response.send_message("You clicked GO BACK!")
+                await go_back_interaction.followup.send("You clicked GO BACK!")
         self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
@@ -124,9 +124,14 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_c()
         self.page_to_return = self.message.embeds[0]
         print(self.page_to_return.fields[0].name)
-        self.add_item(self.go_back_btn)
+        go_back_btn = None
+        for i in self.children:
+            if i.custom_id == "to_page_b":
+                go_back_btn = i
+        if not go_back_btn:
+            self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
-        await interaction.followup.send(f'You will arrive at {select.values[0]}', ephemeral = True)
+        await interaction.followup.send(f'You arrived at {select.values[0]}', ephemeral = True)
 
     @nextcord.ui.button(
         label = "Go to page B",
@@ -137,9 +142,14 @@ class MultiplePages(View):
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
-        print(self.page_to_return)
+        print(self.page_to_return.fields[0].name)
         self.remove_item(button)
-        self.add_item(self.go_back_btn)
+        go_back_btn = None
+        for i in self.children:
+            if i.custom_id == "to_page_b":
+                go_back_btn = i
+        if not go_back_btn:
+            self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
 
     async def on_timeout(self) -> None:
