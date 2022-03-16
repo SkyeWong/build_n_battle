@@ -122,12 +122,59 @@ class Currency(commands.Cog, name="Currency"):
                             )
                 page.add_field(
                             name = "Everything can be completely different",
-                            value = "whatever... this is advanced :) i'll make one using buttons"
+                            value = "idk what are you doing if ure here"
                             )
                 return page
         pages = Pages(ctx)
         view = MultiplePages(ctx, pages)
         view.message = await ctx.send(embed=pages.page_ui_a(), view=view)
+
+    @commands.command(name="pagesbutselect")
+    async def pagesbutselect(self, ctx):
+        class Pages():
+            def __init__(self, ctx):
+                self.ctx = ctx
+            
+            def something(self):
+                page = Embed()
+                page.set_author(
+                    name = self.ctx.author.name,
+                    icon_url = self.ctx.author.avatar
+                )
+                page.add_field(
+                    name = "Page A",
+                    value = "Select the page you want to see."
+                )
+                return page
+            
+            async def keith_sucks(self):
+                page = Embed()
+                hoho = await bot.fetch_user(798720829583523861)
+                page.set_author(
+                            name = hoho.name,
+                            icon_url = hoho.avatar
+                            )
+                page.add_field(
+                            name = "Page B",
+                            value = "Keith sucks."
+                            )
+                return page
+            
+            def everything(self):
+                page = Embed()
+                page.set_author(
+                            name = bot.user.name,
+                            icon_url = bot.user.avatar
+                            )
+                page.add_field(
+                            name = "Everything can be completely different",
+                            value = "i made one using buttons check it out with `advanced_cmd`"
+                            )
+                return page
+        pages = Pages(ctx)
+        view = MultiplePages(ctx, pages)
+        view.message = await ctx.send(embed=pages.something(), view=view)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(Currency(bot))

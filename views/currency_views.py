@@ -155,6 +155,26 @@ class MultiplePages(View):
         await interaction.response.edit_message(embed=page_ui, view=self)
         self.message = await self.ctx.fetch_message(self.message.id)
 
+    @nextcord.ui.button(
+        label = "Go to page C",
+        style = nextcord.ButtonStyle.grey,
+        emoji = "🔖",
+        custom_id = "to_page_c"
+    ) 
+    async def to_page_c(self, button, interaction):
+        page_ui = self.pages.page_ui_c()        
+        self.page_to_return = self.message.embeds[0]
+        self.to_page_b_btn = button
+        self.remove_item(button)
+        go_back_btn = None
+        for i in self.children:
+            if i.custom_id == "go_back":
+                go_back_btn = i
+        if not go_back_btn:
+            self.add_item(self.go_back_btn)
+        await interaction.response.edit_message(embed=page_ui, view=self)
+        self.message = await self.ctx.fetch_message(self.message.id)
+
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True

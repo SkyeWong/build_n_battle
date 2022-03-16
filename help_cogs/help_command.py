@@ -83,7 +83,6 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                     inline=False
                 )
         elif mapping:
-            # add a short description of commands in each cog
             for cog, command_set in mapping.items():
                 filtered = await self.filter_commands(command_set, sort=True)
                 if not filtered:
@@ -93,7 +92,9 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                 cog_label = f"{emoji} {name}" if emoji else name
                 if cog and cog.description:
                     value = cog.description
-                    embed.add_field(name=cog_label, value=value)
+                else:
+                    value = "..."
+                embed.add_field(name=cog_label, value=value)
         embed.colour = random.choice(main.embed_colours)
         return embed
 
