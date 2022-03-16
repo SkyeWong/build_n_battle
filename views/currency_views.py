@@ -6,7 +6,7 @@ import math
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
-from nextcord import Embed, SelectOption
+from nextcord import Embed, SelectOption 
 from nextcord.ui import Button, View
 import database as db
 from typing import Optional
