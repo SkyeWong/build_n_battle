@@ -87,6 +87,7 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
+                to_page_b_btn = None
                 for i in self.children:
                     if i.custom_id == "to_page_b":
                         to_page_b_btn = i
