@@ -90,7 +90,7 @@ class MultiplePages(View):
                 for i in self.children:
                     if i.custom_id == "to_page_b":
                         to_page_b_btn = i
-                if to_page_b_btn:
+                if not to_page_b_btn:
                     self.add_item(to_page_b_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 await go_back_interaction.followup.send("You clicked GO BACK!")
