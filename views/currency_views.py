@@ -183,7 +183,7 @@ class PagesWithSelect(View):
         if select.values[0] == "page A":
             page_ui = self.pages.something()
         elif select.values[0] == "page B":
-            page_ui = self.pages.keith_sucks()
+            page_ui = await self.pages.keith_sucks()
         elif select.values[0] == "page C":
             page_ui = self.pages.everything()
         self.page_to_return = self.message.embeds[0]
