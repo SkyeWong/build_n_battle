@@ -97,7 +97,6 @@ class MultiplePages(View):
                 self.remove_item(self.go_back_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 self.message = await self.ctx.fetch_message(self.message.id)
-                await go_back_interaction.followup.send("You clicked GO BACK!")
         self.go_back_btn.callback = go_back
 
     @nextcord.ui.select(
@@ -126,8 +125,6 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_b()
         elif select.values[0] == "page C":
             page_ui = self.pages.page_ui_c()
-        for i in self.message.embeds:
-            embeds += f"{i.fields[0].name}\n"
         self.page_to_return = self.message.embeds[0]
         go_back_btn = None
         for i in self.children:

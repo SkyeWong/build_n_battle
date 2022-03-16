@@ -91,12 +91,9 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                 name = cog.qualified_name if cog else "No category"
                 emoji = getattr(cog, "COG_EMOJI", None)
                 cog_label = f"{emoji} {name}" if emoji else name
-                value = (
-                    f"{cog.description}"
-                    if cog and cog.description
-                    else ""
-                )
-                embed.add_field(name=cog_label, value=value)
+                if cog and cog.description:
+                    value = cog.description
+                    embed.add_field(name=cog_label, value=value)
         embed.colour = random.choice(main.embed_colours)
         return embed
 
