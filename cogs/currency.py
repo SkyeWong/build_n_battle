@@ -106,17 +106,6 @@ class Currency(commands.Cog, name="Currency"):
             def page_ui_b(self):
                 page = Embed()
                 page.set_author(
-                            name = "hi"
-                            )
-                page.add_field(
-                            name = "Page B",
-                            value = "I'll add something"
-                            )
-                return page
-            
-            def page_ui_c(self):
-                page = Embed()
-                page.set_author(
                             name = bot.user.name,
                             icon_url = bot.user.avatar
                             )

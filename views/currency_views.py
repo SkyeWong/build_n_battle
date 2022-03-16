@@ -77,7 +77,6 @@ class MultiplePages(View):
         self.pages = pages
         self.page_to_return = None
         self.to_page_b_btn = None
-        self.to_page_c_btn = None
         self.go_back_btn = Button(
             label = "Go Back",
             style = nextcord.ButtonStyle.grey,
@@ -88,16 +87,12 @@ class MultiplePages(View):
             if self.page_to_return and [i for i in self.children if i.custom_id=="go_back"][0]:
                 page_ui = self.page_to_return 
                 self.page_to_return = None
-                to_page_b_btn = to_page_c_btn = None
+                to_page_b_btn = None
                 for i in self.children:
                     if i.custom_id == "to_page_b":
                         to_page_b_btn = i
-                    elif i.custom_id == "to_page_c":
-                        to_page_c_btn = i
                 if not to_page_b_btn:
                     self.add_item(self.to_page_b_btn)
-                if not to_page_c_btn:
-                    self.add_item(self.to_page_c_btn)
                 self.remove_item(self.go_back_btn)
                 await go_back_interaction.response.edit_message(embed=page_ui, view=self)
                 self.message = await self.ctx.fetch_message(self.message.id)
@@ -113,26 +108,6 @@ class MultiplePages(View):
         page_ui = self.pages.page_ui_b()        
         self.page_to_return = self.message.embeds[0]
         self.to_page_b_btn = button
-        self.remove_item(button)
-        go_back_btn = None
-        for i in self.children:
-            if i.custom_id == "go_back":
-                go_back_btn = i
-        if not go_back_btn:
-            self.add_item(self.go_back_btn)
-        await interaction.response.edit_message(embed=page_ui, view=self)
-        self.message = await self.ctx.fetch_message(self.message.id)
-
-    @nextcord.ui.button(
-        label = "Go to page C",
-        style = nextcord.ButtonStyle.grey,
-        emoji = "🔖",
-        custom_id = "to_page_c"
-    ) 
-    async def to_page_c(self, button, interaction):
-        page_ui = self.pages.page_ui_c()        
-        self.page_to_return = self.message.embeds[0]
-        self.to_page_c_btn = button
         self.remove_item(button)
         go_back_btn = None
         for i in self.children:
@@ -206,11 +181,11 @@ class PagesWithSelect(View):
     )
     async def select_menu(self, select, interaction):
         if select.values[0] == "page A":
-            page_ui = self.pages.page_ui_a()
+            page_ui = self.pages.something()
         elif select.values[0] == "page B":
-            page_ui = self.pages.page_ui_b()
+            page_ui = self.pages.keith_sucks()
         elif select.values[0] == "page C":
-            page_ui = self.pages.page_ui_c()
+            page_ui = self.pages.everything()
         self.page_to_return = self.message.embeds[0]
         go_back_btn = None
         for i in self.children:
