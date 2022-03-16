@@ -124,6 +124,9 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_b()
         elif select.values[0] == "page C":
             page_ui = self.pages.page_ui_c()
+        for i in self.message.embeds:
+            embeds += f"{i.fields[0].name}\n"
+        await interaction.followup.send(f"Some dev data that you shouldn\'t even care.\n{embeds}", ephemeral = True)
         self.page_to_return = self.message.embeds[0]
         print(self.page_to_return.fields[0].name)
         go_back_btn = None
@@ -133,7 +136,7 @@ class MultiplePages(View):
         if not go_back_btn:
             self.add_item(self.go_back_btn)
         await interaction.response.edit_message(embed=page_ui, view=self)
-        await interaction.followup.send(f'You arrived at {select.values[0]}', ephemeral = True)
+        await interaction.followup.send(f"You arrived at {select.values[0]}", ephemeral = True)
 
     @nextcord.ui.button(
         label = "Go to page B",
