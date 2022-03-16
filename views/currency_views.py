@@ -124,8 +124,8 @@ class MultiplePages(View):
             page_ui = self.pages.page_ui_b()
         elif select.values[0] == "page C":
             page_ui = self.pages.page_ui_c()
-        self.page_to_return = self.message.embeds[-1]
-        print(self.page_to_return.fields[-1].name)
+        self.page_to_return = self.message.embeds[0]
+        print(self.page_to_return.fields[0].name)
         go_back_btn = None
         for i in self.children:
             if i.custom_id == "go_back":
@@ -143,9 +143,9 @@ class MultiplePages(View):
     ) 
     async def to_page_b(self, button, interaction):
         page_ui = self.pages.page_ui_b()        
-        self.page_to_return = self.message.embeds[-1]
+        self.page_to_return = self.message.embeds[0]
         self.to_page_b_btn = button
-        print(self.page_to_return.fields[-1].name)
+        print(self.page_to_return.fields[0].name)
         self.remove_item(button)
         go_back_btn = None
         for i in self.children:
