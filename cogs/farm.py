@@ -1,6 +1,6 @@
 import os
 import nextcord
-import random
+import random 
 import main
 import math 
 from main import bot
