@@ -23,3 +23,6 @@ class Farm(commands.Cog, name="Farm"):
     @commands.command(name="farm")
     async def farm(self, ctx):
         await ctx.send("test")
+
+def setup(bot: commands.Bot):
+    bot.add_cog(Farm(bot))
