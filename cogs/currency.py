@@ -20,24 +20,15 @@ class Currency(commands.Cog, name="Currency"):
         self.bot = bot
         self._last_member = None
 
-    @commands.command(name="users")
-    async def usersview(self, ctx):
-        sql = "SELECT * from users"
-        cursor = db.execute_query(sql)
-        await ctx.send("Users:")
-        for row in cursor.fetchall():
-            await ctx.send(row)
-
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
         users = Users(ctx.author)
         if not(users.if_user_present()):
             users.update_user_profile((ctx.author.id, 1000, 1000))
-            db.conn.commit()
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
         else:
-            await ctx.send("WTF are you thinking? You are already a player and you are creating another player?!")
+            await ctx.send("You are already a player!")
 
     @commands.command(name="profile")
     async def profile(self, ctx, user: nextcord.Member=None):
@@ -49,18 +40,13 @@ class Currency(commands.Cog, name="Currency"):
         users = Users(user)
         if users.if_user_present():
             user_profile = users.get_user_profile()
-            print(user_profile)
-            print(f"Gold: {user_profile[1]}")
-            print(f"XP: {user_profile[2]}")
             profile_ui = Embed()
             profile_ui.colour = random.choice(main.embed_colours)
             profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
-            profile_ui.add_field(name="Gold", value=f'${user_profile[1]}', inline=False)
-            profile_ui.add_field(name="XP", value=f'{user_profile[2]}/{main.roundup(user_profile[2], 100) if user_profile[2] != 0 else 100}', inline=False)
-            # farm_width = main.rounddown(user_profile["xp"], 100) / 100 + 2
-            # if farm_width >= 12:
-            #     farm_width = 12
-            # profile_ui.add_field(name="Farm Size", value=int(pow(farm_width, 2)), inline=False)
+            profile_ui.add_field(name="Gold", value=f'${user_profile["user"]["gold"]}', inline=False)
+            xp = user_profile["user"]["xp"]
+            profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
+            profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
             profile_msg = await ctx.send(embed=profile_ui)
         else:
             await ctx.send("The user do not have a profile! Create one with `+create`")
