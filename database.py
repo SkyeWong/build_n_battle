@@ -11,7 +11,6 @@ def start():
             password= os.environ['MYSQL_PW'],
             database='bsuvufmpxye5uuutqete'
     )
-    print(conn)
 
 def execute_query(sql, val=None):
     try:

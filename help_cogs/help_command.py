@@ -100,7 +100,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                     value = cog.description
                 else:
                     value = "..."
-                embed.add_field(name=cog_label, value=value)
+                embed.add_field(name=cog_label, value=value, inline=False)
         embed.colour = random.choice(main.embed_colours)
         return embed
 
