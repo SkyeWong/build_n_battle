@@ -57,6 +57,7 @@ class Users():
             "crops": profile_farm[0],
             "farm_width": profile_farm[1]
         }
+        print(profile)
         return profile
 
     def update_user_profile(self, new_profile):
