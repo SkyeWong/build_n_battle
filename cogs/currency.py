@@ -49,7 +49,7 @@ class Currency(commands.Cog, name="Currency"):
             profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
             profile_msg = await ctx.send(embed=profile_ui)
         else:
-            await ctx.send("The user do not have a profile! Create one with `+create`")
+            await ctx.send("The player doesn't exist!")
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)

@@ -38,6 +38,7 @@ class Users():
             """
         cursor = db.execute_query(sql)
         profile_user = cursor.fetchall()[0]
+        print(f"profile_user:\t{profile_user}")
         profile = {
             "user": {
                 "id": profile_user[0],
@@ -46,6 +47,7 @@ class Users():
                 "farm_last_used": profile_user[3]
             }
         }
+        print(f"profile with user:\t{profile}")
         sql = f"""
             SELECT crops, farm_width
             FROM farms
@@ -53,11 +55,12 @@ class Users():
             """
         cursor = db.execute_query(sql)
         profile_farm = cursor.fetchall()[0]
+        print(f"profile_farm:\t{profile_farm}")
         profile["farm"] = {
             "crops": profile_farm[0],
             "farm_width": profile_farm[1]
         }
-        print(profile)
+        print(f"final profile:\t{profile}")
         return profile
 
     def update_user_profile(self, new_profile):
