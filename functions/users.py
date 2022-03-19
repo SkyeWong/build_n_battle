@@ -32,7 +32,7 @@ class Users():
 
     def get_user_profile(self):
         sql = f"""
-            SELECT id, gold, xp, farm_last_used
+            SELECT id, gold, xp
             FROM users
             WHERE id = {self.user.id};
             """
@@ -67,9 +67,9 @@ class Users():
             WHERE user_id = {self.user.id}
             """
         cursor = db.execute_query(sql)
-        profile_commands = cursor.fetchall()[0]
+        profile_commands_last_used = cursor.fetchall()[0]
         profile["commands_last_used"] = {
-            "farm": profile_commands[0]
+            "farm": profile_commands_last_used[0]
         }
         print(f"final profile:\t{profile}")
         return profile
@@ -100,8 +100,25 @@ class Users():
             db.conn.commit()
 
         else:
-            sql = "INSERT INTO users (id, gold, xp) VALUES ()"
-            db.execute_query(sql)
+            profile_user = [
+                new_profile["user"]["id"],
+                new_profile["user"]["gold"],
+                new_profile["user"]["xp"]
+            ]
+            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
+            db.execute_query(sql, profile_user)
             db.conn.commit()
-            #sql = "INSERT INTO farms (crops, xp) VALUES ()
+            profile_farm = [
+                new_profile["farm"]["crops"],
+                new_profile["farm"]["farm_width"]
+            ]
+            sql = "INSERT INTO farms (crops, farm_width) VALUES (%s, %s)"
+            db.execute_query(sql, profile_farm)
+            db.conn.commit()
+            profile_commands = [
+                new_profile["commands_last_used"]["farm"]
+            ]
+            sql = "INSERT INTO commands_last_used (farm) VALUES (%s)"
+            db.execute_query(sql, profile_commands)
+            db.conn.commit()
         return new_profile

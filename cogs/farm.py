@@ -22,7 +22,9 @@ class Farm(commands.Cog, name="Farm"):
 
     @commands.command(name="farm")
     async def farm(self, ctx):
-        await ctx.send("test")
+        users = Users(ctx)
+        user_profile = users.get_user_profile()
+        await ctx.send(user_profile["farm"]["crops"])
 
 def setup(bot: commands.Bot):
     bot.add_cog(Farm(bot))
