@@ -232,11 +232,12 @@ class dev_only(commands.Cog, name="Dev Only"):
         if ctx.author.id != 706126877668147272 and ctx.author.id != 806334528230129695:
             await ctx.send("DUDE youre not the birthday boy.")
         else:
-            if int(datetime.now().timestamp()) < 1647705600:
-                await ctx.send("well, it isnt your birthday ||yet||, is it, have you messed up something? don't try to fool me")
-            elif int(datetime.now().timestamp()) > 1647792000:
-                await ctx.send("extremely sorry, but ur birthday is over. check the time 🕛 , well or the calendar if you prefer 📅")
-            else:
+            # if int(datetime.now().timestamp()) < 1647705600:
+            #     await ctx.send("well, it isnt your birthday ||yet||, is it, have you messed up something? don't try to fool me")
+            # elif int(datetime.now().timestamp()) > 1647792000:
+            #     await ctx.send("extremely sorry not sorry, but ur birthday is over. check the time 🕛 , well or the calendar if you prefer 📅")
+            # else:
+            if 1:
                 embed = Embed()
                 embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
                 embed.description = "see i even made a cake for you its RIGHT down there-"
