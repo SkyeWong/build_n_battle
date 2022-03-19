@@ -229,7 +229,6 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     @commands.command(name="happybirthdaykeith")
     async def happybirthdaykeith(self, ctx):
-        await ctx.message.delete()
         if ctx.author.id != 706126877668147272 and ctx.author.id != 806334528230129695:
             await ctx.send("DUDE youre not the birthday boy.")
         else:
@@ -268,6 +267,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 view = View()
                 view.add_item(cake)
                 msg = await ctx.send(embed=embed, view=view)
+        await ctx.message.delete()
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
