@@ -3,7 +3,6 @@ import json
 import nextcord
 from nextcord.ext import commands
 from nextcord import Embed
-from cogs.dev_only import dev_only
 
 TOKEN = os.environ["DISCORD_TOKEN"]
 
@@ -21,9 +20,7 @@ async def on_ready():
     print(f"{bot.user.name} has connected to Discord!")
     print("Connected servers/guilds:")
     for guild in bot.guilds:
-        print(f"  -{guild.name}(id={guild.id})")
-    dev_only.sendbirthday.start()
-    
+        print(f"  -{guild.name}(id={guild.id})")    
 
 @bot.event
 async def on_message(message):
