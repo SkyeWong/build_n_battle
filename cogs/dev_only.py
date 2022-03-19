@@ -250,8 +250,9 @@ class dev_only(commands.Cog, name="Dev Only"):
                 candles.clear_items()
                 await interaction.response.edit_message(view=candles)
                 await interaction.followup.send("Happy birthday||👶|| and wish your wishes come true!🎊", ephermal=True)
+            blow_out_candles.callback = callback2
             candles = View()
-            candles.add_item(candles)
+            candles.add_item(blow_out_candles)
             await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
         cake.callback = callback
         view = View()
