@@ -239,8 +239,9 @@ class dev_only(commands.Cog, name="Dev Only"):
             style = nextcord.ButtonStyle.grey
         )
         async def callback(interaction):
-            await interaction.response.edit_message(view=self)
-            await interaction.followup.send("Heres your cake, blow out the candles.🎂", ephemeral=True)
+            view.clear_items()
+            await interaction.response.edit_message(view=view)
+            await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", ephemeral=True)
         cake.callback = callback
         view = View()
         view.add_item(cake)
