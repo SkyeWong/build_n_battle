@@ -25,10 +25,10 @@ class Users():
             WHERE id = {self.user.id};
             """
         cursor = db.execute_query(sql)
-        if cursor.fetchall() != []:
-            return True
-        else:
+        if cursor.fetchall() == []:
             return False
+        else:
+            return True
 
     def get_user_profile(self):
         sql = f"""
