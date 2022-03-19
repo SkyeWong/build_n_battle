@@ -1,4 +1,5 @@
 import os
+from discord import ButtonStyle
 import nextcord
 import json 
 from datetime import datetime
@@ -8,6 +9,8 @@ import asyncio
 import main
 from main import bot
 from nextcord.ext import commands
+from nextcord import Embed
+from nextcord.ui import Button, View
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
 
@@ -224,6 +227,24 @@ class dev_only(commands.Cog, name="Dev Only"):
         response += "\n\nThe bot only checks for the first match of the emoji. Other emojis with identical names won\"t be found."
         await ctx.send(response)
 
+    @commands.command(name="happybirthdaykeith")
+    async def happybirthdaykeith(self, ctx):
+        embed = Embed()
+        embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
+        embed.description = "see i even made a cake for you its RIGHT here:"
+        embed.set_image(url="https://i.ibb.co/x6LDRpZ/White-Yello-Playful-Happy-Birthday-Card.gif")
+        cake = Button(
+            label = "Reveal cake",
+            emoji = "🎁",
+            style = nextcord.ButtonStyle.grey
+        )
+        async def callback(interaction):
+            await interaction.response.edit_message(embed=page_ui, view=self)
+            await interaction.followup.send("Heres your cake, blow out the candles.🎂", ephemeral=True)
+        cake.callback = callback
+        view = View()
+        view.add_item(cake)
+        await ctx.send(embed=embed, view=view)
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 

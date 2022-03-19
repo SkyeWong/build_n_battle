@@ -43,8 +43,7 @@ class Users():
             "user": {
                 "id": profile_user[0],
                 "gold": profile_user[1],
-                "xp": profile_user[2],
-                "farm_last_used": profile_user[3]
+                "xp": profile_user[2]
             }
         }
         print(f"profile with user:\t{profile}")
@@ -54,30 +53,55 @@ class Users():
             WHERE user_id = {self.user.id};
             """
         cursor = db.execute_query(sql)
+        print("executed query")
         profile_farm = cursor.fetchall()[0]
+        print("fetching results...")
         print(f"profile_farm:\t{profile_farm}")
         profile["farm"] = {
             "crops": profile_farm[0],
             "farm_width": profile_farm[1]
+        }
+        sql = f"""
+            SELECT farm
+            FROM commands_last_used
+            WHERE user_id = {self.user.id}
+            """
+        cursor = db.execute_query(sql)
+        profile_commands = cursor.fetchall()[0]
+        profile["commands_last_used"] = {
+            "farm": profile_commands[0]
         }
         print(f"final profile:\t{profile}")
         return profile
 
     def update_user_profile(self, new_profile):
         if self.if_user_present():
-            sql = f"""
+            update_users_query = f"""
                 UPDATE 
                     users
                 SET
-                    gold = {new_profile[1]},
-                    xp = {new_profile[2]}
-                    farm_last_used = {new_profile[3]}
+                    gold = {new_profile["user"]["gold"]},
+                    xp = {new_profile["user"]["xp"]}
                 WHERE
-                    id = {str(new_profile[0])}
+                    id = {str(new_profile["user"]["id"])}
                 """
-            db.execute_query(sql)
+            db.execute_query(update_users_query)
+            db.conn.commit()
+            update_farms_query = f"""
+                UPDATE 
+                    farms
+                SET
+                    crops = {new_profile["farm"]["crops"]},
+                    farm_width = {new_profile["farm"]["farm_width"]}
+                WHERE
+                    user_id = {str(new_profile["user"]["id"])}
+                """
+            db.execute_query(update_farms_query)
+            db.conn.commit()
+
         else:
-            sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
-            db.execute_query(sql, new_profile)
-        db.conn.commit()
+            sql = "INSERT INTO users (id, gold, xp) VALUES ()"
+            db.execute_query(sql)
+            db.conn.commit()
+            #sql = "INSERT INTO farms (crops, xp) VALUES ()
         return new_profile
