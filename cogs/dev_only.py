@@ -229,35 +229,43 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     @commands.command(name="happybirthdaykeith")
     async def happybirthdaykeith(self, ctx):
-        embed = Embed()
-        embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
-        embed.description = "see i even made a cake for you its RIGHT down there-"
-        embed.set_image(url="https://i.ibb.co/3YFCyrL/itskeithsbirthdayitsworthcelebratingfor24hnonstop.gif")
-        cake = Button(
-            label = "Reveal cake",
-            emoji = "🎁",
-            style = nextcord.ButtonStyle.blurple
-        )
-        async def callback(interaction):
-            view.clear_items()
-            await interaction.response.edit_message(view=view)
-            blow_out_candles = Button(
-                label = "I'm ready to blow them out of the water :P",
-                emoji = "🕯️",
-                style = nextcord.ButtonStyle.blurple
-            )
-            async def callback2(interaction):
-                candles.clear_items()
-                await interaction.response.edit_message(view=candles)
-                await interaction.followup.send("Happy birthday||👶|| and wish your wishes come true!🎊", ephermal=True)
-            blow_out_candles.callback = callback2
-            candles = View()
-            candles.add_item(blow_out_candles)
-            await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
-        cake.callback = callback
-        view = View()
-        view.add_item(cake)
-        await ctx.send(embed=embed, view=view)
+        if ctx.author.id != 706126877668147272 and ctx.author.id != 806334528230129695:
+            await ctx.send("DUDE youre not the birthday boy.")
+        else:
+            if int(datetime.now().timestamp()) < 1647705600:
+                await ctx.send("well, it isnt your birthday ||yet||, is it, have you messed up something? don't try to fool me")
+            elif int(datetime.now().timestamp()) > 1647792000:
+                await ctx.send("extremely sorry, but ur birthday is over. check the time 🕛 , well or the calendar if you prefer 📅")
+            else:
+                embed = Embed()
+                embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
+                embed.description = "see i even made a cake for you its RIGHT down there-"
+                embed.set_image(url="https://i.ibb.co/3YFCyrL/itskeithsbirthdayitsworthcelebratingfor24hnonstop.gif")
+                cake = Button(
+                    label = "Reveal cake",
+                    emoji = "🎁",
+                    style = nextcord.ButtonStyle.blurple
+                )
+                async def callback(interaction):
+                    view.clear_items()
+                    await interaction.response.edit_message(view=view)
+                    blow_out_candles = Button(
+                        label = "I'm ready to blow them out of the water :P",
+                        emoji = "🕯️",
+                        style = nextcord.ButtonStyle.blurple
+                    )
+                    async def callback2(interaction):
+                        candles.clear_items()
+                        await interaction.response.edit_message(view=candles)
+                        await interaction.followup.send("Happy birthday||👶|| and wish your wishes come true!🎊", ephemeral=True)
+                    blow_out_candles.callback = callback2
+                    candles = View()
+                    candles.add_item(blow_out_candles)
+                    await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
+                cake.callback = callback
+                view = View()
+                view.add_item(cake)
+                await ctx.send(embed=embed, view=view)
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
