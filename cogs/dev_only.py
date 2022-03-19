@@ -229,6 +229,7 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     @commands.command(name="happybirthdaykeith")
     async def happybirthdaykeith(self, ctx):
+        await ctx.message.delete()
         if ctx.author.id != 706126877668147272 and ctx.author.id != 806334528230129695:
             await ctx.send("DUDE youre not the birthday boy.")
         else:
@@ -238,6 +239,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             #     await ctx.send("extremely sorry not sorry, but ur birthday is over. check the time 🕛 , well or the calendar if you prefer 📅")
             # else:
             if 1:
+                msg = 0
                 embed = Embed()
                 embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
                 embed.description = "see i even made a cake for you its RIGHT down there-"
@@ -248,8 +250,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                     style = nextcord.ButtonStyle.blurple
                 )
                 async def callback(interaction):
-                    view.clear_items()
-                    await interaction.response.edit_message(view=view)
+                    await msg.delete()
                     blow_out_candles = Button(
                         label = "I'm ready to blow them out of the water :P",
                         emoji = "🕯️",
@@ -266,7 +267,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 cake.callback = callback
                 view = View()
                 view.add_item(cake)
-                await ctx.send(embed=embed, view=view)
+                msg = await ctx.send(embed=embed, view=view)
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
