@@ -269,7 +269,8 @@ class dev_only(commands.Cog, name="Dev Only"):
     @tasks.loop(seconds=5.0)
     async def sendbirthday(self):
         print("hi")
-        await bot.fetch_user(806334528230129695).send("hi")
+        skye = await bot.fetch_user(806334528230129695)
+        skye.send("hi")
         if int(datetime.now().timestamp()) >= 1647705600:
             await bot.fetch_channel(919223073054539861).send("Happy Birthday Keith! I supposed you shouldn't know, and ill tell you the present i prepared now - use `+happybirthdaykeith`!")
 
