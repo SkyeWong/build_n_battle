@@ -238,7 +238,6 @@ class dev_only(commands.Cog, name="Dev Only"):
             #     await ctx.send("extremely sorry not sorry, but ur birthday is over. check the time 🕛 , well or the calendar if you prefer 📅")
             # else:
             if 1:
-                msg = 0
                 embed = Embed()
                 embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
                 embed.description = "see i even made a cake for you its RIGHT down there-"
@@ -249,7 +248,6 @@ class dev_only(commands.Cog, name="Dev Only"):
                     style = nextcord.ButtonStyle.blurple
                 )
                 async def callback(interaction):
-                    await msg.delete()
                     blow_out_candles = Button(
                         label = "I'm ready to blow them out of the water :P",
                         emoji = "🕯️",
@@ -266,7 +264,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 cake.callback = callback
                 view = View()
                 view.add_item(cake)
-                msg = await ctx.send(embed=embed, view=view)
+                await ctx.send(embed=embed, view=view)
 
     @tasks.loop(seconds=5.0)
     async def sendbirthday(self):
