@@ -2,7 +2,6 @@ import os
 import nextcord
 import random
 import main
-import math 
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
@@ -18,14 +17,27 @@ class Currency(commands.Cog, name="Currency"):
 
     def __init__(self, bot):
         self.bot = bot
-        self._last_member = None
+        self._last_member = None 
 
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""
         users = Users(ctx.author)
         if not(users.if_user_present()):
-            users.update_user_profile((ctx.author.id, 1000, 1000))
+            users.update_user_profile({
+                "user": {
+                    "id": ctx.author.id,
+                    "gold": 1000,
+                    "xp": 0
+                },
+                "farm": {
+                    "crops": [None, None, None, None],
+                    "farm_width": 2
+                },
+                "commands_last_used": {
+                    "farm": int(datetime.now().timestamp())
+                }
+            })
             await ctx.send("Profile sucessfully created! Check your profile with `+profile`!")
         else:
             await ctx.send("You are already a player!")
