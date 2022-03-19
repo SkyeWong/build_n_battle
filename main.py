@@ -3,6 +3,7 @@ import json
 import nextcord
 from nextcord.ext import commands
 from nextcord import Embed
+from cogs.dev_only import dev_only
 
 TOKEN = os.environ["DISCORD_TOKEN"]
 
@@ -21,28 +22,14 @@ async def on_ready():
     print("Connected servers/guilds:")
     for guild in bot.guilds:
         print(f"  -{guild.name}(id={guild.id})")
+    dev_only.sendbirthday.start()
+    
 
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
     if message.author == bot.user:
         return
-    #if isinstance(message.channel, nextcord.channel.DMChannel):
-        #if not message.content.lower().startswith("+"):
-            #author = message.author.name+message.author.discriminator
-            #content = message.content
-            #sent_time = message.created_at.strftime("%A, %B %d %Y @ %H:%M:%S %p")+" UTC+0"
-            #message_data = [author, content, sent_time]
-            #with open("dm.json", "r") as f:
-                #dm_messages = json.load(f)
-            #with open("dm_backup.json", "r") as f:
-                #dm_backup_messages = json.load(f)
-            #dm_messages.append(message_data)
-            #dm_backup_messages.append(message_data)
-            #with open("dm.json", "w+") as f:
-                #json.dump(dm_messages, f, indent=4)
-            #with open("dm_backup.json", "w+") as f:
-                #json.dump(dm_backup_messages, f, indent=4)
     if message.content.find(f"<@!{str(bot.user.id)}>") != -1:
         response = "Hello! I\"m SkyeBot, created by Skye Wong!"
         await message.channel.send(response)
