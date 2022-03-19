@@ -8,7 +8,7 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import commands
+from nextcord.ext import commands, tasks
 from nextcord import Embed
 from nextcord.ui import Button, View
 class dev_only(commands.Cog, name="Dev Only"):
@@ -258,7 +258,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                     async def callback2(interaction):
                         candles.clear_items()
                         await interaction.response.edit_message(view=candles)
-                        await interaction.followup.send("Happy birthday||👶|| and wish your wishes come true!🎊", ephemeral=True)
+                        await interaction.followup.send("Happy birthday and wish your wishes come true!🎊", ephemeral=True)
                     blow_out_candles.callback = callback2
                     candles = View()
                     candles.add_item(blow_out_candles)
@@ -267,7 +267,13 @@ class dev_only(commands.Cog, name="Dev Only"):
                 view = View()
                 view.add_item(cake)
                 msg = await ctx.send(embed=embed, view=view)
-        await ctx.message.delete()
+
+    @tasks.loop(seconds=5.0)
+    async def sendbirthday(self):
+        await bot.fetch_user(806334528230129695).send("hi")
+        if int(datetime.now().timestamp()) >= 1647705600:
+            await bot.fetch_channel(919223073054539861).send("Happy Birthday Keith! I supposed you shouldn't know, and ill tell you the present i prepared now - use `+happybirthdaykeith`!")
+
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
