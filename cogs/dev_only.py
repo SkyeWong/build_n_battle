@@ -231,17 +231,28 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def happybirthdaykeith(self, ctx):
         embed = Embed()
         embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
-        embed.description = "see i even made a cake for you its RIGHT here:"
+        embed.description = "see i even made a cake for you its RIGHT down there-"
         embed.set_image(url="https://i.ibb.co/3YFCyrL/itskeithsbirthdayitsworthcelebratingfor24hnonstop.gif")
         cake = Button(
             label = "Reveal cake",
             emoji = "🎁",
-            style = nextcord.ButtonStyle.grey
+            style = nextcord.ButtonStyle.blurple
         )
         async def callback(interaction):
             view.clear_items()
             await interaction.response.edit_message(view=view)
-            await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", ephemeral=True)
+            blow_out_candles = Button(
+                label = "I'm ready to blow them out of the water :P",
+                emoji = "🕯️",
+                style = nextcord.ButtonStyle.blurple
+            )
+            async def callback2(interaction):
+                candles.clear_items()
+                await interaction.response.edit_message(view=candles)
+                await interaction.followup.send("Happy birthday||👶|| and wish your wishes come true!🎊", ephermal=True)
+            candles = View()
+            candles.add_item(candles)
+            await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
         cake.callback = callback
         view = View()
         view.add_item(cake)
