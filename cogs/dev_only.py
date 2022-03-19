@@ -232,14 +232,14 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed = Embed()
         embed.title = "🎉HAPPY BIRTHDAY KEITH!🎉"
         embed.description = "see i even made a cake for you its RIGHT here:"
-        embed.set_image(url="https://i.ibb.co/x6LDRpZ/White-Yello-Playful-Happy-Birthday-Card.gif")
+        embed.set_image(url="https://i.ibb.co/3YFCyrL/itskeithsbirthdayitsworthcelebratingfor24hnonstop.gif")
         cake = Button(
             label = "Reveal cake",
             emoji = "🎁",
             style = nextcord.ButtonStyle.grey
         )
         async def callback(interaction):
-            await interaction.response.edit_message(embed=page_ui, view=self)
+            await interaction.response.edit_message(view=self)
             await interaction.followup.send("Heres your cake, blow out the candles.🎂", ephemeral=True)
         cake.callback = callback
         view = View()
