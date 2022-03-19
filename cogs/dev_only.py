@@ -260,7 +260,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                     blow_out_candles.callback = callback2
                     candles = View()
                     candles.add_item(blow_out_candles)
-                    await interaction.followup.send("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
+                    await interaction.response.send_message("Heres your cake, make the wish and blow out the candles.🎂", view=candles, ephemeral=True)
                 cake.callback = callback
                 view = View()
                 view.add_item(cake)
