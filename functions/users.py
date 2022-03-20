@@ -107,7 +107,6 @@ class Users():
             ]
             sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_user)
-            db.conn.commit()
             print("where am i? idk")
             profile_farm = [
                 new_profile["farm"]["crops"],
@@ -115,7 +114,6 @@ class Users():
             ]
             sql = "INSERT INTO farms (crops, farm_width) VALUES (%s, %s)"
             db.execute_query(sql, profile_farm)
-            db.conn.commit()
             profile_commands = [
                 new_profile["commands_last_used"]["farm"]
             ]
