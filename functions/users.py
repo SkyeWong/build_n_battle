@@ -109,15 +109,17 @@ class Users():
             db.execute_query(sql, profile_user)
             print("where am i? idk")
             profile_farm = [
+                new_profile["user"]["id"],
                 new_profile["farm"]["crops"],
                 new_profile["farm"]["farm_width"]
             ]
-            sql = "INSERT INTO farms (crops, farm_width) VALUES (%s, %s)"
+            sql = "INSERT INTO farms (user_id, crops, farm_width) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_farm)
             profile_commands = [
+                new_profile["user"]["id"],
                 new_profile["commands_last_used"]["farm"]
             ]
-            sql = "INSERT INTO commands_last_used (farm) VALUES (%s)"
+            sql = "INSERT INTO commands_last_used (user_id, farm) VALUES (%s, %s)"
             db.execute_query(sql, profile_commands)
             db.conn.commit()
         return new_profile
