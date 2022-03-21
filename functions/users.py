@@ -115,6 +115,7 @@ class Users():
             ]
             sql = "INSERT INTO farms (user_id, crops, farm_width) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_farm)
+            print("am i inserting the farms?")
             profile_commands = [
                 new_profile["user"]["id"],
                 new_profile["commands_last_used"]["farm"]
