@@ -105,17 +105,19 @@ class Users():
                 new_profile["user"]["gold"],
                 new_profile["user"]["xp"]
             ]
+            print(profile_user)
             sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_user)
-            print("where am i? idk")
+            print("users")
             profile_farm = [
                 new_profile["user"]["id"],
                 new_profile["farm"]["crops"],
                 new_profile["farm"]["farm_width"]
             ]
+            print(profile_farm)
             sql = "INSERT INTO farms (user_id, crops, farm_width) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_farm)
-            print("am i inserting the farms?")
+            print("farm")
             profile_commands = [
                 new_profile["user"]["id"],
                 new_profile["commands_last_used"]["farm"]
