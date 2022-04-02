@@ -52,10 +52,10 @@ class Currency(commands.Cog, name="Currency"):
         if user == None:
             user = ctx.author
         users = Users(user)
-        await ctx.send(user_profile)
         if users.if_user_present() == False:
             users.create_user_profile()
         user_profile = users.get_user_profile()
+        await ctx.send(user_profile)
         profile_ui = Embed()
         profile_ui.colour = random.choice(main.embed_colours)
         profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
