@@ -61,11 +61,12 @@ class MyHelpCommand(commands.MinimalHelpCommand):
                     description = f"{cog.description[:90]}..."
                 else:
                     description = cog.description
-            options.append(nextcord.SelectOption(
+            if cog.qualified_name != "Help":
+                options.append(nextcord.SelectOption(
                 label=cog.qualified_name if cog else "No Category",
                 emoji=emoji,
                 description=description if cog and cog.description else "..."
-            ))
+                ))
 
         return options
 
