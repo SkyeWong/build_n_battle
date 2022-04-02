@@ -118,7 +118,7 @@ class Users():
                 new_profile["farm"]["farm_height"],
             ]
             print(profile_farm)
-            sql = "INSERT INTO farms (user_id, crops, crop_type, farm_width, farm_height) VALUES (%s, %s, %s)"
+            sql = "INSERT INTO farms (user_id, crops, crop_type, farm_width, farm_height) VALUES (%s, %s, %s, %s, %s)"
             db.execute_query(sql, profile_farm)
             db.conn.commit()
             print("farm")
