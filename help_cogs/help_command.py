@@ -48,6 +48,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             label="Home",
             emoji="🏠",
             description="Go back to the main menu.",
+            default=True
         ))
 
         for cog, command_set in self.get_bot_mapping().items():

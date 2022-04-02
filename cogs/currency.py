@@ -31,8 +31,10 @@ class Currency(commands.Cog, name="Currency"):
                     "xp": 0
                 },
                 "farm": {
-                    "crops": [None, None, None, None],
-                    "farm_width": 2
+                    "crops": '["","","",""]',
+                    "crop_type": '["","","",""]',
+                    "farm_width": 2,
+                    "farm_height": 2
                 },
                 "commands_last_used": {
                     "farm": int(datetime.now().timestamp())

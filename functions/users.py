@@ -112,10 +112,12 @@ class Users():
             profile_farm = [
                 new_profile["user"]["id"],
                 new_profile["farm"]["crops"],
-                new_profile["farm"]["farm_width"]
+                new_profile["farm"]["crop_type"],
+                new_profile["farm"]["farm_width"],
+                new_profile["farm"]["farm_height"],
             ]
             print(profile_farm)
-            sql = "INSERT INTO farms (user_id, crops, farm_width) VALUES (%s, %s, %s)"
+            sql = "INSERT INTO farms (user_id, crops, crop_type, farm_width, farm_height) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_farm)
             print("farm")
             profile_commands = [
