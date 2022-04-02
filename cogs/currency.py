@@ -61,6 +61,7 @@ class Currency(commands.Cog, name="Currency"):
             xp = user_profile["user"]["xp"]
             profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
             profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
+            profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
             profile_msg = await ctx.send(embed=profile_ui)
         else:
             await ctx.send("The player doesn't exist!")

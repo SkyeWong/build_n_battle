@@ -59,7 +59,9 @@ class Users():
         print(f"profile_farm:\t{profile_farm}")
         profile["farm"] = {
             "crops": profile_farm[0],
-            "farm_width": profile_farm[1]
+            "crop_type": profile_farm[1],
+            "farm_width": profile_farm[2],
+            "farm_height": profile_farm[3]
         }
         sql = f"""
             SELECT farm
@@ -108,7 +110,6 @@ class Users():
             print(profile_user)
             sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_user)
-            db.conn.commit()
             print("users")
             profile_farm = [
                 new_profile["user"]["id"],
@@ -120,7 +121,6 @@ class Users():
             print(profile_farm)
             sql = "INSERT INTO farms (user_id, crops, crop_type, farm_width, farm_height) VALUES (%s, %s, %s, %s, %s)"
             db.execute_query(sql, profile_farm)
-            db.conn.commit()
             print("farm")
             profile_commands = [
                 new_profile["user"]["id"],
