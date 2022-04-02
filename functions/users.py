@@ -48,7 +48,7 @@ class Users():
         }
         print(f"profile with user:\t{profile}")
         sql = f"""
-            SELECT crops, farm_width
+            SELECT crops, crop_type, farm_width, farm_height
             FROM farms
             WHERE user_id = {self.user.id};
             """
