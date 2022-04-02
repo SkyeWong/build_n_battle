@@ -74,9 +74,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
         self, title: str, description: Optional[str] = None, mapping: Optional[str] = None,
         command_set: Optional[Set[commands.Command]] = None, set_author: bool = False
     ) -> Embed:
-        embed = Embed()
-        if title:
-            embed.title = title
+        embed = Embed(title=title)
         if description:
             embed.description = description
         if set_author:
@@ -110,8 +108,10 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 
     async def bot_help_embed(self, mapping: dict) -> Embed:
         return await self._help_embed(
+            title="Need some help? Check me out.",
+            description=self.context.bot.description,
             mapping=mapping,
-            set_author=True
+            set_author=True,
         )
     
     async def send_bot_help(self, mapping: dict):
