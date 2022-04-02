@@ -108,8 +108,6 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 
     async def bot_help_embed(self, mapping: dict) -> Embed:
         return await self._help_embed(
-            title="Bot Commands",
-            description=self.context.bot.description,
             mapping=mapping,
             set_author=True,
         )
