@@ -47,8 +47,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
         options.append(nextcord.SelectOption(
             label="Home",
             emoji="🏠",
-            description="Go back to the main menu.",
-            default=True
+            description="Go back to the main menu."
         ))
 
         for cog, command_set in self.get_bot_mapping().items():
