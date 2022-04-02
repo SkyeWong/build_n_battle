@@ -100,17 +100,33 @@ class Users():
                 """
             db.execute_query(update_farms_query)
             db.conn.commit()
+        return new_profile
 
-        else:
+    def create_user_profile(self):
+        if self.if_user_present() == False:
+            new_profile = {
+                "user": {
+                    "id": self.user.id,
+                    "gold": 1000,
+                    "xp": 0
+                },
+                "farm": {
+                    "crops": '["","","",""]',
+                    "crop_type": '["","","",""]',
+                    "farm_width": 2,
+                    "farm_height": 2
+                },
+                "commands_last_used": {
+                    "farm": int(datetime.now().timestamp())
+                }
+            }
             profile_user = [
-                new_profile["user"]["id"],
-                new_profile["user"]["gold"],
-                new_profile["user"]["xp"]
-            ]
-            print(profile_user)
+                    new_profile["user"]["id"],
+                    new_profile["user"]["gold"],
+                    new_profile["user"]["xp"]
+                ]
             sql = "INSERT INTO users (id, gold, xp) VALUES (%s, %s, %s)"
             db.execute_query(sql, profile_user)
-            print("users")
             profile_farm = [
                 new_profile["user"]["id"],
                 new_profile["farm"]["crops"],
@@ -118,10 +134,8 @@ class Users():
                 new_profile["farm"]["farm_width"],
                 new_profile["farm"]["farm_height"],
             ]
-            print(profile_farm)
             sql = "INSERT INTO farms (user_id, crops, crop_type, farm_width, farm_height) VALUES (%s, %s, %s, %s, %s)"
             db.execute_query(sql, profile_farm)
-            print("farm")
             profile_commands = [
                 new_profile["user"]["id"],
                 new_profile["commands_last_used"]["farm"]
@@ -129,4 +143,3 @@ class Users():
             sql = "INSERT INTO commands_last_used (user_id, farm) VALUES (%s, %s)"
             db.execute_query(sql, profile_commands)
             db.conn.commit()
-        return new_profile

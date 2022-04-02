@@ -52,19 +52,19 @@ class Currency(commands.Cog, name="Currency"):
         if user == None:
             user = ctx.author
         users = Users(user)
-        if users.if_user_present():
-            user_profile = users.get_user_profile()
-            profile_ui = Embed()
-            profile_ui.colour = random.choice(main.embed_colours)
-            profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
-            profile_ui.add_field(name="Gold", value=f'${user_profile["user"]["gold"]}', inline=False)
-            xp = user_profile["user"]["xp"]
-            profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
-            profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
-            profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
-            profile_msg = await ctx.send(embed=profile_ui)
-        else:
-            await ctx.send("The player doesn't exist!")
+        if users.if_user_present() == False:
+            users.create_user_profile()
+        user_profile = users.get_user_profile()
+        await ctx.send(user_profile)
+        profile_ui = Embed()
+        profile_ui.colour = random.choice(main.embed_colours)
+        profile_ui.set_author(name=f"{user.name}'s Profile:", icon_url=user.avatar)
+        profile_ui.add_field(name="Gold", value=f'${user_profile["user"]["gold"]}', inline=False)
+        xp = user_profile["user"]["xp"]
+        profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
+        profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
+        profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
+        profile_msg = await ctx.send(embed=profile_ui)
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)

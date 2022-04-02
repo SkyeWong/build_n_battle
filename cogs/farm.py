@@ -22,7 +22,7 @@ class Farm(commands.Cog, name="Farm"):
 
     @commands.command(name="farm")
     async def farm(self, ctx):
-        users = Users(ctx)
+        users = Users(ctx.author)
         user_profile = users.get_user_profile()
         await ctx.send(user_profile["farm"]["crops"])
 
