@@ -52,22 +52,6 @@ class Currency(commands.Cog, name="Currency"):
         if user == None:
             user = ctx.author
         users = Users(user)
-        test = {
-            'user': {
-                'id': '806334528230129695', 
-                'gold': '1000', 
-                'xp': '0'
-            }, 
-            'farm': {
-                'crops': '["", "", "", ""]', 
-                'crop_type': '["", "", "", ""]', 
-                'farm_width': 2, 
-                'farm_height': 2
-            }, 
-            'commands_last_used': {
-                'farm': '1648899919'
-            }
-        }
         await ctx.send(user_profile)
         if users.if_user_present() == False:
             users.create_user_profile()
