@@ -62,7 +62,7 @@ class Currency(commands.Cog, name="Currency"):
         await ctx.send("author")
         profile_ui.add_field(name="Gold", value=f'${user_profile["user"]["gold"]}', inline=False)
         await ctx.send("gold")
-        xp = user_profile["user"]["xp"]
+        xp = int(user_profile["user"]["xp"])
         profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
         await ctx.send("xp")
         profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
