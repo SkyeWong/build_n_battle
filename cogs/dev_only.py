@@ -201,7 +201,8 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def avatar(self, ctx, user: nextcord.Member=None):
         if user == None:
             user = ctx.author
-        await ctx.send(f"<{user.display_avatar.url}>\n{user.display_avatar.url}")
+        await ctx.send(f"<{user.display_avatar.url}>")
+        await ctx.send(user.display_avatar.url)
 
     @commands.command(name="emoji")
     async def emoji(self, ctx, *, emojiname:str):
