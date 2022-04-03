@@ -21,7 +21,7 @@ class Farm(commands.Cog, name="Farm"):
         self.bot = bot
         self._last_member = None
 
-    def get_farm_ui(ctx):
+    async def get_farm_ui(ctx):
         users = Users(ctx.author)
         user_profile = users.get_user_profile()
         crops = user_profile["farm"]["crops"]
@@ -35,10 +35,14 @@ class Farm(commands.Cog, name="Farm"):
             ]
         farm_ui = Embed()
         farm_ui.set_author(name=f"{ctx.author.name}'s Farm", icon_url=ctx.author.display_avatar.url)
+        await ctx.send("set author")
         crops_str = ""
         row = 1
         column = 1
+        await ctx.send("initiate varibles")
+        await ctx.send("`Row Column`")
         for i in json.loads(crops):
+            await ctx.send(f"` {row}:    {column}`")
             if i == "":
                 crops_str += crops_emoji[0]
             elif i == 1:
@@ -59,7 +63,7 @@ class Farm(commands.Cog, name="Farm"):
 
     @commands.command(name="farm")
     async def farm(self, ctx):
-        farm_ui = self.get_farm_ui(ctx)
+        farm_ui = await self.get_farm_ui(ctx)
         await ctx.send(farm_ui)
 
 def setup(bot: commands.Bot):
