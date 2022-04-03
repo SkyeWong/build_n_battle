@@ -34,7 +34,7 @@ class Farm(commands.Cog, name="Farm"):
             "<:crop_3:954022415032279120>" 
             ]
         farm_ui = Embed()
-        farm_ui.set_author(name=f"{user.name}'s Farm", icon_url=user.avatar.url)
+        farm_ui.set_author(name=f"{user.name}'s Farm", icon_url=user.display_avatar.url)
         crops_str = ""
         row = 0
         column = 0
