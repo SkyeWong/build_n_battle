@@ -142,7 +142,8 @@ class MyHelpCommand(commands.MinimalHelpCommand):
         )
 
     async def send_cog_help(self, cog: commands.Cog):
-        await self.send_bot_help()
-        
+        embed = await self.cog_help_embed(cog)
+        await self.get_destination().send(embed=embed)
+
     # Use the same function as command help for group help
     send_group_help = send_command_help
