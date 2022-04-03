@@ -3,6 +3,7 @@ import nextcord
 import random
 import main
 import math 
+import json
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
@@ -53,8 +54,8 @@ class Users():
         cursor = db.execute_query(sql)
         profile_farm = cursor.fetchall()[0]
         profile["farm"] = {
-            "crops": profile_farm[0],
-            "crop_type": profile_farm[1],
+            "crops": json.load(profile_farm[0]),
+            "crop_type": json.load(profile_farm[1]),
             "farm_width": profile_farm[2],
             "farm_height": profile_farm[3]
         }
@@ -87,8 +88,8 @@ class Users():
                 UPDATE 
                     farms
                 SET
-                    crops = {new_profile["farm"]["crops"]},
-                    crop_type = {new_profile["farm"]["crop_type"]},
+                    crops = {json.dump(new_profile["farm"]["crops"])},
+                    crop_type = {json.dump(new_profile["farm"]["crop_type"])},
                     farm_width = {new_profile["farm"]["farm_width"]},
                     farm_height = {new_profile["farm"]["farm_height"]}
                 WHERE

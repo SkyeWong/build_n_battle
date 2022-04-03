@@ -79,7 +79,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             embed.description = description
         if set_author:
             avatar = self.context.bot.user.avatar or self.context.bot.user.default_avatar
-            embed.set_author(name=self.context.bot.user.name, icon_url=avatar.url)
+            embed.set_author(name="The Definitive Guide", icon_url=avatar.url)
         if command_set:
             # show help about all commands in the set
             filtered = await self.filter_commands(command_set, sort=True)
@@ -108,7 +108,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 
     async def bot_help_embed(self, mapping: dict) -> Embed:
         return await self._help_embed(
-            title="Need some help? Check this out.",
+            title="Need some help? Check me out.",
             description=self.context.bot.description,
             mapping=mapping,
             set_author=True,
