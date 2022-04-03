@@ -88,8 +88,8 @@ class Users():
                 UPDATE 
                     farms
                 SET
-                    crops = {json.dump(new_profile["farm"]["crops"])},
-                    crop_type = {json.dump(new_profile["farm"]["crop_type"])},
+                    crops = {json.dumps(new_profile["farm"]["crops"])},
+                    crop_type = {json.dumps(new_profile["farm"]["crop_type"])},
                     farm_width = {new_profile["farm"]["farm_width"]},
                     farm_height = {new_profile["farm"]["farm_height"]}
                 WHERE
