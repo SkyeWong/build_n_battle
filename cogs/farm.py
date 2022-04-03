@@ -36,10 +36,9 @@ class Farm(commands.Cog, name="Farm"):
         farm_ui = Embed()
         farm_ui.set_author(name=f"{ctx.author.name}'s Farm", icon_url=ctx.author.display_avatar.url)
         crops_str = ""
-        row = 0
-        column = 0
+        row = 1
+        column = 1
         for i in json.loads(crops):
-            column += 1
             if i == "":
                 crops_str += crops_emoji[0]
             elif i == 1:
@@ -48,12 +47,13 @@ class Farm(commands.Cog, name="Farm"):
                 crops_str += crops_emoji[2]
             elif i == 3:
                 crops_str += crops_emoji[3]
+            column += 1
             if column == width:
                 crops_str += "\n"
                 row += 1
-            if row == height:
+                column = 1
+            if row > height:
                 break
-
         farm_ui.add_field(name="Crops", value=crops_str)
         return farm_ui
 

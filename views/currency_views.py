@@ -34,8 +34,8 @@ class Generate(View):
     )
     async def gold_generate(self, button, interaction):
         users = Users(self.ctx.author)
-        profile = list(users.get_user_profile())
-        profile[1] += 500
+        profile = users.get_user_profile()
+        profile["user"]["gold"] += 500
         profile = users.update_user_profile(profile)
         button.label = "Gold obtained!"
         button.disabled = True
@@ -49,8 +49,8 @@ class Generate(View):
     )
     async def xp_generate(self, button, interaction):
         users = Users(self.ctx.author)
-        profile = list(users.get_user_profile())
-        profile[2] += random.choice(range(6))
+        profile = users.get_user_profile()
+        profile["user"]["xp"] += random.choice(range(6))
         profile = users.update_user_profile(profile)
         button.label = "No more books..."
         button.disabled = True
