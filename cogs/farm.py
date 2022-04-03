@@ -21,8 +21,8 @@ class Farm(commands.Cog, name="Farm"):
         self.bot = bot
         self._last_member = None
 
-    def get_farm_ui(user):
-        users = Users(user)
+    def get_farm_ui(ctx):
+        users = Users(ctx.author)
         user_profile = users.get_user_profile()
         crops = user_profile["farm"]["crops"]
         width = user_profile["farm"]["farm_width"]
@@ -34,7 +34,7 @@ class Farm(commands.Cog, name="Farm"):
             "<:crop_3:954022415032279120>" 
             ]
         farm_ui = Embed()
-        farm_ui.set_author(name=f"{user.name}'s Farm", icon_url=user.display_avatar.url)
+        farm_ui.set_author(name=f"{ctx.author.name}'s Farm", icon_url=ctx.author.display_avatar.url)
         crops_str = ""
         row = 0
         column = 0
@@ -53,12 +53,13 @@ class Farm(commands.Cog, name="Farm"):
                 row += 1
             if row == height:
                 break
+
         farm_ui.add_field(name="Crops", value=crops_str)
         return farm_ui
 
     @commands.command(name="farm")
     async def farm(self, ctx):
-        farm_ui = self.get_farm_ui()
+        farm_ui = self.get_farm_ui(ctx)
         await ctx.send(farm_ui)
 
 def setup(bot: commands.Bot):
