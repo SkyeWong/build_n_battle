@@ -54,8 +54,8 @@ class Users():
         cursor = db.execute_query(sql)
         profile_farm = cursor.fetchall()[0]
         profile["farm"] = {
-            "crops": json.load(profile_farm[0]),
-            "crop_type": json.load(profile_farm[1]),
+            "crops": json.loads(profile_farm[0]),
+            "crop_type": json.loads(profile_farm[1]),
             "farm_width": profile_farm[2],
             "farm_height": profile_farm[3]
         }
