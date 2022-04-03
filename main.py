@@ -28,7 +28,7 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if message.content.find(f"<@!{str(bot.user.id)}>") != -1:
-        response = "Hello! I\"m SkyeBot, created by Skye Wong!"
+        response = "Hello! I'm SkyeBot, created by Skye Wong!"
         await message.channel.send(response)
 
 @bot.event

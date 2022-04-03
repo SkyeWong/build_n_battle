@@ -224,9 +224,9 @@ class dev_only(commands.Cog, name="Dev Only"):
                 response += f"No emoji is found for \"{emojis[i]}\"! Check the name and try again. Is it a default emoji? The bot only searches for server emojis."
             else:
                 response += f"{emoji}\n> Name - :{emoji.name}:\n> Guild - {emoji.guild.name}\n> ID - `{emoji.id}`\n> Url - `{emoji.url}`"
-        response += "\n\nThe bot only checks for the first match of the emoji. Other emojis with identical names won\"t be found."
+        response += "\n\nThe bot only checks for the first match of the emoji. Other emojis with identical names won't be found."
         await ctx.send(response)
-        
+
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
