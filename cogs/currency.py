@@ -56,7 +56,7 @@ class Currency(commands.Cog, name="Currency"):
             users.create_user_profile()
         user_profile = users.get_user_profile()
         profile_ui = Embed()
-        profile_ui.set_thumbnail(user.avatar)
+        profile_ui.set_thumbnail(user.avatar.url)
         profile_ui.colour = random.choice(main.embed_colours)
         profile_ui.set_author(name=f"{user.name}'s Profile:")
         profile_ui.add_field(name="Gold", value=f'${user_profile["user"]["gold"]}', inline=False)
