@@ -24,6 +24,7 @@ class Farm(commands.Cog, name="Farm"):
     async def get_farm_ui(ctx):
         users = Users(ctx.author)
         user_profile = users.get_user_profile()
+        await ctx.send("get user profile")
         crops = user_profile["farm"]["crops"]
         width = user_profile["farm"]["farm_width"]
         height = user_profile["farm"]["farm_height"]
@@ -41,7 +42,7 @@ class Farm(commands.Cog, name="Farm"):
         column = 1
         await ctx.send("initiate varibles")
         await ctx.send("`Row Column`")
-        for i in json.loads(crops):
+        for i in crops:
             await ctx.send(f"` {row}:    {column}`")
             if i == "":
                 crops_str += crops_emoji[0]
