@@ -76,8 +76,8 @@ class Users():
                 UPDATE 
                     users
                 SET
-                    gold = {new_profile["user"]["gold"]},
-                    xp = {new_profile["user"]["xp"]}
+                    gold = {str(new_profile["user"]["gold"])},
+                    xp = {str(new_profile["user"]["xp"])}
                 WHERE
                     id = {str(new_profile["user"]["id"])}
                 """
@@ -88,7 +88,19 @@ class Users():
                     farms
                 SET
                     crops = {new_profile["farm"]["crops"]},
-                    farm_width = {new_profile["farm"]["farm_width"]}
+                    crop_type = {new_profile["farm"]["crop_type"]},
+                    farm_width = {new_profile["farm"]["farm_width"]},
+                    farm_height = {new_profile["farm"]["farm_height"]}
+                WHERE
+                    user_id = {str(new_profile["user"]["id"])}
+                """
+            db.execute_query(update_farms_query)
+            db.conn.commit()
+            update_farms_query = f"""
+                UPDATE 
+                    commands_last_used
+                SET
+                    farm = {new_profile["commands_last_used"]["farm"]}
                 WHERE
                     user_id = {str(new_profile["user"]["id"])}
                 """
