@@ -1,3 +1,4 @@
+from curses.ascii import isalpha
 import os
 import nextcord
 import random
@@ -21,10 +22,11 @@ class Config(commands.Cog, name="Config"):
     @commands.command(name="prefix")
     @commands.has_permissions(administrator=True)
     async def prefix(self, ctx, prefix):
-        await ctx.send(f"Guild name: {ctx.guild.name}\nGuild id: {ctx.guild.id}\nprefix: {prefix}")
         if len(prefix) > 15:
             await ctx.send("A prefix can only be 15 characters or shorter.")
         else:
+            if prefix[-1].isaplha():
+                prefix += " "
             sql = f"""
                 UPDATE 
                     server_prefixes
