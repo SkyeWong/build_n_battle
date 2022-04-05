@@ -36,6 +36,7 @@ class Farm(commands.Cog, name="Farm"):
         await ctx.send(f"You left at <t:{last_used}:F>")
         await ctx.send(f"You left for {now - last_used} seconds.")
         left_for = now - last_used
+        user_profile["commands_last_used"]["farm"] = now
         # for i in crops:
             
         # set up the embed
@@ -70,6 +71,8 @@ class Farm(commands.Cog, name="Farm"):
                 break
         # add the crops field
         farm_ui.add_field(name="Crops", value=crops_str)
+        # update the user profile
+        user_profile = users.update_user_profile(user_profile)
         # send the embed
         return farm_ui
 
