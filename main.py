@@ -70,7 +70,10 @@ async def on_message(message):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
+        if ctx.command.cog_name == "Dev Only":
+            await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
+        else:
+            await ctx.send("You are missing the role(s)/permission(s) to use this command.")
     elif isinstance(error, commands.CommandOnCooldown):
         cd_ui = Embed()
         cd_ui.title = "Woah, chill."
