@@ -1,4 +1,3 @@
-from curses.ascii import isalpha
 import os
 from discord import ButtonStyle
 import nextcord
