@@ -68,7 +68,7 @@ class Users():
             cursor = db.execute_query(sql)
             profile_commands_last_used = cursor.fetchall()[0]
             profile["commands_last_used"] = {
-                "farm": profile_commands_last_used[0]
+                "farm": int(profile_commands_last_used[0])
             }
             return profile
         else:

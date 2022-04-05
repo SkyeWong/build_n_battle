@@ -33,6 +33,7 @@ class Farm(commands.Cog, name="Farm"):
         print("get now timestamp")
         now = int(datetime.now().timestamp())
         print("got now timestamp")
+        await ctx.send(f"You left at <t:{last_used}:F>")
         await ctx.send(f"You left for {now - last_used} seconds.")
         left_for = now - last_used
         # for i in crops:
