@@ -41,14 +41,13 @@ class Farm(commands.Cog, name="Farm"):
             ]
         farm_ui = Embed()
         farm_ui.set_author(name=f"{ctx.author.name}'s Farm", icon_url=ctx.author.display_avatar.url)
-        await ctx.send("set author")
+        farm_ui.colour = random.choice(main.embed_colours)
         crops_str = ""
         row = 1
         column = 1
-        await ctx.send("initiate varibles")
         await ctx.send("`Row Column`")
         for i in crops:
-            await ctx.send(f"` {row}:    {column}`")
+            await ctx.send(f"` {row}    {column}`")
             if i == "":
                 crops_str += crops_emoji[0]
             elif i == 1:
@@ -58,7 +57,7 @@ class Farm(commands.Cog, name="Farm"):
             elif i == 3:
                 crops_str += crops_emoji[3]
             column += 1
-            if column == width:
+            if column > width:
                 crops_str += "\n"
                 row += 1
                 column = 1

@@ -73,7 +73,7 @@ class Currency(commands.Cog, name="Currency"):
         ||some time soon||
         """
         buttons_ui = Embed()
-        buttons_ui.color = random.choice(main.embed_colours)
+        buttons_ui.colour = random.choice(main.embed_colours)
         buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
         view = Generate(ctx)
