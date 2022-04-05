@@ -55,7 +55,7 @@ class Config(commands.Cog, name="Config"):
                         page = Embed()
                         page.title = "Prefix set!"
                         page.description = get_embed_description(self.prefix)
-                        page.add_field(name="Great! I added a space.")
+                        page.add_field(name="",value="Great! I added a space.")
                         return page
                     
                     def cancel_page(self):
@@ -63,7 +63,7 @@ class Config(commands.Cog, name="Config"):
                         page = Embed()
                         page.title = "Prefix set!"
                         page.description = get_embed_description(self.prefix)
-                        page.add_field(name="Fine. The space is not added.")
+                        page.add_field(name="",value="Fine. The space is not added.")
                         return page
             
                 changeprefix = ChangePrefix(ctx, prefix)
@@ -71,6 +71,7 @@ class Config(commands.Cog, name="Config"):
                 prefix_ui.title = "Setting the prefix:"
                 view.message = await ctx.send(embed=prefix_ui, view=view)
             else:
+                change_prefix(prefix)
                 prefix_ui.title = "Prefix set!"
                 await ctx.send(embed=prefix_ui)
 

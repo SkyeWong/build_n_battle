@@ -22,7 +22,7 @@ class AddSpaceInPrefix(View):
     @nextcord.ui.button(
         label = "Cancel", 
         style = nextcord.ButtonStyle.red, 
-        emoji = "❌"
+        emoji = "❎"
     )
     async def cancel(self, button, interaction):
         for i in self.children:
@@ -32,7 +32,7 @@ class AddSpaceInPrefix(View):
     @nextcord.ui.button(
         label = "Confirm", 
         style = nextcord.ButtonStyle.green, 
-        emoji = "✔️"
+        emoji = "✅"
     )
     async def confirm(self, button, interaction):
         for i in self.children:
