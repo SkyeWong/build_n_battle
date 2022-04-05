@@ -65,7 +65,7 @@ class Farm(commands.Cog, name="Farm"):
             if row > height:
                 break
         farm_ui.add_field(name="Crops", value=crops_str)
-        await ctx.send(farm_ui)
+        await ctx.send(embed=farm_ui)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Farm(bot))
