@@ -21,6 +21,7 @@ class Config(commands.Cog, name="Config"):
     @commands.command(name="prefix")
     @commands.has_permissions(administrator=True)
     async def prefix(self, ctx, prefix):
+        await ctx.send(f"Guild name: {ctx.guild.name}\nGuild id: {ctx.guild.id}")
         if len(prefix) > 15:
             await ctx.send("A prefix can only be 15 characters or shorter.")
         else:
