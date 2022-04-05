@@ -21,7 +21,12 @@ class Farm(commands.Cog, name="Farm"):
         self.bot = bot
         self._last_member = None
 
-    async def get_farm_ui(ctx):
+    def get_farm_ui(ctx):
+        farm_ui = None
+        return farm_ui
+
+    @commands.command(name="farm")
+    async def farm(self, ctx):
         users = Users(ctx.author)
         user_profile = users.get_user_profile()
         await ctx.send("get user profile")
@@ -60,11 +65,6 @@ class Farm(commands.Cog, name="Farm"):
             if row > height:
                 break
         farm_ui.add_field(name="Crops", value=crops_str)
-        return farm_ui
-
-    @commands.command(name="farm")
-    async def farm(self, ctx):
-        farm_ui = await self.get_farm_ui(ctx)
         await ctx.send(farm_ui)
 
 def setup(bot: commands.Bot):
