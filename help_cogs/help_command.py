@@ -42,6 +42,9 @@ class MyHelpCommand(commands.MinimalHelpCommand):
     def get_command_signature(self, command):
         return f"{self.context.clean_prefix}{command.qualified_name} {command.signature}"
 
+    def get_command_name(self, command):
+        return f"{self.context.clean_prefix}{command.qualified_name}"
+
     async def _cog_select_options(self) -> list[nextcord.SelectOption]:
         options: list[nextcord.SelectOption] = []
         options.append(nextcord.SelectOption(
@@ -85,7 +88,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             filtered = await self.filter_commands(command_set, sort=True)
             for command in filtered:
                 embed.add_field(
-                    name=self.get_command_signature(command),
+                    name=self.get_command_name(command),
                     value=command.short_doc or "...",
                     inline=False
                 )
@@ -125,6 +128,10 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             title=f"{emoji} {command.qualified_name}" if emoji else command.qualified_name,
             description=command.help,
             command_set=command.commands if isinstance(command, commands.Group) else None
+        )
+        embed.add_field(
+            name = "`usage:`",
+            value = self.get_command_signature(command)
         )
         await self.get_destination().send(embed=embed)
 
