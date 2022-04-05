@@ -21,7 +21,6 @@ class Config(commands.Cog, name="Config"):
         self._last_member = None 
     
     @commands.command(name="prefix")
-    @commands.has_permissions(administrator=True)
     async def prefix(self, ctx, prefix: str=None):
         if prefix == None:
             sql = f"""
