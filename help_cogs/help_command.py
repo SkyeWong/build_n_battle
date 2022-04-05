@@ -32,7 +32,7 @@ class HelpView(nextcord.ui.View):
 
     async def interaction_check(self, interaction: nextcord.Interaction) -> bool:
         if interaction.user != self._help_command.context.author:
-            await interaction.followup.send("This is not for you.", ephemeral=True)
+            await interaction.response.send_message("This is not for you.", ephemeral=True)
             return False
         else:
             return True

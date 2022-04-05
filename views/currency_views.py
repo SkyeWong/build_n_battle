@@ -64,7 +64,7 @@ class Generate(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
@@ -126,7 +126,7 @@ class MultiplePages(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
@@ -198,7 +198,7 @@ class PagesWithSelect(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.ctx.author:
-            await interaction.followup.send(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `{self.ctx.command}`", ephemeral=True)
             return False
         else:
             return True
