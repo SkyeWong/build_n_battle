@@ -32,7 +32,7 @@ class Users():
             return True
 
     def get_user_profile(self):
-        if self.if_user_present == True:
+        if self.if_user_present():
             sql = f"""
                 SELECT id, gold, xp
                 FROM users
