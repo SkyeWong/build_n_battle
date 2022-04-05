@@ -20,8 +20,8 @@ class Config(commands.Cog, name="Config"):
         self.bot = bot
         self._last_member = None 
     
-    @commands.command(name="prefix")
-    async def prefix(self, ctx, prefix: str=None):
+    @commands.command(name="setprefix")
+    async def setprefix(self, ctx, prefix: str=None):
         if prefix == None:
             sql = f"""
             SELECT prefix
@@ -30,6 +30,7 @@ class Config(commands.Cog, name="Config"):
             """
             cursor = db.execute_query(sql)
             prefix = cursor.fetchall()[0][1]
+            print(prefix)
             await ctx.send(f"The current prefix is `{prefix}`. eg `{prefix}help`")
         else:
             if ctx.author.guild_permissions.administrator:
@@ -63,6 +64,7 @@ class Config(commands.Cog, name="Config"):
                                 self.prefix += " "
                                 change_prefix(self.prefix)
                                 page = Embed()
+                                prefix_ui.colour = random.choice(main.embed_colours)
                                 page.title = "Prefix set!"
                                 page.description = get_embed_description(self.prefix)
                                 page.add_field(name="Great!",value="I added a space.")
@@ -71,6 +73,7 @@ class Config(commands.Cog, name="Config"):
                             def cancel_page(self):
                                 change_prefix(self.prefix)
                                 page = Embed()
+                                prefix_ui.colour = random.choice(main.embed_colours)
                                 page.title = "Prefix set!"
                                 page.description = get_embed_description(self.prefix)
                                 page.add_field(name="Fine.",value="The space is not added.")
