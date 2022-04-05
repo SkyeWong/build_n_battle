@@ -29,7 +29,7 @@ class Config(commands.Cog, name="Config"):
             WHERE server_id = {ctx.guild.id}
             """
             cursor = db.execute_query(sql)
-            prefix = cursor.fetchall()[0][1]
+            prefix = cursor.fetchall()[0][0]
             await ctx.send(f"The current prefix is `{prefix}`. eg `{prefix}help`")
         else:
             if ctx.channel.permissions_for(ctx.author).manage_guild:
@@ -85,7 +85,7 @@ class Config(commands.Cog, name="Config"):
                         prefix_ui.title = "Prefix set!"
                         await ctx.send(embed=prefix_ui)
             else:
-                await ctx.send("Sorry you don't have the `Manage Server` perm required to set the prefix. Contact with your owner to change the prefix.")
+                await ctx.send("Sorry you don't have the `Manage Server` perm required to set the prefix.")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Config(bot))
