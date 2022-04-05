@@ -25,7 +25,6 @@ class Config(commands.Cog, name="Config"):
         if len(prefix) > 15:
             await ctx.send("A prefix can only be 15 characters or shorter.")
         else:
-            print("making sql")
             sql = f"""
                 UPDATE 
                     server_prefixes
@@ -34,13 +33,9 @@ class Config(commands.Cog, name="Config"):
                 WHERE
                     server_id = {ctx.guild.id}
                 """
-            print("made sql, executing")
             db.execute_query(sql)
-            print("executed, commiting")
             db.conn.commit()
-            print("commiting, sending message")
-            await ctx.send(f"The prefix for {ctx.guild.name} has been changed to {prefix}")
-            print("message sent")
+            await ctx.send(f"The prefix for `{ctx.guild.name}` has been changed to \"`{prefix}`\"")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Config(bot))
