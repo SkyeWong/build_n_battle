@@ -30,7 +30,9 @@ class Farm(commands.Cog, name="Farm"):
         height = user_profile["farm"]["farm_height"]
         last_used = user_profile["commands_last_used"]["farm"]
         # grow the crops
+        print("get now timestamp")
         now = int(datetime.now().timestamp())
+        print("got now timestamp")
         await ctx.send(f"You left for {now - last_used} seconds.")
         left_for = now - last_used
         # for i in crops:
