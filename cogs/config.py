@@ -29,11 +29,10 @@ class Config(commands.Cog, name="Config"):
             WHERE server_id = {ctx.guild.id}
             """
             cursor = db.execute_query(sql)
-            prefix = cursor.fetchall()[0][1]
-            print(prefix)
+            prefix = cursor.fetchall()[0][0]
             await ctx.send(f"The current prefix is `{prefix}`. eg `{prefix}help`")
         else:
-            if ctx.author.guild_permissions.administrator:
+            if ctx.channel.permissions_for(ctx.author).administrator:
                 if len(prefix) > 15:
                     await ctx.send("A prefix can only be 15 characters or shorter.")
                 else:
