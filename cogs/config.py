@@ -30,7 +30,7 @@ class Config(commands.Cog, name="Config"):
                 UPDATE 
                     server_prefixes
                 SET
-                    prefix = {prefix}
+                    prefix = "{prefix}"
                 WHERE
                     server_id = {ctx.guild.id}
                 """
