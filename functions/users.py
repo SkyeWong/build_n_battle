@@ -32,44 +32,47 @@ class Users():
             return True
 
     def get_user_profile(self):
-        sql = f"""
-            SELECT id, gold, xp
-            FROM users
-            WHERE id = {self.user.id};
-            """
-        cursor = db.execute_query(sql)
-        profile_user = cursor.fetchall()[0]
-        profile = {
-            "user": {
-                "id": profile_user[0],
-                "gold": int(profile_user[1]),
-                "xp": int(profile_user[2])
+        if self.if_user_present == True:
+            sql = f"""
+                SELECT id, gold, xp
+                FROM users
+                WHERE id = {self.user.id};
+                """
+            cursor = db.execute_query(sql)
+            profile_user = cursor.fetchall()[0]
+            profile = {
+                "user": {
+                    "id": profile_user[0],
+                    "gold": int(profile_user[1]),
+                    "xp": int(profile_user[2])
+                }
             }
-        }
-        sql = f"""
-            SELECT crops, crop_type, farm_width, farm_height
-            FROM farms
-            WHERE user_id = {self.user.id};
-            """
-        cursor = db.execute_query(sql)
-        profile_farm = cursor.fetchall()[0]
-        profile["farm"] = {
-            "crops": json.loads(profile_farm[0]),
-            "crop_type": json.loads(profile_farm[1]),
-            "farm_width": profile_farm[2],
-            "farm_height": profile_farm[3]
-        }
-        sql = f"""
-            SELECT farm
-            FROM commands_last_used
-            WHERE user_id = {self.user.id}
-            """
-        cursor = db.execute_query(sql)
-        profile_commands_last_used = cursor.fetchall()[0]
-        profile["commands_last_used"] = {
-            "farm": profile_commands_last_used[0]
-        }
-        return profile
+            sql = f"""
+                SELECT crops, crop_type, farm_width, farm_height
+                FROM farms
+                WHERE user_id = {self.user.id};
+                """
+            cursor = db.execute_query(sql)
+            profile_farm = cursor.fetchall()[0]
+            profile["farm"] = {
+                "crops": json.loads(profile_farm[0]),
+                "crop_type": json.loads(profile_farm[1]),
+                "farm_width": profile_farm[2],
+                "farm_height": profile_farm[3]
+            }
+            sql = f"""
+                SELECT farm
+                FROM commands_last_used
+                WHERE user_id = {self.user.id}
+                """
+            cursor = db.execute_query(sql)
+            profile_commands_last_used = cursor.fetchall()[0]
+            profile["commands_last_used"] = {
+                "farm": profile_commands_last_used[0]
+            }
+            return profile
+        else:
+            return False
 
     def update_user_profile(self, new_profile):
         if self.if_user_present():
@@ -107,7 +110,9 @@ class Users():
                 """
             db.execute_query(update_farms_query)
             db.conn.commit()
-        return new_profile
+            return new_profile
+        else:
+            return False
 
     def create_user_profile(self):
         if self.if_user_present() == False:
@@ -150,3 +155,6 @@ class Users():
             sql = "INSERT INTO commands_last_used (user_id, farm) VALUES (%s, %s)"
             db.execute_query(sql, profile_commands)
             db.conn.commit()
+            return new_profile
+        else:
+            return False
