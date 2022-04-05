@@ -20,8 +20,8 @@ class Config(commands.Cog, name="Config"):
         self.bot = bot
         self._last_member = None 
     
-    @commands.command(name="setprefix")
-    async def setprefix(self, ctx, prefix: str=None):
+    @commands.command(name="prefix")
+    async def prefix(self, ctx, prefix: str=None):
         if prefix == None:
             sql = f"""
             SELECT prefix
@@ -29,10 +29,10 @@ class Config(commands.Cog, name="Config"):
             WHERE server_id = {ctx.guild.id}
             """
             cursor = db.execute_query(sql)
-            prefix = cursor.fetchall()[0][0]
+            prefix = cursor.fetchall()[0][1]
             await ctx.send(f"The current prefix is `{prefix}`. eg `{prefix}help`")
         else:
-            if ctx.channel.permissions_for(ctx.author).administrator:
+            if ctx.channel.permissions_for(ctx.author).manage_guild:
                 if len(prefix) > 15:
                     await ctx.send("A prefix can only be 15 characters or shorter.")
                 else:
@@ -63,7 +63,6 @@ class Config(commands.Cog, name="Config"):
                                 self.prefix += " "
                                 change_prefix(self.prefix)
                                 page = Embed()
-                                prefix_ui.colour = random.choice(main.embed_colours)
                                 page.title = "Prefix set!"
                                 page.description = get_embed_description(self.prefix)
                                 page.add_field(name="Great!",value="I added a space.")
@@ -72,7 +71,6 @@ class Config(commands.Cog, name="Config"):
                             def cancel_page(self):
                                 change_prefix(self.prefix)
                                 page = Embed()
-                                prefix_ui.colour = random.choice(main.embed_colours)
                                 page.title = "Prefix set!"
                                 page.description = get_embed_description(self.prefix)
                                 page.add_field(name="Fine.",value="The space is not added.")
@@ -87,7 +85,7 @@ class Config(commands.Cog, name="Config"):
                         prefix_ui.title = "Prefix set!"
                         await ctx.send(embed=prefix_ui)
             else:
-                await ctx.send("Sorry you are not an `administrator`. Contact with your owner to change the prefix.")
+                await ctx.send("Sorry you don't have the `Manage Server` perm required to set the prefix. Contact with your owner to change the prefix.")
 
 def setup(bot: commands.Bot):
     bot.add_cog(Config(bot))
