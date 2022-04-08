@@ -28,13 +28,13 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
         response = "Sending DM..."
         await ctx.send(response)
-        await recipient.send(f"{ctx.author} sent a message to you via me, {bot.user.name}:\n {message}")
+        await recipient.send(f"{ctx.user} sent a message to you via me, {bot.user.name}:\n {message}")
         embed = nextcord.Embed()
         embed.title = "DM succesfully sent!"
         embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
         embed.description = "Message details:"
         embed.colour = random.choice(main.embed_colours)
-        embed.add_field(name="From:", value=ctx.author, inline=True)
+        embed.add_field(name="From:", value=ctx.user, inline=True)
         embed.add_field(name="To:", value=recipient, inline=True)
         embed.add_field(name="Message:", value=message, inline=True)
         embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
