@@ -12,7 +12,7 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed
 from nextcord.ui import Button, View
 
-class Utility(commands.cog, name="Utility"):
+class Utility(commands.Cog, name="Utility"):
 
     COG_EMOJI = "🔨"
 
