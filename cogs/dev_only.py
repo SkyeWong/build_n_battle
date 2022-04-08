@@ -24,16 +24,11 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @commands.command(name="dm", brief="Send a message!", help="Send some random dm to any user with your own message!", aliases=["message", "tell"])
+    @bot.slash_command(name="dm", guild_ids={827537903634612235}, description="Send a message! also this is my first slash command")
     async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
-        await recipient.create_dm()
-        response = "Escaping markdowns and mentions..."
-        await ctx.send(response)
-        message = nextcord.utils.escape_markdown(message)
-        message = nextcord.utils.escape_mentions(message)
         response = "Sending DM..."
         await ctx.send(response)
-        await recipient.dm_channel.send(f"{ctx.author} sent a message to you via me, {bot.user.name}:\n {message}")
+        await recipient.send(f"{ctx.author} sent a message to you via me, {bot.user.name}:\n {message}")
         embed = nextcord.Embed()
         embed.title = "DM succesfully sent!"
         embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
@@ -44,16 +39,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.add_field(name="Message:", value=message, inline=True)
         embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
         embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
-        await ctx.send(embed=embed)
-
-    @commands.command(name="invite", brief="Invite me!", help="Shows the invite link for this bot. Nothing more, nothing less.")
-    async def invite(self, ctx):
-        embed = nextcord.Embed()
-        embed.title = "Invite me to your server and have some fun!"
-        embed.set_author(name=bot.user.name, icon_url= bot.user.avatar)
-        embed.description = "[here](https://discord.com/api/oauth2/authorize?client_id=906505022441918485&permissions=8&scope=bot)"
-        embed.colour = random.choice(main.embed_colours)
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
     @commands.command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
     async def dice(self, ctx, number_of_sides: int, number_of_dice: int=None):
@@ -141,61 +127,6 @@ class dev_only(commands.Cog, name="Dev Only"):
         if money <= 10:
             await ctx.send(f"You lost! You have only ${money}...")
 
-    #@commands.command(name="unread_dms", help="Show dm messages for the bot. Only for the owner.", hidden=True)
-    #async def unread_dms(self, ctx):
-        #with open("dm.json", "r") as f:
-            #dm_messages = json.load(f)
-        #if len(dm_messages) != 0:
-            #page = 0
-            #dm_ui = nextcord.Embed()
-            #dm_ui.title = f"Unread DM Messages for {bot.user}:"
-            #dm_ui.description = f"From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}"
-            #dm_ui.colour = random.choice(main.embed_colours)
-            #dm_ui.set_footer(text=f"If messages aren\"t cached, you can\"t see them!\nPage {page+1}/{len(dm_messages)}")
-            #dm_embed = await ctx.send(embed=dm_ui)
-            #reacted_emoji = ""
-            #emojis = ["◀️", "▶️", "⏮️", "⏭️", "⏹️", "🗑️"]
-            #for emoji in emojis:
-                #await dm_embed.add_reaction(emoji)
-            #while reacted_emoji != "⏹️" and reacted_emoji != "🗑️":
-                #dm_ui.description = f"From: {dm_messages[page][0]}\nContent: {dm_messages[page][1]}\nAt: {dm_messages[page][2]}"
-                #dm_ui.set_footer(text=f"If messages aren\"t cached, you can\"t see them!\nPage {page+1}/{len(dm_messages)}")
-                #await dm_embed.edit(embed=dm_ui)
-                #def check(reaction, user):
-                    #for emoji in emojis:
-                        #if str(reaction.emoji) == emoji:
-                            #correct_emoji = True
-                    #return user == ctx.author and correct_emoji
-                #try:
-                    #reaction, user = await bot.wait_for("reaction_add", timeout=15.0, check=check)
-                #except asyncio.TimeoutError:
-                    #break
-                #else:
-                    #reacted_emoji = str(reaction.emoji)
-                    #await dm_embed.remove_reaction(reaction.emoji, ctx.author)
-                    #dm_ui.clear_fields()
-                    #if reacted_emoji == "▶️":
-                        #if page+1 != len(dm_messages):
-                            #page+=1
-                        #else:
-                            #dm_ui.add_field(name="Error", value="You can\"t go forwards!", inline=True)
-                    #elif reacted_emoji == "◀️":
-                        #if page != 0:
-                            #page-=1
-                        #else:
-                            #dm_ui.add_field(name="Error", value="You can\"t go backwards!", inline=False)
-                    #elif reacted_emoji == "⏮️":
-                        #page = 0
-                    #elif reacted_emoji == "⏭️":
-                        #page = len(dm_messages)-1
-                    #elif reacted_emoji == "🗑️":
-                        #with open("dm.json", "w+") as f:
-                            #json.dump([], f, indent=4)
-                        #await ctx.send("All your messages are set to read!")
-                    #await dm_embed.edit(embed=dm_ui)    
-            #await dm_embed.delete()
-        #else:
-            #await ctx.send("There are no unread messages!")
 
     @commands.command(name="avatar", help="Shows avatar!")
     async def avatar(self, ctx, user: nextcord.Member=None):
