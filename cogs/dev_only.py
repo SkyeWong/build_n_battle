@@ -39,7 +39,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.add_field(name="Message:", value=message, inline=True)
         embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
         embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
-        await ctx.send_message(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
     async def dice(self, ctx, number_of_sides: int, number_of_dice: int=None):
