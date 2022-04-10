@@ -46,6 +46,7 @@ class PageButtons(nextcord.ui.View):
             button.disabled = True
         embed = MyHelpCommand.cog_help_embed(self.cog, self.page*8)
         await self._help_command.response.edit(embed=embed, view=self)
+
 class HelpView(nextcord.ui.View):
     def __init__(self, help_command: "MyHelpCommand", options: list[nextcord.SelectOption], cog: Optional[commands.Cog], *, timeout: Optional[float] = 120.0):
         super().__init__(timeout=timeout)
@@ -188,7 +189,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
     async def send_cog_help(self, cog: commands.Cog):
         embed = await self.cog_help_embed(cog)
         options = await self._cog_select_options()
-        await self.get_destination().send(embed=embed, view=HelpView(self, options))
+        await self.get_destination().send(embed=embed, view=HelpView(self, options, cog))
 
     # Use the same function as command help for group help
     send_group_help = send_command_help
