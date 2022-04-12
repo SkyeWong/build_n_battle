@@ -24,22 +24,23 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @bot.slash_command(name="dm", description="Send a message! also this is my first slash command")
-    async def dm(self, ctx, recipient: nextcord.Member, *, message: str):
-        response = "Sending DM..."
-        await ctx.send(response)
-        await recipient.send(f"{ctx.user} sent a message to you via me, {bot.user.name}:\n {message}")
-        embed = nextcord.Embed()
-        embed.title = "DM succesfully sent!"
-        embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
-        embed.description = "Message details:"
-        embed.colour = random.choice(main.embed_colours)
-        embed.add_field(name="From:", value=ctx.user, inline=True)
-        embed.add_field(name="To:", value=recipient, inline=True)
-        embed.add_field(name="Message:", value=message, inline=True)
-        embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
-        embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
-        await ctx.send(embed=embed)
+    @bot.slash_command(name="dm", description="Send a message! also this is my first slash command", force_global=True)
+    async def dm(self, interaction, recipient: nextcord.Member, *, message: str):
+        if recipient.bot == True:
+            await interaction.response.send_message("I can't send a message to a BOT can i")
+        else:
+            await recipient.send(f"{interaction.user} sent a message to you via me, {bot.user.name}:\n {message}")
+            embed = nextcord.Embed()
+            embed.title = "DM succesfully sent!"
+            embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
+            embed.description = "Message details:"
+            embed.colour = random.choice(main.embed_colours)
+            embed.add_field(name="From:", value=interaction.user, inline=True)
+            embed.add_field(name="To:", value=recipient, inline=True)
+            embed.add_field(name="Message:", value=message, inline=True)
+            embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
+            embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
+            await interaction.response.send_messsage(embed=embed)
 
     @commands.command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
     async def dice(self, ctx, number_of_sides: int, number_of_dice: int=None):
