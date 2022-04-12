@@ -32,6 +32,7 @@ async def on_ready():
     print("Connected servers/guilds:")
     for guild in bot.guilds:
         print(f"  -{guild.name}(id={guild.id})")
+        await guild.rollout_application_commands()
         sql = f"""
             SELECT prefix
             FROM server_prefixes
