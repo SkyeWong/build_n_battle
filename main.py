@@ -25,14 +25,19 @@ def roundup(number, round_to):
 
 def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
-                
+
+for filename in os.listdir(f"cogs"):
+    if filename.endswith("py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
+                    
 @bot.event
 async def on_ready():
     print(f"{bot.user.name} has connected to Discord!")
     print("Connected servers/guilds:")
     for guild in bot.guilds:
         print(f"  -{guild.name}(id={guild.id})")
-        await guild.rollout_application_commands()
+        for guild in bot.guilds:
+            await guild.rollout_application_commands()
         sql = f"""
             SELECT prefix
             FROM server_prefixes
@@ -81,11 +86,5 @@ async def on_command_error(ctx, error):
         cd_ui.description = f"Wait **{round(error.retry_after)}** seconds left before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
         cd_ui.colour = random.choice(embed_colours)
         await ctx.send(embed=cd_ui)
-
-for filename in os.listdir(f"cogs"):
-    if filename.endswith("py"):
-        bot.load_extension(f"cogs.{filename[:-3]}")
-
-bot.load_extension("help_cogs.cog")
 
 bot.run(TOKEN)
