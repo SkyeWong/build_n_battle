@@ -1,4 +1,3 @@
-from discord import ButtonStyle
 import main
 import random
 from typing import Optional, Set
@@ -19,44 +18,12 @@ class HelpDropdown(nextcord.ui.Select):
         )
         await interaction.response.edit_message(embed=embed)
 
-class PageButtons(nextcord.ui.View):
-    def __init__(self, cog, page):
-        self.cog = cog
-        self.page = page
-
-    @nextcord.ui.button(
-        emoji = "◀️",
-        style = nextcord.ButtonStyle.blurple
-    )
-    async def back(self, button, interaction):
-        self.page -= 1
-        if self.page == 0:
-            button.disabled = True
-        embed = MyHelpCommand.cog_help_embed(self.cog, self.page*8)
-        await self._help_command.response.edit(embed=embed, view=self)
-
-    @nextcord.ui.button(
-        emoji = "◀️",
-        style = nextcord.ButtonStyle.blurple
-    )
-    async def back(self, button, interaction):
-        cog_commands = self.cog.get_commands
-        self.page += 1
-        if self.page == len(cog_commands):
-            button.disabled = True
-        embed = MyHelpCommand.cog_help_embed(self.cog, self.page*8)
-        await self._help_command.response.edit(embed=embed, view=self)
 
 class HelpView(nextcord.ui.View):
-    def __init__(self, help_command: "MyHelpCommand", options: list[nextcord.SelectOption], cog: Optional[commands.Cog], *, timeout: Optional[float] = 120.0):
+    def __init__(self, help_command: "MyHelpCommand", options: list[nextcord.SelectOption], *, timeout: Optional[float] = 120.0):
         super().__init__(timeout=timeout)
         self.add_item(HelpDropdown(help_command, options))
         self._help_command = help_command
-        # if cog:
-        #     self.page = 0
-        #     self.cog = cog
-        #     for i in PageButtons.children:
-        #         self.add_item(i)
 
     async def on_timeout(self):
         # remove dropdown from message on timeout
@@ -108,26 +75,23 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 
     async def _help_embed(
         self, title: str, description: Optional[str] = None, mapping: Optional[str] = None,
-        command_set: Optional[Set[commands.Command]] = None, set_author: bool = False, start_index: Optional[int] = 0
+        command_set: Optional[Set[commands.Command]] = None, set_author: bool = False
     ) -> Embed:
         embed = Embed(title=title)
         if description:
             embed.description = description
         if set_author:
             avatar = self.context.bot.user.avatar or self.context.bot.user.default_avatar
-            embed.set_author(name="Bot Commands", icon_url=avatar.url)
+            embed.set_author(name="The Definitive Guide", icon_url=avatar.url)
         if command_set:
             # show help about all commands in the set
             filtered = await self.filter_commands(command_set, sort=True)
             for command in filtered:
-                if filtered.index(command) > (start_index + 8):
-                    break
-                else:
-                    embed.add_field(
-                        name=self.get_command_name(command),
-                        value=command.short_doc or "...",
-                        inline=False
-                    )
+                embed.add_field(
+                    name=self.get_command_name(command),
+                    value=command.short_doc or "...",
+                    inline=False
+                )
         elif mapping:
             for cog, command_set in mapping.items():
                 filtered = await self.filter_commands(command_set, sort=True)
@@ -150,7 +114,7 @@ class MyHelpCommand(commands.MinimalHelpCommand):
             title="Need some help? Check me out.",
             description=self.context.bot.description,
             mapping=mapping,
-            set_author=True
+            set_author=True,
         )
     
     async def send_bot_help(self, mapping: dict):
@@ -171,25 +135,22 @@ class MyHelpCommand(commands.MinimalHelpCommand):
         )
         await self.get_destination().send(embed=embed)
 
-    async def cog_help_embed(self, cog: Optional[commands.Cog], start_index: Optional[int] = 0) -> Embed:
+    async def cog_help_embed(self, cog: Optional[commands.Cog]) -> Embed:
         if cog is None:
             return await self._help_embed(
                 title=f"No category",
-                command_set=self.get_bot_mapping()[None],
-                start_index = start_index
+                command_set=self.get_bot_mapping()[None]
             )
         emoji = getattr(cog, "COG_EMOJI", None)
         return await self._help_embed(
             title=f"{emoji} {cog.qualified_name}" if emoji else cog.qualified_name,
             description=cog.description,
-            command_set=cog.get_commands(),
-            start_index = start_index
+            command_set=cog.get_commands()
         )
 
     async def send_cog_help(self, cog: commands.Cog):
         embed = await self.cog_help_embed(cog)
-        options = await self._cog_select_options()
-        await self.get_destination().send(embed=embed, view=HelpView(self, options, cog))
+        await self.get_destination().send(embed=embed)
 
     # Use the same function as command help for group help
     send_group_help = send_command_help
