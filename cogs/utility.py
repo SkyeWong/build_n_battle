@@ -20,7 +20,7 @@ class Utility(commands.Cog, name="Utility"):
         self.bot = bot
         self._last_member = None 
 
-    @bot.slash_command(name="invite", description="Invite me!", force_global=True)
+    @bot.slash_command(name="invite", description="Invite me!", guild_ids=bot.guilds)
     async def invite(self, interaction):
         embed = nextcord.Embed()
         embed.title = "Invite me to your server and have some fun!"
@@ -29,7 +29,7 @@ class Utility(commands.Cog, name="Utility"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @bot.slash_command(name="help", description="Get a list of commands or info of a specific command.")
+    @bot.slash_command(name="help", description="Get a list of commands or info of a specific command.", guild_ids=bot.guilds)
     async def help(self, interaction):
         await interaction.response.send_message("hi")
 

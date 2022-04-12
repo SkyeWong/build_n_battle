@@ -24,7 +24,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @bot.slash_command(name="dm", description="Send a message! also this is my first slash command", force_global=True)
+    @bot.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=bot.guilds)
     async def dm(self, interaction, recipient: nextcord.Member, *, message: str):
         if recipient.bot == True:
             await interaction.response.send_message("I can't send a message to a BOT can i")
