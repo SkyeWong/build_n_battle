@@ -52,11 +52,11 @@ class HelpView(nextcord.ui.View):
         super().__init__(timeout=timeout)
         self.add_item(HelpDropdown(help_command, options))
         self._help_command = help_command
-        if cog:
-            self.page = 0
-            self.cog = cog
-            for i in PageButtons.children:
-                self.add_item(i)
+        # if cog:
+        #     self.page = 0
+        #     self.cog = cog
+        #     for i in PageButtons.children:
+        #         self.add_item(i)
 
     async def on_timeout(self):
         # remove dropdown from message on timeout
