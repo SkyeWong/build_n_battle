@@ -8,11 +8,11 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import commands, tasks
-from nextcord import Embed
+from nextcord.ext import nextcord, tasks
+from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
-class dev_only(commands.Cog, name="Dev Only"):
-    """Commands only for the devs."""
+class dev_only(nextcord.Cog, name="Dev Only"):
+    """Nextcord only for the devs."""
 
     COG_EMOJI = "👨‍💻"
     
@@ -24,8 +24,8 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @bot.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=[919223073054539858])
-    async def dm(self, interaction:nextcord.Interaction, recipient: nextcord.Member, *, message: str):
+    @nextcord.slash_command(name="dm", description="Send a message! also this is my first slash slash_command")
+    async def dm(self, interaction:Interaction, recipient: nextcord.Member, *, message: str):
         if recipient.bot == True:
             await interaction.response.send_message("I can't send a message to a BOT can i")
         else:
@@ -42,8 +42,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
             await interaction.response.send_messsage(embed=embed)
 
-    @commands.command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
-    async def dice(self, ctx, number_of_sides: int, number_of_dice: int=None):
+    @nextcord.slash_command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
+    async def dice(self, interaction:Interaction, number_of_sides: int, number_of_dice: int=None):
         if number_of_dice == None:
             number_of_dice = 1
         dice = [
@@ -54,18 +54,18 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.title = f"I rolled {number_of_dice} dice(s) with {number_of_sides} sides and the result is:"
         embed.description = ", ".join(dice)
         embed.colour = random.choice(main.embed_colours)
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
-    @commands.command(name="karson", help="Shows Karson in a big collage!")
-    async def karson(self, ctx):
+    @nextcord.slash_command(name="karson", help="Shows Karson in a big collage!")
+    async def karson(self, interaction:Interaction):
         embed = nextcord.Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
         karson_user = await bot.fetch_user(708141816020729867)
         embed.set_author(name="MEET KARSON:", icon_url= karson_user.avatar)
         embed.colour = random.choice(main.embed_colours)
-        await ctx.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
 
-    @commands.command(name="dicegame", brief="Play a simple dice game!", help="i will just do this later-if you sees this maybe remind me!")
+    @bot.command(name="dicegame", brief="Play a simple dice game!", help="i will just do this later-if you sees this maybe remind me!")
     async def dicegame(self, ctx):
         money = 500
         author_avatar = ctx.author.avatar
@@ -129,15 +129,15 @@ class dev_only(commands.Cog, name="Dev Only"):
             await ctx.send(f"You lost! You have only ${money}...")
 
 
-    @commands.command(name="avatar", help="Shows avatar!")
-    async def avatar(self, ctx, user: nextcord.Member=None):
+    @nextcord.slash_command(name="avatar", help="Shows avatar!")
+    async def avatar(self, interaction:Interaction, user: nextcord.Member=None):
         if user == None:
-            user = ctx.author
-        await ctx.send(f"<{user.display_avatar.url}>")
-        await ctx.send(user.display_avatar.url)
+            user = interaction.user
+        await interaction.response.send_message(f"<{user.display_avatar.url}>")
+        await interaction.followup.send(user.display_avatar.url)
 
-    @commands.command(name="emoji")
-    async def emoji(self, ctx, *, emojiname:str):
+    @nextcord.slash_command(name="emoji")
+    async def emoji(self, interaction:Interaction, *, emojiname:str):
         """Let the bot find you any emojis in any servers that the bot is in.
         Search the emoji by typing the emoji name. Seperate emojis with ",".
         Please note that the bot ONLY searches for server emojis. Default emojis will **NOT** be searched."""
@@ -158,8 +158,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             else:
                 response += f"{emoji}\n> Name - :{emoji.name}:\n> Guild - {emoji.guild.name}\n> ID - `{emoji.id}`\n> Url - `{emoji.url}`"
         response += "\n\nThe bot only checks for the first match of the emoji. Other emojis with identical names won't be found."
-        await ctx.send(response)
+        await interaction.response.send_message(response)
 
-def setup(bot: commands.Bot):
+def setup(bot: nextcord.Bot):
     bot.add_cog(dev_only(bot))
 

@@ -9,7 +9,7 @@ import asyncio
 import main
 from main import bot
 from nextcord.ext import commands, tasks
-from nextcord import Embed
+from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
 
 class Utility(commands.Cog, name="Utility"):
@@ -20,8 +20,8 @@ class Utility(commands.Cog, name="Utility"):
         self.bot = bot
         self._last_member = None 
 
-    @bot.slash_command(name="invite", description="Invite me!", guild_ids=[919223073054539858])
-    async def invite(self, interaction:nextcord.Interaction):
+    @nextcord.slash_command(name="invite", description="Invite me!")
+    async def invite(self, interaction:Interaction):
         embed = nextcord.Embed()
         embed.title = "Invite me to your server and have some fun!"
         embed.set_author(name=bot.user.name, icon_url= bot.user.avatar)
@@ -29,8 +29,8 @@ class Utility(commands.Cog, name="Utility"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @bot.slash_command(name="help", description="Get a list of commands or info of a specific command.")
-    async def help(self, interaction:nextcord.Interaction):
+    @nextcord.slash_command(name="help", description="Get a list of commands or info of a specific command.")
+    async def help(self, interaction:Interaction):
         await interaction.response.send_message("hi")
         msg = ""
         for cog_name, cog in self.bot.cogs.items():

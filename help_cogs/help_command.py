@@ -2,7 +2,7 @@ import main
 import random
 from typing import Optional, Set
 from nextcord.ext import commands
-from nextcord import Embed
+from nextcord import Embed, Interaction
 import nextcord
 
 class HelpDropdown(nextcord.ui.Select):
@@ -10,7 +10,7 @@ class HelpDropdown(nextcord.ui.Select):
         super().__init__(placeholder="Choose a category...", min_values=1, max_values=1, options=options)
         self._help_command = help_command
 
-    async def callback(self, interaction: nextcord.Interaction):
+    async def callback(self, interaction: Interaction):
         embed = (
             await self._help_command.cog_help_embed(self._help_command.context.bot.get_cog(self.values[0]))
             if self.values[0] != self.options[0].value
@@ -30,7 +30,7 @@ class HelpView(nextcord.ui.View):
         self.clear_items()
         await self._help_command.response.edit(view=self)
 
-    async def interaction_check(self, interaction: nextcord.Interaction) -> bool:
+    async def interaction_check(self, interaction: Interaction) -> bool:
         if interaction.user != self._help_command.context.author:
             await interaction.response.send_message("This is not for you.", ephemeral=True)
             return False
