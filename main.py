@@ -34,10 +34,13 @@ for filename in os.listdir(f"cogs"):
 async def on_ready():
     print(f"{bot.user.name} has connected to Discord!")
     print("Connected servers/guilds:")
+    for filename in os.listdir(f"cogs"):
+        if filename.endswith("py"):
+            bot.load_extension(f"cogs.{filename[:-3]}")
+    bot.load_extension("help_cogs.cog")
     for guild in bot.guilds:
         print(f"  -{guild.name}(id={guild.id})")
-        for guild in bot.guilds:
-            await guild.rollout_application_commands()
+        await guild.rollout_application_commands()
         sql = f"""
             SELECT prefix
             FROM server_prefixes
