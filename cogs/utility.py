@@ -33,8 +33,8 @@ class Utility(commands.Cog, name="Utility"):
     async def help(self, interaction:nextcord.Interaction):
         await interaction.response.send_message("hi")
         msg = ""
-        for cog in self.bot.cogs:
-            msg += f"\n{cog.qualified_name}"
+        for cog_name, cog in self.bot.cogs.items():
+            msg += f"\n{cog_name}"
             for cmd in cog.get_commands():
                 msg += f" `{cmd.qualified_name}`"
         await interaction.followup.send(msg)
