@@ -8,10 +8,10 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import tasks
+from nextcord.ext import tasks, commands
 from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
-class dev_only(nextcord.Cog, name="Dev Only"):
+class dev_only(commands.Cog, name="Dev Only"):
     """Nextcord only for the devs."""
 
     COG_EMOJI = "👨‍💻"
