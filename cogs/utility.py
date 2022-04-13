@@ -29,9 +29,15 @@ class Utility(commands.Cog, name="Utility"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @bot.slash_command(name="slashhelp", description="Get a list of commands or info of a specific command.", guild_ids=[919223073054539858])
+    @bot.slash_command(name="help", description="Get a list of commands or info of a specific command.")
     async def help(self, interaction:nextcord.Interaction):
         await interaction.response.send_message("hi")
+        msg = ""
+        for cog in self.bot.cogs:
+            msg += f"\n{cog.qualified_name}"
+            for cmd in cog.get_commands():
+                msg += f" `{cmd.qualified_name}`"
+        await interaction.followup.send(msg)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))
