@@ -8,7 +8,7 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import nextcord, tasks
+from nextcord.ext import tasks
 from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
 class dev_only(nextcord.Cog, name="Dev Only"):
