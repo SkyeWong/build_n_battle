@@ -160,6 +160,6 @@ class dev_only(commands.Cog, name="Dev Only"):
         response += "\n\nThe bot only checks for the first match of the emoji. Other emojis with identical names won't be found."
         await interaction.response.send_message(response)
 
-def setup(bot: nextcord.Bot):
+def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
 
