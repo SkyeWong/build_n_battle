@@ -42,7 +42,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
             await interaction.response.send_messsage(embed=embed)
 
-    @nextcord.slash_command(name="dice", brief="Roll a dice and make decisions!", help="The bot rolls a dice from 1 to 6 and displays the result. You can specify the number of dices! The number of dices is optional. Defaults to 1.") 
+    @nextcord.slash_command(name="dice", description="Roll a dice and make decisions!") 
     async def dice(self, interaction:Interaction, number_of_sides: int, number_of_dice: int=None):
         if number_of_dice == None:
             number_of_dice = 1
@@ -56,7 +56,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="karson", help="Shows Karson in a big collage!")
+    @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!")
     async def karson(self, interaction:Interaction):
         embed = nextcord.Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
@@ -65,7 +65,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @bot.command(name="dicegame", brief="Play a simple dice game!", help="i will just do this later-if you sees this maybe remind me!")
+    @bot.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
         money = 500
         author_avatar = ctx.author.avatar
@@ -129,7 +129,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             await ctx.send(f"You lost! You have only ${money}...")
 
 
-    @nextcord.slash_command(name="avatar", help="Shows avatar!")
+    @nextcord.slash_command(name="avatar", description="Shows avatar!")
     async def avatar(self, interaction:Interaction, user: nextcord.Member=None):
         if user == None:
             user = interaction.user
