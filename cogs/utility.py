@@ -1,5 +1,5 @@
 import os
-import pycord
+import discord
 import json 
 from datetime import datetime
 import time
@@ -7,9 +7,9 @@ import random
 import asyncio
 import main
 from main import bot
-from pycord.ext import commands, tasks
-from pycord import Embed, Interaction, ButtonStyle
-from pycord.ui import Button, View
+from discord.ext import commands, tasks
+from discord import Embed, Interaction, ButtonStyle
+from discord.ui import Button, View
 
 class Utility(commands.Cog, name="Utility"):
 
@@ -19,7 +19,7 @@ class Utility(commands.Cog, name="Utility"):
         self.bot = bot
         self._last_member = None 
 
-    @pycord.slash_command(name="invite", description="Invite me!", guild_ids=[main.DEVS_SERVER_ID])
+    @discord.slash_command(name="invite", description="Invite me!", guild_ids=[main.DEVS_SERVER_ID])
     async def invite(self, interaction:Interaction):
         embed = Embed()
         embed.title = "Invite me to your server and have some fun!"
@@ -28,7 +28,7 @@ class Utility(commands.Cog, name="Utility"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @pycord.slash_command(name="help", description="Get a list of commands or info of a specific command.", guild_ids=[main.DEVS_SERVER_ID])
+    @discord.slash_command(name="help", description="Get a list of commands or info of a specific command.", guild_ids=[main.DEVS_SERVER_ID])
     async def help(self, interaction:Interaction):
         await interaction.response.send_message("hi")
         msg = ""

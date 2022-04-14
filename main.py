@@ -1,8 +1,8 @@
 import os
-import pycord
+import discord
 import random
-from pycord.ext import commands
-from pycord import Embed
+from discord.ext import commands
+from discord import Embed
 import database as db
 
 TOKEN = os.environ["DISCORD_TOKEN"]
@@ -18,7 +18,7 @@ def get_prefix(bot, message): # define get_prefix
     server_prefix = cursor.fetchall()[0][0]
     return server_prefix #recieve the prefix for the guild id given
 
-bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=pycord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
+bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=discord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 
 def roundup(number, round_to):

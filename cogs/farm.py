@@ -1,14 +1,14 @@
 import os
-import pycord
+import discord
 import random
 import main
 import math 
 import json
 from main import bot
 from datetime import datetime
-from pycord.ext import commands
-from pycord import Embed
-from pycord.ui import Button, View
+from discord.ext import commands
+from discord import Embed
+from discord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
