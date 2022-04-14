@@ -1,6 +1,6 @@
 import os
 from discord import ButtonStyle
-import nextcord
+import pycord
 import json 
 from datetime import datetime
 import time
@@ -8,9 +8,9 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import commands, tasks
-from nextcord import Embed, Interaction
-from nextcord.ui import Button, View
+from pycord.ext import commands, tasks
+from pycord import Embed, Interaction
+from pycord.ui import Button, View
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
 
@@ -24,13 +24,13 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @nextcord.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=[main.DEVS_SERVER_ID])
-    async def dm(self, interaction:Interaction, recipient: nextcord.Member, *, message: str):
+    @pycord.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=[main.DEVS_SERVER_ID])
+    async def dm(self, interaction:Interaction, recipient: pycord.Member, *, message: str):
         if recipient.bot == True:
             await interaction.response.send_message("I can't send a message to a BOT can i")
         else:
             await recipient.send(f"{interaction.user} sent a message to you via me, {bot.user.name}:\n {message}")
-            embed = nextcord.Embed()
+            embed = pycord.Embed()
             embed.title = "DM succesfully sent!"
             embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
             embed.description = "Message details:"
@@ -50,7 +50,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             str(random.choice(range(1, number_of_sides + 1)))
             for _ in range(number_of_dice)
         ]
-        embed = nextcord.Embed()
+        embed = pycord.Embed()
         embed.title = f"I rolled {number_of_dice} dice(s) with {number_of_sides} sides and the result is:"
         embed.description = ", ".join(dice)
         embed.colour = random.choice(main.embed_colours)
@@ -58,7 +58,7 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     @commands.command(name="karson", help="Shows Karson in a big collage!")
     async def karson(self, ctx):
-        embed = nextcord.Embed()
+        embed = pycord.Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
         karson_user = await bot.fetch_user(708141816020729867)
         embed.set_author(name="MEET KARSON:", icon_url= karson_user.avatar)
@@ -69,7 +69,7 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def dicegame(self, ctx):
         money = 500
         author_avatar = ctx.author.avatar
-        dice_ui = nextcord.Embed()
+        dice_ui = pycord.Embed()
         dice_ui.colour = random.choice(main.embed_colours)
         dice_ui.set_author(name=f"{ctx.author.name}\"s Dicegame", icon_url= author_avatar)
         dice_ui_message = await ctx.send(embed=dice_ui)
@@ -130,7 +130,7 @@ class dev_only(commands.Cog, name="Dev Only"):
 
 
     @commands.command(name="avatar", help="Shows avatar!")
-    async def avatar(self, ctx, user: nextcord.Member=None):
+    async def avatar(self, ctx, user: pycord.Member=None):
         if user == None:
             user = ctx.author
         await ctx.send(f"<{user.display_avatar.url}>")
@@ -148,7 +148,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             for emoji in guild.emojis:
                 guild_emojis.append(emoji)
         for i in emojis:
-            emojis_found.append(nextcord.utils.get(guild_emojis, name=i))
+            emojis_found.append(pycord.utils.get(guild_emojis, name=i))
         response = "The emoji(s) you required should be: "
         for i in range(len(emojis_found)):
             emoji = emojis_found[i]

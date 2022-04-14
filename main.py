@@ -1,8 +1,8 @@
 import os
-import nextcord
+import pycord
 import random
-from nextcord.ext import commands
-from nextcord import Embed
+from pycord.ext import commands
+from pycord import Embed
 import database as db
 
 TOKEN = os.environ["DISCORD_TOKEN"]
@@ -18,7 +18,7 @@ def get_prefix(bot, message): # define get_prefix
     server_prefix = cursor.fetchall()[0][0]
     return server_prefix #recieve the prefix for the guild id given
 
-bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
+bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=pycord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272})
 embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
 
 def roundup(number, round_to):
@@ -27,7 +27,7 @@ def roundup(number, round_to):
 def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
 
-for filename in os.listdir(f"cogs"):
+for filename in os.listdir(f"cogs").sort():
     if filename.endswith("py"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 

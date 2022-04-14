@@ -1,14 +1,14 @@
 import os
-import nextcord
+import pycord
 import random
 import main
 import math 
 import json
 from main import bot
 from datetime import datetime
-from nextcord.ext import commands
-from nextcord import Embed
-from nextcord.ui import Button, View
+from pycord.ext import commands
+from pycord import Embed
+from pycord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
