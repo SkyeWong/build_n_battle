@@ -6,6 +6,7 @@ from nextcord import Embed
 import database as db
 
 TOKEN = os.environ["DISCORD_TOKEN"]
+DEVS_SERVER_ID = 919223073054539858
 
 def get_prefix(bot, message): # define get_prefix
     sql = f"""
