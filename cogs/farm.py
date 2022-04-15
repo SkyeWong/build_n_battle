@@ -1,14 +1,14 @@
 import os
-import discord
+import nextcord
 import random
 import main
 import math 
 import json
 from main import bot
 from datetime import datetime
-from discord.ext import commands
-from discord import Embed
-from discord.ui import Button, View
+from nextcord.ext import commands
+from nextcord import Embed
+from nextcord.ui import Button, View
 import database as db
 from typing import Optional
 from functions.users import Users
