@@ -26,7 +26,7 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     @nextcord.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=[main.DEVS_SERVER_ID])
     async def dm(self, interaction:Interaction, recipient: nextcord.Member, *, message: str):
-        if interaction.user in bot.owner_ids:
+        if interaction.user not in self.bot.owner_ids:
             await interaction.response.send_message("you are not a dev.")
             if recipient.bot == True:
                 await interaction.send("I can't send a message to a BOT can i")
