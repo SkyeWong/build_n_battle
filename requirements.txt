@@ -1,3 +1,3 @@
-pycord
+py-cord
 mysql-connector-python
 python-dotenv
