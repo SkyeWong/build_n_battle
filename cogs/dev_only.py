@@ -30,7 +30,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             await interaction.response.send_message("I can't send a message to a BOT can i")
         else:
             await recipient.send(f"{interaction.user} sent a message to you via me, {bot.user.name}:\n {message}")
-            embed = nextcord.Embed()
+            embed = Embed()
             embed.title = "DM succesfully sent!"
             embed.set_author(name=bot.user.name, icon_url=bot.user.avatar)
             embed.description = "Message details:"
