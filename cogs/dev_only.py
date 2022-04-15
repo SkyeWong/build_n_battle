@@ -28,6 +28,7 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def dm(self, interaction:Interaction, recipient: nextcord.Member, *, message: str):
         if interaction.user not in self.bot.owner_ids:
             await interaction.response.send_message("you are not a dev.")
+        else:
             if recipient.bot == True:
                 await interaction.send("I can't send a message to a BOT can i")
             else:
