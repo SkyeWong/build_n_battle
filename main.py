@@ -27,7 +27,7 @@ def roundup(number, round_to):
 def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
 
-for filename in os.listdir(f"cogs").sort():
+for filename in os.listdir(f"cogs"):
     if filename.endswith("py"):
         bot.load_extension(f"cogs.{filename[:-3]}")
 
