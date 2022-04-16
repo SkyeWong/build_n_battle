@@ -21,7 +21,8 @@ class Fun(commands.Cog, name="Fun"):
 
     @nextcord.slash_command(
         name = "dice", 
-        description = "Roll a dice and make decisions!"
+        description = "Roll a dice and make decisions!",
+        guild_ids=[main.DEVS_SERVER_ID]
         ) 
     async def dice(
         self, 
@@ -54,7 +55,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!")
+    @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
     async def karson(self, interaction: Interaction):
         embed = nextcord.Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
