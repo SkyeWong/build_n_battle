@@ -28,7 +28,7 @@ class Fun(commands.Cog, name="Fun"):
         self, 
         interaction: Interaction, 
         number_of_sides: int = SlashOption(
-            name = "Number of sides in 1 die",
+            name = "number of sides",
             required = False,
             min_value = 2,
             max_value = 10000,
@@ -36,12 +36,13 @@ class Fun(commands.Cog, name="Fun"):
             verify = True
         ), 
         number_of_dice: int = SlashOption(
-            name = "Number of dice",
+            name = "number of dice",
             required = False,
             min_value = 1,
             max_value = 500,
             default = 1,
-            verify = True)
+            verify = True
+        )
     ):
         if number_of_dice == None:
             number_of_dice = 1
