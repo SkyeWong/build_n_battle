@@ -55,9 +55,10 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = f"I rolled {dice} {sinplu} with {sides} sides and the result is:"
         descr = ""
         if dice > 5:
-            descr = "There are:"
-            for side in range(sides):
-                descr += f"\n`{result.count(side+1)}` {side}s"
+            descr = "There are: ```css"
+            for side in range(1, sides + 1):
+                descr += f"\n* ({result.count(side)}) [{side}s]"
+            descr += "```"
         else:
             descr = ", ".join(result)
         embed.description = descr
@@ -73,7 +74,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="8ball", description="Make decisions!")
+    @nextcord.slash_command(name="8ball", description="Make decisions!", guild_ids=[main.DEVS_SERVER_ID])
     async def eight_ball(
         self, 
         interaction: Interaction, 
