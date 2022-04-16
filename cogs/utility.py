@@ -37,6 +37,7 @@ class Utility(commands.Cog, name="Utility"):
             for cmd in cog.get_commands():
                 msg += f" `{cmd.qualified_name}`"
         await interaction.followup.send(msg)
+        await interaction.followup.send(bot.get_all_application_commands())
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))
