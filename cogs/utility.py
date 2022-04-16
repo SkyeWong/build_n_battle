@@ -39,8 +39,9 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.followup.send(msg)
         slash_cmds = ""
         for command in bot.get_all_application_commands():
-            name = command.get_signature()[0]
-            slash_cmds += f" `/{name}`"
+            if interaction.guild_id in command.guild_ids:
+                name = command.get_signature()[0]
+                slash_cmds += f" `/{name}`"
         await interaction.followup.send(slash_cmds)
 
 def setup(bot: commands.Bot):
