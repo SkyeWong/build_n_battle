@@ -39,7 +39,7 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.followup.send(msg)
         slash_cmds = ""
         for command in bot.get_all_application_commands():
-            for name, type in command.get_signature():
+            for name, type in command.get_signature().items():
                 slash_cmds += f" `/{name}`"
         await interaction.followup.send(slash_cmds)
 
