@@ -24,7 +24,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
 
-    @nextcord.slash_command(name="dm", description="Send a message! also this is my first slash command", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="dm", description="Send a message!", guild_ids=[main.DEVS_SERVER_ID])
     async def dm(self, interaction: Interaction, recipient: nextcord.Member, *, message: str):
         if interaction.user.id not in self.bot.owner_ids:
             await interaction.response.send_message("you are not a dev.")
