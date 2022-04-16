@@ -20,7 +20,7 @@ class Utility(commands.Cog, name="Utility"):
         self._last_member = None 
 
     @nextcord.slash_command(name="invite", description="Invite me!")
-    async def invite(self, interaction:Interaction):
+    async def invite(self, interaction: Interaction):
         embed = Embed()
         embed.title = "Invite me to your server and have some fun!"
         embed.set_author(name=bot.user.name, icon_url= bot.user.avatar)
