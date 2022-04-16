@@ -19,7 +19,7 @@ class Utility(commands.Cog, name="Utility"):
         self.bot = bot
         self._last_member = None 
 
-    @nextcord.slash_command(name="invite", description="Invite me!", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="invite", description="Invite me!")
     async def invite(self, interaction:Interaction):
         embed = Embed()
         embed.title = "Invite me to your server and have some fun!"
@@ -39,10 +39,11 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.followup.send(msg)
         slash_cmds = ""
         for command in bot.get_all_application_commands():
-            if interaction.guild_id in command.guild_ids:
+            if interaction.guild_id in command.guild_ids or command.guild_ids == None:
                 name = command.get_signature()[0]
                 slash_cmds += f" `/{name}`"
-        await interaction.followup.send(slash_cmds)
+        if slash_cmds != "":
+            await interaction.followup.send(slash_cmds)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))
