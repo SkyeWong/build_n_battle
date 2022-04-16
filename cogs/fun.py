@@ -28,7 +28,7 @@ class Fun(commands.Cog, name="Fun"):
         self, 
         interaction: Interaction, 
         number_of_sides: int = SlashOption(
-            name = "number of sides",
+            name = "sides",
             required = False,
             min_value = 2,
             max_value = 10000,
@@ -36,7 +36,7 @@ class Fun(commands.Cog, name="Fun"):
             verify = True
         ), 
         number_of_dice: int = SlashOption(
-            name = "number of dice",
+            name = "dice",
             required = False,
             min_value = 1,
             max_value = 500,
