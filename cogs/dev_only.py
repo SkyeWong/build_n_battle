@@ -16,7 +16,7 @@ class dev_only(commands.Cog, name="Dev Only"):
 
     COG_EMOJI = "👨‍💻"
     
-    def __init__(self, bot):
+    def __init__(self, bot: commands.Bot):
         self.bot = bot
         self._last_member = None
 
@@ -30,7 +30,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             await interaction.response.send_message("you are not a dev.")
         else:
             if recipient.bot == True:
-                await interaction.send("I can't send a message to a BOT can i")
+                await interaction.response.send_message("I can't send a message to a BOT can i")
             else:
                 await recipient.send(f"{interaction.user} sent a message to you via me, {bot.user.name}:\n {message}")
                 embed = Embed()
@@ -43,7 +43,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 embed.add_field(name="Message:", value=message, inline=True)
                 embed.add_field(name="Sent at:", value=f'<t:{int(datetime.now().timestamp())}>', inline=True)
                 embed.set_footer(text="Note: markdowns and mentions will be escaped while sending the message!")
-                await interaction.send(embed=embed)
+                await interaction.response.send_message(embed=embed)
 
     @commands.command(name="avatar", help="Shows avatar!")
     async def avatar(self, ctx, user: nextcord.Member=None):
