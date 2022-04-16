@@ -27,32 +27,40 @@ class Fun(commands.Cog, name="Fun"):
     async def dice(
         self, 
         interaction: Interaction, 
-        number_of_sides: int = SlashOption(
+        sides: int = SlashOption(
             name = "sides",
             required = False,
             min_value = 2,
-            max_value = 10000,
+            max_value = 20,
             default = 6,
             verify = True
         ), 
-        number_of_dice: int = SlashOption(
+        dice: int = SlashOption(
             name = "dice",
             required = False,
             min_value = 1,
-            max_value = 500,
+            max_value = 800,
             default = 1,
             verify = True
         )
     ):
-        if number_of_dice == None:
-            number_of_dice = 1
-        dice = [
-            str(random.choice(range(1, number_of_sides + 1)))
-            for _ in range(number_of_dice)
+        if dice == None:
+            dice = 1
+        result = [
+            str(random.choice(range(1, sides + 1)))
+            for _ in range(dice)
         ]
         embed = nextcord.Embed()
-        embed.title = f"I rolled {number_of_dice} dice(s) with {number_of_sides} sides and the result is:"
-        embed.description = ", ".join(dice)
+        sinplu = "die" if dice == 1 else "dice"
+        embed.title = f"I rolled {dice} {sinplu} with {sides} sides and the result is:"
+        descr = ""
+        if dice > 5:
+            descr = "There are:"
+            for side in range(sides):
+                descr += f"\n`{result.count(side+1)}` {side}s"
+        else:
+            descr = ", ".join(result)
+        embed.description = descr
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
@@ -64,6 +72,38 @@ class Fun(commands.Cog, name="Fun"):
         embed.set_author(name="MEET KARSON:", icon_url= karson_user.avatar)
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
+
+    @nextcord.slash_command(name="8ball", description="Make decisions!")
+    async def eight_ball(
+        self, 
+        interaction: Interaction, 
+        whattodecide: str = SlashOption(
+            name = "what-to-decide"
+        )
+    ):
+        responses = [
+            "It is certain.",
+            "It is decidedly so.",
+            "Without a doubt.",
+            "Yes definitely.",
+            "You may rely on it.",
+            "As I see it, yes.",
+            "Most likely.",
+            "Outlook good.",
+            "Yes.",
+            "Signs point to yes.",
+            "Reply hazy, try again.",
+            "Ask again later.",
+            "Better not tell you now.",
+            "Cannot predict now.",
+            "Concentrate and ask again.",
+            "Don't count on it.",
+            "My reply is no.",
+            "My sources say no.",
+            "Outlook not so good.",
+            "Very doubtful."
+        ]
+        await interaction.response.send_message(f"You shook me and some words appeared...\n`{random.choices(responses)}`")
 
     @commands.command(name="dicegame", brief="Play a simple dice game!", help="i will just do this later-if you sees this maybe remind me!")
     async def dicegame(self, ctx):
