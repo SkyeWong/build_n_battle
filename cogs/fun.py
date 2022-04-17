@@ -80,11 +80,11 @@ class Fun(commands.Cog, name="Fun"):
         results_pic = ["https://i.imgur.com/47kliz4.png", "https://i.imgur.com/yNkV14T.png"]
         result = random.choice(results_pic)
         if result == "https://i.imgur.com/47kliz4.png":
-            embed.description = "HEADS"
+            embed.description = "**`HEADS`**"
         else:
-            embed.description = "TAIL"
+            embed.description = "**`TAIL`**"
         embed.set_image(url=result)
-        await interaction.edit_original_message(embed=embed)
+        await interaction.original_message.edit(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
     async def karson(self, interaction: Interaction):
