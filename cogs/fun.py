@@ -84,7 +84,7 @@ class Fun(commands.Cog, name="Fun"):
         else:
             embed.description = "**`TAIL`**"
         embed.set_image(url=result)
-        await interaction.original_message.edit(embed=embed)
+        await interaction.original_message().edit(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
     async def karson(self, interaction: Interaction):
