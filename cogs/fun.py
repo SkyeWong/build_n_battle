@@ -73,19 +73,19 @@ class Fun(commands.Cog, name="Fun"):
         embed = nextcord.Embed()
         embed.title = "Flippin' a coin..."
         embed.colour = random.choice(main.embed_colours)
-        embed.set_image(url="https://i.imgur.com/1vSeZjO.gif")
+        result = random.choice(range(1))
+        if result == 0:
+            embed.set_image(url="https://i.imgur.com/CcZQL1d.gif")
+        else:
+            embed.set_image(url="https://i.imgur.com/mmjXem0.gif")
         await interaction.response.send_message(embed=embed)
         time.sleep(3)
         embed.title = "And the result is..."
-        results_pic = ["https://i.imgur.com/47kliz4.png", "https://i.imgur.com/yNkV14T.png"]
-        result = random.choice(results_pic)
-        if result == "https://i.imgur.com/47kliz4.png":
+        if result == 0:
             embed.description = "**`HEADS`**"
         else:
             embed.description = "**`TAIL`**"
-        embed.set_image(url=result)
-        msg = interaction.original_message()
-        await msg.edit(embed=embed)
+        await interaction.edit_original_message(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
     async def karson(self, interaction: Interaction):
