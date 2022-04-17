@@ -47,7 +47,7 @@ class Fun(commands.Cog, name="Fun"):
         if dice == None:
             dice = 1
         result = [
-            str(random.choice(range(1, sides + 1)))
+            int(random.choice(range(1, sides + 1)))
             for _ in range(dice)
         ]
         embed = nextcord.Embed()
@@ -104,9 +104,9 @@ class Fun(commands.Cog, name="Fun"):
             "Outlook not so good.",
             "Very doubtful."
         ]
-        await interaction.response.send_message(f"You shook me and some words appeared...\n`{random.choices(responses)}`")
+        await interaction.response.send_message(f"You shook me and some words appeared...\n`{str(random.choices(responses)[0])}`")
 
-    @commands.command(name="dicegame", brief="Play a simple dice game!", help="i will just do this later-if you sees this maybe remind me!")
+    @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
         money = 500
         author_avatar = ctx.author.avatar
