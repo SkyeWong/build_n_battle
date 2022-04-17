@@ -28,7 +28,7 @@ def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
 
 for filename in os.listdir(f"cogs"):
-    if filename.endswith("py"):
+    if filename.endswith("py") and filename != "__init__.py":
         bot.load_extension(f"cogs.{filename[:-3]}")
 
 bot.load_extension("help_cogs.cog")
