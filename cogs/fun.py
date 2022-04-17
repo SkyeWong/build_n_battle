@@ -73,7 +73,7 @@ class Fun(commands.Cog, name="Fun"):
         embed = nextcord.Embed()
         embed.title = "Flippin' a coin..."
         embed.colour = random.choice(main.embed_colours)
-        result = random.choice(range(1))
+        result = random.choice(range(2))
         print(result)
         if result == 0:
             embed.set_image(url="https://i.imgur.com/Mvy8BV8.gif")
