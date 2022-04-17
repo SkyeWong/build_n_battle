@@ -44,22 +44,23 @@ class Fun(commands.Cog, name="Fun"):
             verify = True
         )
     ):
-        if dice == None:
-            dice = 1
-        result = [
-            int(random.choice(range(1, sides + 1)))
-            for _ in range(dice)
-        ]
         embed = nextcord.Embed()
         sinplu = "die" if dice == 1 else "dice"
         embed.title = f"I rolled {dice} {sinplu} with {sides} sides and the result is:"
-        descr = ""
         if dice > 5:
+            result = [
+                int(random.choice(range(1, sides + 1)))
+                for i in range(dice)
+            ]
             descr = "There are: ```css"
             for side in range(1, sides + 1):
                 descr += f"\n* ({result.count(side)}) [{side}s]"
             descr += "```"
         else:
+            result = [
+                str(random.choice(range(1, sides + 1)))
+                for i in range(dice)
+            ]
             descr = ", ".join(result)
         embed.description = descr
         embed.colour = random.choice(main.embed_colours)
