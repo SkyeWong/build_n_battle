@@ -1,3 +1,4 @@
+from email.message import Message
 import os
 import nextcord
 import json 
@@ -29,6 +30,7 @@ class Fun(commands.Cog, name="Fun"):
         interaction: Interaction, 
         sides: int = SlashOption(
             name = "sides",
+            description = "The sides of 1 die. Ranges from 2 to 40. Defaults as 6.",
             required = False,
             min_value = 2,
             max_value = 40,
@@ -37,6 +39,7 @@ class Fun(commands.Cog, name="Fun"):
         ), 
         dice: int = SlashOption(
             name = "dice",
+            description = "The number of dice. Ranges from 1 to 800. Defaults as 1.",
             required = False,
             min_value = 1,
             max_value = 800,
@@ -51,7 +54,7 @@ class Fun(commands.Cog, name="Fun"):
                 int(random.choice(range(1, sides + 1)))
                 for i in range(dice)
             ]
-            descr = "There are: ```css"
+            descr = "As there are more than 5 dice, I counted the results for you!😊 ```css"
             for side in range(1, sides + 1):
                 descr += f"\n* ({result.count(side)}) [{side}s]"
             descr += "```"
@@ -64,6 +67,23 @@ class Fun(commands.Cog, name="Fun"):
         embed.description = descr
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
+
+    @nextcord.slash_command(name="coinflip", description="Flip a coin!", guild_ids=[main.DEVS_SERVER_ID])
+    async def coinflip(self, interaction: Interaction):
+        embed = nextcord.Embed()
+        embed.title = "Flippin' a coin..."
+        embed.set_image("https://i.imgur.com/1vSeZjO.gif")
+        msg = await interaction.response.send_message(embed=embed)
+        time.sleep(3)
+        embed.title = "And the result is..."
+        results_pic = ["https://i.imgur.com/47kliz4.png", "https://i.imgur.com/yNkV14T.png"]
+        result = random.choice(results_pic)
+        if result == "https://i.imgur.com/47kliz4.png":
+            embed.description = "HEADS"
+        else:
+            embed.description = "TAIL"
+        embed.set_image(result)
+        await msg.edit(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
     async def karson(self, interaction: Interaction):
