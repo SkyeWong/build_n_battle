@@ -45,8 +45,7 @@ class Fun(commands.Cog, name="Fun"):
         )
     ):
         embed = nextcord.Embed()
-        sinplu = "die" if dice == 1 else "dice"
-        embed.title = f"I rolled {dice} {sinplu} with {sides} sides and the result is:"
+        embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         if dice > 5:
             result = [
                 int(random.choice(range(1, sides + 1)))
@@ -104,8 +103,14 @@ class Fun(commands.Cog, name="Fun"):
             "My sources say no.",
             "Outlook not so good.",
             "Very doubtful."
-        ]
-        await interaction.response.send_message(f"You shook me and some words appeared...\n`{str(random.choices(responses)[0])}`")
+        ] 
+        await interaction.response.send_message(f"""
+        You shook me and some words appeared...
+        ```md
+        # {str(random.choices(responses)[0])}
+        ```
+        """
+        )
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
