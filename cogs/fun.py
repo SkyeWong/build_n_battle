@@ -31,7 +31,7 @@ class Fun(commands.Cog, name="Fun"):
             name = "sides",
             required = False,
             min_value = 2,
-            max_value = 20,
+            max_value = 40,
             default = 6,
             verify = True
         ), 
@@ -104,13 +104,7 @@ class Fun(commands.Cog, name="Fun"):
             "Outlook not so good.",
             "Very doubtful."
         ] 
-        await interaction.response.send_message(f"""
-        You shook me and some words appeared...
-        ```md
-        # {str(random.choices(responses)[0])}
-        ```
-        """
-        )
+        await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
