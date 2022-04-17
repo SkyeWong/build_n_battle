@@ -74,8 +74,9 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = "Flippin' a coin..."
         embed.colour = random.choice(main.embed_colours)
         result = random.choice(range(1))
+        print(result)
         if result == 0:
-            embed.set_image(url="https://i.imgur.com/CcZQL1d.gif")
+            embed.set_image(url="https://i.imgur.com/Mvy8BV8.gif")
         else:
             embed.set_image(url="https://i.imgur.com/mmjXem0.gif")
         await interaction.response.send_message(embed=embed)
