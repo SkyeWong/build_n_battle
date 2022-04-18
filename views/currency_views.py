@@ -14,7 +14,7 @@ from functions.users import Users
 
 class EndInteraction(View):
 
-    @nextcord.ui.button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
+    @Button(label = "End Interaction", style = nextcord.ButtonStyle.red, emoji = "⏹️")
     async def button_callback(self, button, interaction):
         button.label = "Interaction ended"
         button.disabled = True
@@ -27,7 +27,7 @@ class Generate(View):
         super().__init__(timeout=30)
         self.ctx = ctx
 
-    @nextcord.ui.button(
+    @Button(
         label = "Generate gold!", 
         style = nextcord.ButtonStyle.grey, 
         emoji = "🪙"
@@ -42,7 +42,7 @@ class Generate(View):
         await interaction.response.edit_message(view=self)
         await interaction.followup.send("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
 
-    @nextcord.ui.button(
+    @Button(
         label = "Generate XP!", 
         style = nextcord.ButtonStyle.grey, 
         emoji = "📚"
@@ -98,7 +98,7 @@ class MultiplePages(View):
                 self.message = await self.ctx.fetch_message(self.message.id)
         self.go_back_btn.callback = go_back
 
-    @nextcord.ui.button(
+    @Button(
         label = "Go to page B",
         style = nextcord.ButtonStyle.grey,
         emoji = "🔖",

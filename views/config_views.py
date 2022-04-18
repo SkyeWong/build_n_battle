@@ -19,7 +19,7 @@ class AddSpaceInPrefix(View):
         self.ctx = ctx
         self.pages = pages
 
-    @nextcord.ui.button(
+    @Button(
         label = "Cancel", 
         style = nextcord.ButtonStyle.red, 
         emoji = "❎"
@@ -29,7 +29,7 @@ class AddSpaceInPrefix(View):
             i.disabled = True
         await interaction.response.edit_message(embed=self.pages.cancel_page(), view=self)
 
-    @nextcord.ui.button(
+    @Button(
         label = "Confirm", 
         style = nextcord.ButtonStyle.green, 
         emoji = "✅"
