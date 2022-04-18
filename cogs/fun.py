@@ -99,7 +99,8 @@ class Fun(commands.Cog, name="Fun"):
                     await self.message.edit(view=self)
 
             embed.description = descr
-            await interaction.response.send_message(embed=embed, view=Analysis)
+            view = Analysis(interaction)
+            await interaction.response.send_message(embed=embed, view=view)
         else:
             descr = ", ".join(result)
             embed.description = descr
