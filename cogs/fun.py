@@ -9,7 +9,7 @@ import asyncio
 import main
 from main import bot
 from nextcord.ext import commands, tasks
-from nextcord import Embed, Interaction, ButtonStyle, SlashOption
+from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 
 class Fun(commands.Cog, name="Fun"):
@@ -30,19 +30,19 @@ class Fun(commands.Cog, name="Fun"):
         interaction: Interaction, 
         sides: int = SlashOption(
             name = "sides",
-            description = "The sides of 1 die. Ranges from 2 to 40. Defaults as 6.",
+            description = "The sides of 1 die. Ranges from 2 to 50. Defaults as 6.",
             required = False,
             min_value = 2,
-            max_value = 40,
+            max_value = 50,
             default = 6,
             verify = True
         ), 
         dice: int = SlashOption(
             name = "dice",
-            description = "The number of dice. Ranges from 1 to 800. Defaults as 1.",
+            description = "The number of dice. Ranges from 1 to 5000. Defaults as 1.",
             required = False,
             min_value = 1,
-            max_value = 800,
+            max_value = 5000,
             default = 1,
             verify = True
         )
@@ -53,6 +53,7 @@ class Fun(commands.Cog, name="Fun"):
             ]
         embed = Embed()
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
+        embed.colour = random.choice(main.embed_colours)
         if dice > 5:
             most = [0]
             least = [1]
@@ -68,20 +69,41 @@ class Fun(commands.Cog, name="Fun"):
                     least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
-            descr += "```\n```md\n"
-            descr += "Analysis:\n"
-            descr += "\t- MOST:\n"
-            for i in most:
-                descr += f"\t\t* [{result.count(str(i))}]({i}s)\n"
-            descr += "\t- LEAST:\n"
-            for i in least:
-                descr += f"\t\t* [{result.count(str(i))}]({i}s)\n"
-            descr += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
+            class Analysis(View):
+                
+                def __init__(self, interaction):
+                    self.interaction = interaction
+
+                @Button(
+                    label = "Show Analysis", 
+                    style = nextcord.ButtonStyle.blurple, 
+                    emoji = "📊"
+                )
+                async def show_analysis(self, button, interaction):
+                    embed = Embed()
+                    msg = "```\n```md\n"
+                    msg += "# Analysis:\n"
+                    msg += "\t- <MOST>:\n"
+                    for i in most:
+                        msg += f"\t\t* [{result.count(str(i))}]({i}s)\n"
+                    msg += "\t- <LEAST>:\n"
+                    for i in least:
+                        msg += f"\t\t* [{result.count(str(i))}]({i}s)\n"
+                    msg += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
+                    embed.description = msg
+                    await interaction.response.send_message(embed=embed, ephemeral=True)
+
+                async def on_timeout(self) -> None:
+                    for i in self.children:
+                        i.disabled = True
+                    await self.message.edit(view=self)
+
+            embed.description = descr
+            await interaction.response.send_message(embed=embed, view=Analysis)
         else:
             descr = ", ".join(result)
-        embed.description = descr
-        embed.colour = random.choice(main.embed_colours)
-        await interaction.response.send_message(embed=embed)
+            embed.description = descr
+            await interaction.response.send_message(embed=embed)
 
     @nextcord.slash_command(name="coinflip", description="Flip a coin!", guild_ids=[main.DEVS_SERVER_ID])
     async def coinflip(self, interaction: Interaction):
