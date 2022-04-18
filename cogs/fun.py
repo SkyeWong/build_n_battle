@@ -74,7 +74,7 @@ class Fun(commands.Cog, name="Fun"):
                 def __init__(self, interaction):
                     self.interaction = interaction
 
-                @Button(
+                @nextcord.ui.button(
                     label = "Show Analysis", 
                     style = nextcord.ButtonStyle.blurple, 
                     emoji = "📊"
