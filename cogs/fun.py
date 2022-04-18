@@ -61,13 +61,11 @@ class Fun(commands.Cog, name="Fun"):
                 count = result.count(str(side))
                 descr += f"\n* ({count}) [{side}s]"
                 if count > result.count(str(most[0])):
-                    most = []
-                    most[0] = side
+                    most = [side]
                 elif count == result.count(str(most[0])):
                     most.append(side)
                 if count < result.count(str(least[0])):
-                    least = []
-                    least[0] = side
+                    least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
             descr += "```\n```md"
