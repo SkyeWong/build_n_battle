@@ -71,11 +71,11 @@ class Fun(commands.Cog, name="Fun"):
         embed.colour = random.choice(main.embed_colours)
         result = random.choice(range(2))
         if result == 0:
-            embed.set_image(url="https://i.imgur.com/Mvy8BV8.gif")
+            embed.set_image(url="https://i.imgur.com/lr3DjHO.gif")
         else:
-            embed.set_image(url="https://i.imgur.com/mmjXem0.gif")
+            embed.set_image(url="https://i.imgur.com/An6Vm2C.gif")
         await interaction.response.send_message(embed=embed)
-        time.sleep(3.5)
+        time.sleep(3)
         embed.title = "And the result is..."
         if result == 0:
             embed.description = "**`HEADS`**"
