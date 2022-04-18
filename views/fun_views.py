@@ -36,7 +36,7 @@ class Analysis(View):
         for i in self.least:
             msg += f"\t\t* [{self.result.count(str(i))}]({i}s)\n"
         msg += "> great, isn't it? took SkyeWong#8577 2 days to make this!\n"
-        mss += "```"
+        msg += "```"
         embed.description = msg
         await interaction.response.send_message(embed=embed, ephemeral=True)
 

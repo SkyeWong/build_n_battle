@@ -4,6 +4,7 @@ import nextcord
 import json 
 from datetime import datetime
 import time
+import texttable
 import random
 import asyncio
 import main
@@ -56,13 +57,18 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         embed.colour = random.choice(main.embed_colours)
         if dice > 5:
+            result_table = texttable.Texttable(self, 0)
+            result_table.set_cols_align(["r", "l"])
+            result_table.set_cols_dtype(["i", "i"])
+            result_table.set_cols_valign(["m", "m"])
+            result_table_rows = []
             most = [0]
             least = [1]
             descr = "As there are more than 5 dice, I counted the results for you-"
             descr += "\n```css"
             for side in range(1, sides + 1):
                 count = result.count(str(side))
-                descr += f"\n* ({count}) [{side}s]"
+                result_table_rows.append([f"({count})", f"[{side}s]"])
                 if count > result.count(str(most[0])):
                     most = [side]
                 elif count == result.count(str(most[0])):
@@ -71,6 +77,8 @@ class Fun(commands.Cog, name="Fun"):
                     least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
+            result_table.add_rows(result_table_rows)
+            descr += result_table.draw()
             descr += "\n```"
             embed.description = descr
             view = Analysis(result, most, least)
