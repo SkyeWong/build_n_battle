@@ -55,7 +55,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         if dice > 5:
             most = 0
-            least = 800
+            least = 1
             descr = "As there are more than 5 dice, I counted the results for you! 😊 ```css"
             for side in range(1, sides + 1):
                 count = result.count(str(side))
