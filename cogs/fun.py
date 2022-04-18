@@ -68,14 +68,14 @@ class Fun(commands.Cog, name="Fun"):
                     least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
-            descr += "```\n```md"
+            descr += "```\n```md\n"
             descr += "Analysis:\n"
             descr += "\t- MOST:\n"
             for i in most:
-                descr += f"\t\t* {i} with {result.count(str(i))} dice\n"
+                descr += f"\t\t* [{result.count(str(i))}]({i}s)\n"
             descr += "\t- LEAST:\n"
             for i in least:
-                descr += f"\t\t* {i} with {result.count(str(i))} dice\n"
+                descr += f"\t\t* [{result.count(str(i))}]({i}s)\n"
             descr += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
         else:
             descr = ", ".join(result)
@@ -94,14 +94,15 @@ class Fun(commands.Cog, name="Fun"):
         else:
             embed.set_image(url="https://i.imgur.com/An6Vm2C.gif")
         await interaction.response.send_message(embed=embed)
-        await asyncio.sleep(3)
         embed.title = "And the result is..."
         if result == 0:
             embed.description = "**`HEADS`**"
             embed.set_image(url="https://i.imgur.com/8BSllkX.png")
+            await asyncio.sleep(2)
         else:
             embed.description = "**`TAIL`**"
             embed.set_image(url="https://i.imgur.com/VcqwLpT.png")
+            await asyncio.sleep(3)
         await interaction.edit_original_message(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
