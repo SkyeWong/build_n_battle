@@ -75,7 +75,7 @@ class Fun(commands.Cog, name="Fun"):
         else:
             embed.set_image(url="https://i.imgur.com/An6Vm2C.gif")
         await interaction.response.send_message(embed=embed)
-        await asyncio.sleep(5)
+        await asyncio.sleep(3)
         embed.title = "And the result is..."
         if result == 0:
             embed.description = "**`HEADS`**"
