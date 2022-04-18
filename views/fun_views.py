@@ -15,6 +15,7 @@ from functions.users import Users
 class Analysis(View):
                 
     def __init__(self, result, most, least):
+        super().__init__(timeout=180)
         self.most = most
         self.least = least
         self.result = result
