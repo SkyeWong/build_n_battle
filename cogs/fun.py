@@ -56,25 +56,29 @@ class Fun(commands.Cog, name="Fun"):
         if dice > 5:
             most = [0]
             least = [1]
-            descr = "As there are more than 5 dice, I counted the results for you! 😊 ```css"
+            descr = "As there are more than 5 dice, I counted the results for you- ```css"
             for side in range(1, sides + 1):
                 count = result.count(str(side))
                 descr += f"\n* ({count}) [{side}s]"
                 if count > result.count(str(most[0])):
+                    most = []
                     most[0] = side
                 elif count == result.count(str(most[0])):
                     most.append(side)
                 if count < result.count(str(least[0])):
+                    least = []
                     least[0] = side
                 elif count == result.count(str(least[0])):
                     least.append(side)
-            descr += "```\nAnalysis:"
-            descr += "\t`-` MOST:\n"
+            descr += "```\n```md"
+            descr += "Analysis:\n"
+            descr += "\t- MOST:\n"
             for i in most:
-                descr += f"\t\t`*` {i} with {result.count(str(i))} dice\n"
-            descr += "\t`-` LEAST:\n"
+                descr += f"\t\t* {i} with {result.count(str(i))} dice\n"
+            descr += "\t- LEAST:\n"
             for i in least:
-                descr += f"\t\t`*` {i} with {result.count(str(i))} dice\n"
+                descr += f"\t\t* {i} with {result.count(str(i))} dice\n"
+            descr += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
         else:
             descr = ", ".join(result)
         embed.description = descr
