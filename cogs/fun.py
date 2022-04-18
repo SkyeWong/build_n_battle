@@ -54,19 +54,27 @@ class Fun(commands.Cog, name="Fun"):
         embed = Embed()
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         if dice > 5:
-            most = 0
-            least = 1
+            most = [0]
+            least = [1]
             descr = "As there are more than 5 dice, I counted the results for you! 😊 ```css"
             for side in range(1, sides + 1):
                 count = result.count(str(side))
                 descr += f"\n* ({count}) [{side}s]"
-                if count > result.count(str(most)):
-                    most = side
-                if count < result.count(str(least)):
-                    least = side
-            descr += "```\n"
-            descr += f"`-` MOST: {most} with {result.count(str(most))} dice\n"
-            descr += f"`-` LEAST: {least} with {result.count(str(least))} dice\n"
+                if count > result.count(str(most[0])):
+                    most[0] = side
+                elif count == result.count(str(most[0])):
+                    most.append(side)
+                if count < result.count(str(least[0])):
+                    least[0] = side
+                elif count == result.count(str(least[0])):
+                    least.append(side)
+            descr += "```\nAnalysis:"
+            descr += "\t`-` MOST:\n"
+            for i in most:
+                descr += f"\t\t`*` {i} with {result.count(str(i))} dice\n"
+            descr += "\t`-` LEAST:\n"
+            for i in least:
+                descr += f"\t\t`*` {i} with {result.count(str(i))} dice\n"
         else:
             descr = ", ".join(result)
         embed.description = descr
