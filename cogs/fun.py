@@ -75,7 +75,7 @@ class Fun(commands.Cog, name="Fun"):
         else:
             embed.set_image(url="https://i.imgur.com/mmjXem0.gif")
         await interaction.response.send_message(embed=embed)
-        time.sleep(5)
+        time.sleep(3.5)
         embed.title = "And the result is..."
         if result == 0:
             embed.description = "**`HEADS`**"
