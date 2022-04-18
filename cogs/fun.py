@@ -57,7 +57,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         embed.colour = random.choice(main.embed_colours)
         if dice > 5:
-            result_table = texttable.Texttable(self, 0)
+            result_table = texttable.Texttable(0)
             result_table.set_cols_align(["r", "l"])
             result_table.set_cols_dtype(["i", "i"])
             result_table.set_cols_valign(["m", "m"])
