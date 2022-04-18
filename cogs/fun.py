@@ -58,7 +58,8 @@ class Fun(commands.Cog, name="Fun"):
         if dice > 5:
             most = [0]
             least = [1]
-            descr = "As there are more than 5 dice, I counted the results for you- ```css"
+            descr = "As there are more than 5 dice, I counted the results for you-"
+            descr += "\n```css"
             for side in range(1, sides + 1):
                 count = result.count(str(side))
                 descr += f"\n* ({count}) [{side}s]"
@@ -70,6 +71,7 @@ class Fun(commands.Cog, name="Fun"):
                     least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
+            descr += "\n```"
             embed.description = descr
             view = Analysis(result, most, least)
             view.message = await interaction.response.send_message(embed=embed, view=view)

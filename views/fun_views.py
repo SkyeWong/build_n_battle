@@ -27,7 +27,7 @@ class Analysis(View):
     )
     async def show_analysis(self, button, interaction):
         embed = Embed()
-        msg = "```\n```md\n"
+        msg = "```md\n"
         msg += "# Analysis:\n"
         msg += "\t- <MOST>:\n"
         for i in self.most:
@@ -35,7 +35,8 @@ class Analysis(View):
         msg += "\t- <LEAST>:\n"
         for i in self.least:
             msg += f"\t\t* [{self.result.count(str(i))}]({i}s)\n"
-        msg += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
+        msg += "> great, isn't it? took SkyeWong#8577 2 days to make this!\n"
+        mss += "```"
         embed.description = msg
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
