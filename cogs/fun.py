@@ -11,6 +11,7 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
+from views.fun_views import Analysis
 
 class Fun(commands.Cog, name="Fun"):
 
@@ -69,37 +70,8 @@ class Fun(commands.Cog, name="Fun"):
                     least = [side]
                 elif count == result.count(str(least[0])):
                     least.append(side)
-            class Analysis(View):
-                
-                def __init__(self, interaction):
-                    self.interaction = interaction
-
-                @nextcord.ui.button(
-                    label = "Show Analysis", 
-                    style = nextcord.ButtonStyle.blurple, 
-                    emoji = "📊"
-                )
-                async def show_analysis(self, button, interaction):
-                    embed = Embed()
-                    msg = "```\n```md\n"
-                    msg += "# Analysis:\n"
-                    msg += "\t- <MOST>:\n"
-                    for i in most:
-                        msg += f"\t\t* [{result.count(str(i))}]({i}s)\n"
-                    msg += "\t- <LEAST>:\n"
-                    for i in least:
-                        msg += f"\t\t* [{result.count(str(i))}]({i}s)\n"
-                    msg += "> great, isn't it? took SkyeWong#8577 2 days to make this!```"
-                    embed.description = msg
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
-
-                async def on_timeout(self) -> None:
-                    for i in self.children:
-                        i.disabled = True
-                    await self.message.edit(view=self)
-
             embed.description = descr
-            view = Analysis(interaction)
+            view = Analysis(result, most, least)
             view.message = await interaction.response.send_message(embed=embed, view=view)
         else:
             descr = ", ".join(result)
