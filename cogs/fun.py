@@ -47,22 +47,18 @@ class Fun(commands.Cog, name="Fun"):
             verify = True
         )
     ):
+        result = [
+                str(random.choice(range(1, sides + 1)))
+                for _ in range(dice)
+            ]
         embed = nextcord.Embed()
         embed.title = f"I rolled {dice} dice with {sides} sides and the result is:"
         if dice > 5:
-            result = [
-                int(random.choice(range(1, sides + 1)))
-                for i in range(dice)
-            ]
             descr = "As there are more than 5 dice, I counted the results for you! 😊 ```css"
             for side in range(1, sides + 1):
-                descr += f"\n* ({result.count(side)}) [{side}s]"
+                descr += f"\n* ({result.count(str(side))}) [{side}s]"
             descr += "```"
         else:
-            result = [
-                str(random.choice(range(1, sides + 1)))
-                for i in range(dice)
-            ]
             descr = ", ".join(result)
         embed.description = descr
         embed.colour = random.choice(main.embed_colours)
@@ -74,18 +70,19 @@ class Fun(commands.Cog, name="Fun"):
         embed.title = "Flippin' a coin..."
         embed.colour = random.choice(main.embed_colours)
         result = random.choice(range(2))
-        print(result)
         if result == 0:
             embed.set_image(url="https://i.imgur.com/Mvy8BV8.gif")
         else:
             embed.set_image(url="https://i.imgur.com/mmjXem0.gif")
         await interaction.response.send_message(embed=embed)
-        time.sleep(3)
+        time.sleep(5)
         embed.title = "And the result is..."
         if result == 0:
             embed.description = "**`HEADS`**"
+            embed.set_image(url="https://i.imgur.com/8BSllkX.png")
         else:
             embed.description = "**`TAIL`**"
+            embed.set_image(url="https://i.imgur.com/VcqwLpT.png")
         await interaction.edit_original_message(embed=embed)
 
     @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
