@@ -1,5 +1,4 @@
 import os
-from discord import ButtonStyle
 import nextcord
 import random
 import main
