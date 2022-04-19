@@ -98,5 +98,7 @@ async def on_command_error(ctx, error):
 async def on_application_command_error(interaction, error):
     if isinstance(error, commands.CommandOnCooldown):
         await interaction.response.send_message(cd_embed(interaction, error))
+    else:
+        raise error
 
 bot.run(TOKEN)
