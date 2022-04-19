@@ -113,6 +113,7 @@ class Fun(commands.Cog, name="Fun"):
         await interaction.response.send_message(embed=embed)
 
     @nextcord.slash_command(name="8ball", description="Make decisions!", guild_ids=[main.DEVS_SERVER_ID])
+    @commands.cooldown(1, 45, commands.BucketType.user)
     async def eight_ball(
         self, 
         interaction: Interaction, 
