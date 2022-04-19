@@ -205,7 +205,7 @@ class Fun(commands.Cog, name="Fun"):
         if money <= 10:
             await ctx.send(f"You lost! You have only ${money}...")
 
-    @nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
+    #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))
