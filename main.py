@@ -75,6 +75,13 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
+def cd_embed(ctx, error):
+    cd_ui = Embed()
+    cd_ui.title = "Woah, chill."
+    cd_ui.description = f"Wait **{round(error.retry_after)}** seconds left before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
+    cd_ui.colour = random.choice(embed_colours)
+    return cd_ui
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
@@ -83,10 +90,13 @@ async def on_command_error(ctx, error):
         else:
             await ctx.send("You are missing the role(s)/permission(s) to use this command.")
     elif isinstance(error, commands.CommandOnCooldown):
-        cd_ui = Embed()
-        cd_ui.title = "Woah, chill."
-        cd_ui.description = f"Wait **{round(error.retry_after)}** seconds left before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
-        cd_ui.colour = random.choice(embed_colours)
-        await ctx.send(embed=cd_ui)
+        await ctx.send(cd_embed(ctx, error))
+    else:
+        raise error
+
+@bot.event
+async def on_application_command_error(interaction, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await interaction.response.send_message(cd_embed(interaction, error))
 
 bot.run(TOKEN)
