@@ -38,9 +38,10 @@ class Utility(commands.Cog, name="Utility"):
                 msg += f" `+{cmd.qualified_name}`"
         await interaction.followup.send(msg)
         slash_cmds = ""
-        for command in interaction.guild.get_application_commands():
-            name = command.get_signature()[0]
-            slash_cmds += f" `/{name}`"
+        for command in bot.get_all_application_commands():
+            if interaction.guild_id in command.guild_ids or command.is_global:
+                name = command.get_signature()[0]
+                slash_cmds += f" `/{name}`"
         if slash_cmds != "":
             await interaction.followup.send(slash_cmds)
 
