@@ -24,7 +24,7 @@ class Utility(commands.Cog, name="Utility"):
         embed = Embed()
         embed.title = "Invite me to your server and have some fun!"
         embed.set_author(name=bot.user.name, icon_url= bot.user.avatar)
-        embed.description = "[here](https://nextcord.com/api/oauth2/authorize?client_id=906505022441918485&permissions=8&scope=bot)"
+        embed.description = "[here](https://discord.com/api/oauth2/authorize?client_id=906505022441918485&permissions=8&scope=bot)"
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 

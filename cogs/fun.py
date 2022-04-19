@@ -23,8 +23,7 @@ class Fun(commands.Cog, name="Fun"):
 
     @nextcord.slash_command(
         name = "dice", 
-        description = "Roll a dice and make decisions!",
-        guild_ids=[main.DEVS_SERVER_ID]
+        description = "Roll a dice and make decisions!"
         ) 
     async def dice(
         self, 
@@ -80,7 +79,7 @@ class Fun(commands.Cog, name="Fun"):
             embed.description = descr
             await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="coinflip", description="Flip a coin!", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="coinflip", description="Flip a coin!")
     async def coinflip(self, interaction: Interaction):
         embed = Embed()
         embed.title = "Flippin' a coin..."
@@ -102,7 +101,7 @@ class Fun(commands.Cog, name="Fun"):
             await asyncio.sleep(3)
         await interaction.edit_original_message(embed=embed)
 
-    @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="karson", description="Shows Karson in a big collage!")
     async def karson(self, interaction: Interaction):
         embed = Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
@@ -111,7 +110,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="8ball", description="Make decisions!", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="8ball", description="Make decisions!")
     async def eight_ball(
         self, 
         interaction: Interaction, 
@@ -205,6 +204,8 @@ class Fun(commands.Cog, name="Fun"):
             await dice_ui_message.edit(embed=dice_ui)
         if money <= 10:
             await ctx.send(f"You lost! You have only ${money}...")
+
+    @nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))
