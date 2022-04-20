@@ -19,7 +19,20 @@ def get_prefix(bot, message): # define get_prefix
     return server_prefix #recieve the prefix for the guild id given
 
 bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272, 708141816020729867, 798720829583523861})
-embed_colours = [0x0071ad, 0x0064a4, 0x007dbd, 0x0096d6, 0x19afef, 0x32c8ff]
+embed_colours = [
+    # blues (deep -> light)
+    0x00001B, 
+    0x001034,
+    0x00294D,
+    0x194266,
+    0x325B7F,
+    # yellows (deep -> light)
+    0xAA7300,
+    0xC38C08,
+    0xDCA521,
+    0xF5BE3A,
+    0xFFD753
+    ]
 
 def roundup(number, round_to):
     return number if number % round_to == 0 else number + round_to - number % round_to
