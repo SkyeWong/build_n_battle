@@ -32,7 +32,7 @@ embed_colours = [
     0xDCA521,
     0xF5BE3A,
     0xFFD753
-    ]
+]
 
 def roundup(number, round_to):
     return number if number % round_to == 0 else number + round_to - number % round_to
