@@ -36,6 +36,8 @@ class Utility(commands.Cog, name="Utility"):
             msg += f"\n{cog_name}"
             for cmd in cog.get_commands():
                 msg += f" `+{cmd.qualified_name}`"
+            for application_cmd in cog.to_register():
+                msg += f" `/{application_cmd.get_signature()[0]}"
         await interaction.followup.send(msg)
         slash_cmds = ""
         for command in bot.get_all_application_commands():
