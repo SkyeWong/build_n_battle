@@ -43,7 +43,8 @@ class BnbOnly(commands.Cog, name="BNB Only"):
     async def deadchat(self, ctx: commands.Context):
         embed = Embed()
         embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
-        embed.description = "<:deadchat:965893342695157780>"*6 # dead chat emoji
+        embed.description = "<:deadchat:965893342695157780> ⊙ " * 4 # dead chat emoji
+        embed.description += "<:deadchat:965893342695157780>" # dead chat emoji
         embed.description += f"\n**{ctx.author.mention} has requested you guys to revive the chat!**"
         await ctx.send(content="<@&965892736882462741>", embed=embed)
 
