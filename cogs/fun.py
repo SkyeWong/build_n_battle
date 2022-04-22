@@ -110,7 +110,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="8ball", description="Make decisions!")
+    @nextcord.slash_command(name="8ball", description="I can tell you the future... make decisions! 🎱")
     async def eight_ball(
         self, 
         interaction: Interaction, 
