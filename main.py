@@ -100,6 +100,8 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         if ctx.command.cog_name == "Dev Only":
             await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
+        elif ctx.command.cog_name == "BNB Only":
+            await ctx.send("This command is only available in the BNB server.")
         else:
             await ctx.send("You are missing the role(s)/permission(s) to use this command.")
     elif isinstance(error, commands.CommandOnCooldown):
