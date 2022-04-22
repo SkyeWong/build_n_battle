@@ -44,7 +44,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
             embed.description += f"\n**{ctx.author.mention} has requested you guys to revive the chat!**"
             await ctx.send(content="<@&965892736882462741>", embed=embed)
         else:
-            await ctx.send("This commands is only available in <#836212817711333426>.")
+            await ctx.send("This command is only available in <#836212817711333426>.")
 
 def setup(bot: commands.Bot):
     bot.add_cog(BnbOnly(bot))
