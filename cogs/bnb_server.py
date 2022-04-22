@@ -29,7 +29,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
     
     @commands.command(name="deadchat", help="LETS RETVIVE THE CHAT")
     @commands.cooldown(rate=1, per=1800, type=commands.BucketType.guild)
-    @commands.check(in_general_chat())
+    @commands.check(in_general_chat)
     @commands.has_any_role(
         829931104995115039, #senior mod
         827548548454678548, #mod
