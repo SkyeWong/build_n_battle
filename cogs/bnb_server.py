@@ -26,6 +26,16 @@ class BnbOnly(commands.Cog, name="BNB Only"):
 
     @commands.command(name="deadchat", help="LETS RETVIVE THE CHAT")
     @commands.cooldown(rate=1, per=1800, type=commands.BucketType.guild)
+    @commands.has_any_role(
+        829931104995115039, #senior mod
+        827548548454678548, #mod
+        962604934820417616, #trial mod
+        827553090848161802, #skye
+        961646555226587268, #keith
+        961646665167683644, #karson
+        962011095009210468, #hoho
+        966654522304897034  #ginny
+    ) # The bnb staffs role
     async def deadchat(self, ctx: commands.Context):
         if ctx.channel.id == 836212817711333426:
             embed = Embed()

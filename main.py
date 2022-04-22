@@ -91,7 +91,28 @@ async def on_message(message):
 def cd_embed(ctx, error):
     cd_ui = Embed()
     cd_ui.title = "Woah, chill."
-    cd_ui.description = f"Wait **{round(error.retry_after)}** seconds left before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
+    time = {
+        "day": 0, 
+        "hour": 0,
+        "minute": 0,
+        "second": round(error.retry_after)
+    }
+    while time["second"] >= 60:
+        time["minute"] += 1
+        time["second"] -= 60
+    while time["minute"] > 60:
+        time["hour"] += 1
+        time["minute"] -= 60
+    while time["hour"] > 24:
+        time["day"] += 1
+        time["hour"] -= 24
+    time_txt = ""
+    for i in time:
+        if time[i] > 0:
+            if time[i] > 1:
+                i += "s"
+            time_txt += f"{time[i]} {i}"
+    cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
     return cd_ui
 
