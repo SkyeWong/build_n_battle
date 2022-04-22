@@ -23,9 +23,13 @@ class BnbOnly(commands.Cog, name="BNB Only"):
     async def cog_check(self, ctx):
         # check if server is BNB
         return ctx.guild.id == 827537903634612235 
-
+    
+    def in_general_chat(ctx:commands.Context):
+        return ctx.channel.id == 836212817711333426
+    
     @commands.command(name="deadchat", help="LETS RETVIVE THE CHAT")
     @commands.cooldown(rate=1, per=1800, type=commands.BucketType.guild)
+    @commands.check(in_general_chat())
     @commands.has_any_role(
         829931104995115039, #senior mod
         827548548454678548, #mod
@@ -37,7 +41,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         966654522304897034  #ginny
     ) # The bnb staffs role
     async def deadchat(self, ctx: commands.Context):
-        if ctx.channel.id == 836212817711333426:
+        if ctx.channel.id == :
             embed = Embed()
             embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
             embed.description = "<:deadchat:965893342695157780>"*6 # dead chat emoji
