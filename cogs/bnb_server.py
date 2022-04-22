@@ -25,7 +25,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         return ctx.guild.id == 827537903634612235 
 
     @commands.command(name="deadchat", help="LETS RETVIVE THE CHAT")
-    @commands.cooldown(rate=1, per=3600, type=commands.BucketType.guild)
+    @commands.cooldown(rate=1, per=1800, type=commands.BucketType.guild)
     async def deadchat(self, ctx: commands.Context):
         if ctx.channel.id == 836212817711333426:
             embed = Embed()
