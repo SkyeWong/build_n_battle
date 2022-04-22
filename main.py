@@ -108,10 +108,11 @@ def cd_embed(ctx, error):
         time["hour"] -= 24
     time_txt = ""
     for i in time:
-        if time[i] == 1:
-            time_value = i
-        else:
-            time_value = i+"s"
+        if time[i] != 0:
+            if time[i] == 1:
+                time_value = i
+            else:
+                time_value = i+"s"
             time_txt += f"{time[i]} {time_value} "
     cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
