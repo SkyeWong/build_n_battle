@@ -112,7 +112,7 @@ def cd_embed(ctx, error):
             time_value = i
         else:
             time_value = i+"s"
-            time_txt += f"{time[i]} {time_value}"
+            time_txt += f"{time[i]} {time_value} "
     cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
     return cd_ui
