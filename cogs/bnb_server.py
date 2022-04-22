@@ -41,14 +41,11 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         966654522304897034  #ginny
     ) # The bnb staffs role
     async def deadchat(self, ctx: commands.Context):
-        if ctx.channel.id == :
-            embed = Embed()
-            embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
-            embed.description = "<:deadchat:965893342695157780>"*6 # dead chat emoji
-            embed.description += f"\n**{ctx.author.mention} has requested you guys to revive the chat!**"
-            await ctx.send(content="<@&965892736882462741>", embed=embed)
-        else:
-            await ctx.send("This command is only available in <#836212817711333426>.")
+        embed = Embed()
+        embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
+        embed.description = "<:deadchat:965893342695157780>"*6 # dead chat emoji
+        embed.description += f"\n**{ctx.author.mention} has requested you guys to revive the chat!**"
+        await ctx.send(content="<@&965892736882462741>", embed=embed)
 
 def setup(bot: commands.Bot):
     bot.add_cog(BnbOnly(bot))
