@@ -37,7 +37,11 @@ class Utility(commands.Cog, name="Utility"):
             for cmd in cog.get_commands():
                 msg += f" `+{cmd.qualified_name}`"
             for application_cmd in cog.to_register:
-                if interaction.guild_id in application_cmd.guild_id or application_cmd.is_global:
+                guild_usable = False
+                if application_cmd.guild_id:
+                    if interaction.guild_id in application_cmd.guild_id:
+                        guild_usable = True
+                if  guild_usable or application_cmd.is_global:
                     msg += f" `/{application_cmd.get_signature()[0]}`"
         await interaction.followup.send(msg)
         slash_cmds = ""
