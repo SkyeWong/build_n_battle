@@ -108,10 +108,11 @@ def cd_embed(ctx, error):
         time["hour"] -= 24
     time_txt = ""
     for i in time:
-        if time[i] > 0:
-            if time[i] > 1:
-                i += "s"
-            time_txt += f"{time[i]} {i}"
+        if time[i] == 1:
+            time_value = i
+        else:
+            time_value += "s"
+            time_txt += f"{time[i]} {time_value}"
     cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
     return cd_ui
@@ -121,7 +122,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
         if ctx.command.cog_name == "Dev Only":
             await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
-        elif ctx.command.cog_name == "BNB Only":
+        elif ctx.command.cog_name == "BNB Only" and ctx.guild.id != 827537903634612235:
             await ctx.send("This command is only available in the BNB server.")
         else:
             await ctx.send("You are missing the role(s)/permission(s) to use this command.")
