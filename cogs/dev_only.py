@@ -53,7 +53,9 @@ class dev_only(commands.Cog, name="Dev Only"):
         user: nextcord.Member = SlashOption(
             name = "user",
             description = "The user whom you wants to have avatar shown. Defaults to... YOU!",
-            default = None
+            required = False,
+            default = None,
+            verify = True
         )
     ):
         if user == None:
@@ -67,7 +69,8 @@ class dev_only(commands.Cog, name="Dev Only"):
         interaction: Interaction,
         emojiname: str = SlashOption(
             name = "emoji",
-            description = "Emoji to search for, its id or name"
+            description = "Emoji to search for, its id or name",
+            verify = True
         )):
         emojis_found = []
         guild_emojis = []
@@ -78,25 +81,24 @@ class dev_only(commands.Cog, name="Dev Only"):
             if emojiname in emoji.name or emojiname == emoji.id:
                 emojis_found.append(emoji)
         if emojis_found != []:
-            await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`:")
+            await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
             embed = Embed()
             embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
             embed.colour = random.choice(main.embed_colours)
-            for i in range(len(emojis_found)):
+            for emoji in emojis_found:
                 emoji_embed = embed
-                emoji_embed.title = f"`{i+1}` - click for emoji"
+                emoji_embed.title = f"`{emojis_found.index(emoji) + 1}` - click for emoji"
                 emoji_embed.url = emoji.url
                 emoji_embed.description = f"{emoji}"
-                emoji = emojis_found[i]
                 field = ">>> "
-                field += f"➼ `Name` - :{emoji.name}:"
-                field += f"➼ `Guild` - `{emoji.guild.name}`"
-                field += f"➼ `ID`    - `{emoji.id}`"
-                field += f"➼ `Url`   - [{emoji.url}]({emoji.url})"
-                field += f"➼ `Usage` - `<:{emoji.name}:{emoji.id}>"
-                embed.add_field(name=f":{emoji.name}:", value=field)
+                field +=   f"➼ `Name` - :{emoji.name}:"
+                field += f"\n➼ `Guild` - `{emoji.guild.name}`"
+                field += f"\n➼ `ID`    - `{emoji.id}`"
+                field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
+                field += f"\n➼ `Usage` - `\<:{emoji.name}:{emoji.id}>"
+                emoji_embed.add_field(name=f":{emoji.name}:", value=field)
                 await interaction.followup.send(embed=emoji_embed)
-            await interaction.followup.send(f"Jump to the start: {interaction.original_message.jump_url}")
+            await interaction.followup.send(f"Jump to the start: {interaction.original_message().jump_url}")
         else:
             await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
