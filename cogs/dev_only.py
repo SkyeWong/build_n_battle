@@ -7,6 +7,8 @@ from datetime import datetime
 import time
 import random
 import asyncio
+
+from requests import delete
 import main
 from main import bot
 from nextcord.ext import commands, tasks
@@ -73,7 +75,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             verify = True
         )):
         if len(emojiname) < 3:
-            await interaction.response.send_message("The search term must be longer than 3 characters.")
+            await interaction.response.send_message(content="The search term must be longer than 3 characters.", delete_after=5)
         else:
             emojis_found = []
             guild_emojis = []
@@ -94,10 +96,10 @@ class dev_only(commands.Cog, name="Dev Only"):
                     embed.url = emoji.url
                     embed.description = f"{emoji}"
                     field =f">>> ➼ `Name` - :{emoji.name}:"
-                    field += f"\n➼ `Guild` - `{emoji.guild.name}`"
-                    field += f"\n➼ `ID`    - `{emoji.id}`"
+                    field += f"\n➼ `Guild` - {emoji.guild.name}"
+                    field += f"\n➼ `ID`    - {emoji.id}"
                     field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
-                    field += f"\n➼ `Usage` - `<:{emoji.name}:{emoji.id}>`"
+                    field += f"\n➼ `Usage` - <\:{emoji.name}:{emoji.id}>"
                     embed.add_field(name=f":{emoji.name}:", value=field)
                     await interaction.followup.send(embed=embed)
                 if len(emojis_found) > 3:
