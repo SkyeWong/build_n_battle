@@ -115,6 +115,10 @@ def cd_embed(ctx, error):
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
+    try:
+        ctx.message.delete()
+    except(nextcord.HTTPException):
+        ctx.guild.owner.send(f"I don't have the correct perms in your server! Try checking my profile and re-add me to your server.\n`Server` - `{ctx.guild.name}`")
     if isinstance(error, commands.errors.CheckFailure):
         if ctx.command.cog_name == "Dev Only":
             await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!", delete_after=3)
