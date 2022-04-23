@@ -2,7 +2,7 @@ import os
 import nextcord
 import random
 from nextcord.ext import commands
-from nextcord import Embed
+from nextcord import Embed, Interaction
 import database as db
 
 TOKEN = os.environ["DISCORD_TOKEN"]
@@ -92,55 +92,50 @@ def cd_embed(ctx, error):
     cd_ui = Embed()
     cd_ui.title = "Woah, chill."
     time = {
-        "day": 0, 
-        "hour": 0,
-        "minute": 0,
-        "second": round(error.retry_after)
+        "d": 0, 
+        "h": 0,
+        "m": 0,
+        "s": round(error.retry_after)
     }
-    while time["second"] >= 60:
-        time["minute"] += 1
-        time["second"] -= 60
-    while time["minute"] > 60:
-        time["hour"] += 1
-        time["minute"] -= 60
-    while time["hour"] > 24:
-        time["day"] += 1
-        time["hour"] -= 24
+    while time["s"] >= 60:
+        time["m"] += 1
+        time["s"] -= 60
+    while time["m"] > 60:
+        time["h"] += 1
+        time["m"] -= 60
+    while time["h"] > 24:
+        time["d"] += 1
+        time["h"] -= 24
     time_txt = ""
     for i in time:
-        if time[i] != 0:
-            if time[i] == 1:
-                time_value = i
-            else:
-                time_value = i+"s"
-            time_txt += f"{time[i]} {time_value} "
+        time_txt += f"{time[i]}{i} "
     cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
     return cd_ui
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx: commands.Context, error):
     if isinstance(error, commands.errors.CheckFailure):
         if ctx.command.cog_name == "Dev Only":
-            await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!")
+            await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!", delete_after=3)
         elif ctx.command.cog_name == "BNB Only":
             if ctx.guild.id != 827537903634612235:
-                await ctx.send("This command is only available in the BNB server.")
+                await ctx.send(content="This command is only available in the BNB server.", delete_after=3)
             elif ctx.channel.id != 836212817711333426:
-                await ctx.send("This command is only available in <#836212817711333426>.")
+                await ctx.send(content="This command is only available in <#836212817711333426>.", delete_after=3)
             else:
-                await ctx.send("This command is only available to mods.")
+                await ctx.send(content="This command is only available to mods.", delete_after=3)
         else:
-            await ctx.send("You are missing the role(s)/permission(s) to use this command.")
+            await ctx.send("You are missing the role(s)/permission(s) to use this command.", delete_after=3)
     elif isinstance(error, commands.CommandOnCooldown):
-        await ctx.send(embed=cd_embed(ctx, error))
+        await ctx.send(embed=cd_embed(ctx, error), delete_after=3)
     else:
         raise error
 
 @bot.event
-async def on_application_command_error(interaction, error):
+async def on_application_command_error(interaction: Interaction, error):
     if isinstance(error, commands.CommandOnCooldown):
-        await interaction.response.send_message(embed=cd_embed(interaction, error))
+        await interaction.response.send_message(embed=cd_embed(interaction, error), ephemeral=True)
     else:
         raise error
 
