@@ -11,6 +11,8 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
+import database as db
+
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
 
@@ -20,11 +22,11 @@ class dev_only(commands.Cog, name="Dev Only"):
         self.bot = bot
         self._last_member = None
 
-    async def cog_check(self, ctx):
+    async def cog_check(self, ctx: commands.Context):
         #Check if user is owner and return it back
         return ctx.author.id in bot.owner_ids
     
-    async def cog_application_command_check(self, interaction):
+    async def cog_application_command_check(self, interaction: Interaction):
         return interaction.user.id in bot.owner_ids
 
     @nextcord.slash_command(name="dm", description="Send a message!", guild_ids=[main.DEVS_SERVER_ID])
@@ -104,6 +106,22 @@ class dev_only(commands.Cog, name="Dev Only"):
                     await interaction.followup.send(f"Jump - {url.jump_url}")
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
+
+    @nextcord.slash_command(name="no-of-players", description="Shows the number of users in BNB.")
+    async def no_of_players(self, interaction: Interaction):
+        sql = "SELECT COUNT(id) AS NoOfUsers FROM users"
+        cursor = db.execute_query(sql)
+        await interaction.response.send_message(cursor.fetchall()[0])
+        sql = f"""
+            SELECT id, gold
+            FROM users
+            ORDER BY gold DESC
+            LIMIT 5
+        """
+        cursor = db.execute_query(sql)
+        await interaction.followup.send("richest players:")
+        for record in cursor.fetchall():
+            await interaction.followup.send(f"{bot.fetch_user(record[0])}: {record[1]} gold")
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))

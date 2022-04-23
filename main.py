@@ -142,7 +142,9 @@ async def on_command_error(ctx: commands.Context, error):
 
 @bot.event
 async def on_application_command_error(interaction: Interaction, error):
-    if isinstance(error, commands.CommandOnCooldown):
+    if isinstance(error, commands.errors.CheckFailure):
+        await interaction.response.send_message("You are missing the role(s)/permission(s) to use this command.", ephemeral=True)
+    elif isinstance(error, commands.CommandOnCooldown):
         await interaction.response.send_message(embed=cd_embed(interaction, error), ephemeral=True)
     else:
         raise error
