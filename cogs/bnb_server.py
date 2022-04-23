@@ -49,7 +49,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
         embed.description = "<:deadchat:965893342695157780> ⊙ " * 4 # dead chat emoji
         embed.description += "<:deadchat:965893342695157780>" # dead chat emoji
-        embed.add_field(name=f"\n**{ctx.author.mention} has requested you guys to revive the chat!**", value="so what are you guys waiting? LET'S REVIVE IT!", inline=False)
+        embed.add_field(name=f"LET'S REVIVE THE CHAT RN!", value="**{ctx.author.mention} has requested you guys to revive the chat!**", inline=False)
         embed.add_field(name="`Message:`", value=message, inline=False)
         await ctx.send(content="<@&965892736882462741>", embed=embed) # ping the @ chat revive role
 
