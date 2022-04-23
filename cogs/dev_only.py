@@ -91,14 +91,15 @@ class dev_only(commands.Cog, name="Dev Only"):
                 emoji_embed.url = emoji.url
                 emoji_embed.description = f"{emoji}"
                 field = ">>> "
-                field +=   f"➼ `Name` - :{emoji.name}:"
+                field += f"\n➼ `Name` - :{emoji.name}:"
                 field += f"\n➼ `Guild` - `{emoji.guild.name}`"
                 field += f"\n➼ `ID`    - `{emoji.id}`"
                 field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
                 field += f"\n➼ `Usage` - `\<:{emoji.name}:{emoji.id}>"
                 emoji_embed.add_field(name=f":{emoji.name}:", value=field)
                 await interaction.followup.send(embed=emoji_embed)
-            await interaction.followup.send(f"Jump to the start: {interaction.original_message().jump_url}")
+                msg = await interaction.original_message()[3]
+            await interaction.followup.send(f"Jump to the start: {msg.jump_url}")
         else:
             await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
