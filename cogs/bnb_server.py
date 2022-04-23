@@ -40,7 +40,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         962011095009210468, #hoho
         966654522304897034  #ginny
     ) # The bnb staffs role
-    async def deadchat(self, ctx: commands.Context, *, message: str="make the chat alive pls"):
+    async def deadchat(self, ctx: commands.Context, *, message: str="None"):
         try:
             await ctx.message.delete()
         except(nextcord.HTTPException):
