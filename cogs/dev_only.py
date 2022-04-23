@@ -107,7 +107,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
-    @nextcord.slash_command(name="no-of-players", description="Shows the number of users in BNB.")
+    @nextcord.slash_command(name="no-of-players", description="Shows the number of users in BNB.", guild_ids=[main.DEVS_SERVER_ID])
     async def no_of_players(self, interaction: Interaction):
         sql = "SELECT COUNT(id) AS NoOfUsers FROM users"
         cursor = db.execute_query(sql)
