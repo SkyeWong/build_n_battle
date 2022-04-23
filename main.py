@@ -108,17 +108,15 @@ def cd_embed(ctx, error):
         time["h"] -= 24
     time_txt = ""
     for i in time:
-        time_txt += f"{time[i]}{i} "
+        if time[i] != 0:
+            time_txt += f"{time[i]}{i} "
     cd_ui.description = f"Wait **{time_txt}** before using `{ctx.clean_prefix}{ctx.command.qualified_name}` again."
     cd_ui.colour = random.choice(embed_colours)
     return cd_ui
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
-    try:
-        ctx.message.delete()
-    except(nextcord.HTTPException):
-        ctx.guild.owner.send(f"I don't have the correct perms in your server! Try checking my profile and re-add me to your server.\n`Server` - `{ctx.guild.name}`")
+    code_error = False
     if isinstance(error, commands.errors.CheckFailure):
         if ctx.command.cog_name == "Dev Only":
             await ctx.send("Only devs can use this command.\nOn the plus side, maybe this will be introduced to the game later!", delete_after=3)
@@ -134,7 +132,13 @@ async def on_command_error(ctx: commands.Context, error):
     elif isinstance(error, commands.CommandOnCooldown):
         await ctx.send(embed=cd_embed(ctx, error), delete_after=3)
     else:
+        code_error = True
         raise error
+    if not code_error:
+        try:
+            await ctx.message.delete()
+        except(nextcord.HTTPException):
+            ctx.guild.owner.send(f"I don't have the correct perms in your server! Try checking my profile and re-add me to your server.\n`Server` - `{ctx.guild.name}`")
 
 @bot.event
 async def on_application_command_error(interaction: Interaction, error):
