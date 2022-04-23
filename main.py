@@ -18,7 +18,7 @@ def get_prefix(bot, message): # define get_prefix
     server_prefix = cursor.fetchall()[0][0]
     return server_prefix #recieve the prefix for the guild id given
 
-bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272, 708141816020729867, 798720829583523861})
+bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272, 708141816020729867, 798720829583523861, 823522605352484916})
 embed_colours = [
     # blues (deep -> light)
     0x00001B, 
