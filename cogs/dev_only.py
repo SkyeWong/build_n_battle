@@ -4,11 +4,8 @@ from nextcord import ButtonStyle
 import nextcord
 import json 
 from datetime import datetime
-import time
 import random
 import asyncio
-
-from requests import delete
 import main
 from main import bot
 from nextcord.ext import commands, tasks
