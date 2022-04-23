@@ -7,8 +7,6 @@ from datetime import datetime
 import time
 import random
 import asyncio
-
-from sqlalchemy import desc
 import main
 from main import bot
 from nextcord.ext import commands, tasks
