@@ -72,35 +72,39 @@ class dev_only(commands.Cog, name="Dev Only"):
             description = "Emoji to search for, its id or name",
             verify = True
         )):
-        emojis_found = []
-        guild_emojis = []
-        for guild in bot.guilds:
-            for emoji in guild.emojis:
-                guild_emojis.append(emoji)
-        for emoji in guild_emojis:
-            if emojiname in emoji.name or emojiname == emoji.id:
-                emojis_found.append(emoji)
-        if emojis_found != []:
-            await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
-            embed = Embed()
-            embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
-            embed.colour = random.choice(main.embed_colours)
-            for emoji in emojis_found:
-                emoji_embed = embed
-                emoji_embed.title = f"`{emojis_found.index(emoji) + 1}` - click for emoji"
-                emoji_embed.url = emoji.url
-                emoji_embed.description = f"{emoji}"
-                field =f">>> ➼ `Name` - :{emoji.name}:"
-                field += f"\n➼ `Guild` - `{emoji.guild.name}`"
-                field += f"\n➼ `ID`    - `{emoji.id}`"
-                field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
-                field += f"\n➼ `Usage` - `\<:{emoji.name}:{emoji.id}>`"
-                emoji_embed.add_field(name=f":{emoji.name}:", value=field)
-                await interaction.followup.send(embed=emoji_embed)
-            url = await interaction.original_message()
-            await interaction.followup.send(f"Jump to the start: {url.jump_url}")
+        if len(emojiname) < 3:
+            await interaction.response.send_message("The search term must be longer than 3 characters.")
         else:
-            await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
+            emojis_found = []
+            guild_emojis = []
+            for guild in bot.guilds:
+                for emoji in guild.emojis:
+                    guild_emojis.append(emoji)
+            for emoji in guild_emojis:
+                if emojiname in emoji.name or emojiname == emoji.id:
+                    emojis_found.append(emoji)
+            if emojis_found != []:
+                await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
+                embed = Embed()
+                embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
+                embed.colour = random.choice(main.embed_colours)
+                for emoji in emojis_found:
+                    embed.clear_fields()
+                    embed.title = f"`{emojis_found.index(emoji) + 1}` - click for emoji"
+                    embed.url = emoji.url
+                    embed.description = f"{emoji}"
+                    field =f">>> ➼ `Name` - :{emoji.name}:"
+                    field += f"\n➼ `Guild` - `{emoji.guild.name}`"
+                    field += f"\n➼ `ID`    - `{emoji.id}`"
+                    field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
+                    field += f"\n➼ `Usage` - `<:{emoji.name}:{emoji.id}>`"
+                    embed.add_field(name=f":{emoji.name}:", value=field)
+                    await interaction.followup.send(embed=embed)
+                if len(emojis_found) > 3:
+                    url = await interaction.original_message()
+                    await interaction.followup.send(f"Jump - {url.jump_url}")
+            else:
+                await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
