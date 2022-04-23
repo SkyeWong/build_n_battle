@@ -40,7 +40,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         962011095009210468, #hoho
         966654522304897034  #ginny
     ) # The bnb staffs role
-    async def deadchat(self, ctx: commands.Context, *, message: str):
+    async def deadchat(self, ctx: commands.Context, *, message: str="make the chat alive pls"):
         try:
             await ctx.message.delete()
         except(nextcord.HTTPException):
@@ -52,6 +52,7 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         embed.add_field(name=f"LET'S REVIVE THE CHAT RN!", value="**{ctx.author.mention} has requested you guys to revive the chat!**", inline=False)
         embed.add_field(name="`Message:`", value=message, inline=False)
         await ctx.send(content="<@&965892736882462741>", embed=embed) # ping the @ chat revive role
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(BnbOnly(bot))
