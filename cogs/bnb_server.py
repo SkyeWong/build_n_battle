@@ -41,12 +41,16 @@ class BnbOnly(commands.Cog, name="BNB Only"):
         966654522304897034  #ginny
     ) # The bnb staffs role
     async def deadchat(self, ctx: commands.Context, *, message: str):
+        try:
+            await ctx.message.delete()
+        except(nextcord.HTTPException):
+            ctx.guild.owner.send(f"I don't have the correct perms in your server! Try checking my profile and re-add me to your server.\n`Server` - `{ctx.guild.name}`")
         embed = Embed()
         embed.set_author(name="・DEAD CHAT ALERT", icon_url="https://cdn.discordapp.com/emojis/966652439300300901.gif")
         embed.description = "<:deadchat:965893342695157780> ⊙ " * 4 # dead chat emoji
         embed.description += "<:deadchat:965893342695157780>" # dead chat emoji
-        embed.description += f"\n**{ctx.author.mention} has requested you guys to revive the chat!**"
-        embed.add_field(name="`Message:`", value=message)
+        embed.add_field(name=f"\n**{ctx.author.mention} has requested you guys to revive the chat!**", value="so what are you guys waiting? LET'S REVIVE IT!", inline=False)
+        embed.add_field(name="`Message:`", value=message, inline=False)
         await ctx.send(content="<@&965892736882462741>", embed=embed) # ping the @ chat revive role
 
 def setup(bot: commands.Bot):
