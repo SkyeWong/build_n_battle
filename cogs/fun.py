@@ -143,6 +143,8 @@ class Fun(commands.Cog, name="Fun"):
         await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
     @nextcord.slash_command(name="hit-or-blow", description="Play a fun hit or blow game!", guild_ids=[main.DEVS_SERVER_ID])
+    async def hit_or_blow(self, interaction: Interaction):
+        await interaction.response.send_message("i'll do this later")
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
