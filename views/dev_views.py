@@ -77,8 +77,7 @@ class EmojiView(View):
     @nextcord.ui.button(
         emoji = "⏭️",
         style = nextcord.ButtonStyle.blurple,
-        custom_id = "last",
-        disabled = True
+        custom_id = "last"
     )
     async def last(self, button: Button, btn_interaction: Interaction):
         self.page = len(self.emoji_list)
