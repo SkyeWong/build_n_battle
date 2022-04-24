@@ -111,17 +111,18 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def no_of_players(self, interaction: Interaction):
         sql = "SELECT COUNT(id) AS NoOfUsers FROM users"
         cursor = db.execute_query(sql)
-        await interaction.response.send_message(cursor.fetchall()[0])
+        await interaction.response.send_message(cursor.fetchall()[0][0])
         sql = f"""
             SELECT id, gold
             FROM users
-            ORDER BY gold DESC
+            ORDER BY CONVERT(gold, DECIMAL) DESC
             LIMIT 5
         """
         cursor = db.execute_query(sql)
         await interaction.followup.send("richest players:")
         for record in cursor.fetchall():
-            await interaction.followup.send(f"{bot.fetch_user(record[0])}: {record[1]} gold")
+            user = await bot.fetch_user(record[0])
+            await interaction.followup.send(f"{user.name}: {record[1]} gold")
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
