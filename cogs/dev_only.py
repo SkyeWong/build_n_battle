@@ -70,6 +70,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
         embed.colour = random.choice(main.embed_colours)
         embed.set_footer(text=f"Page {page}/{len(emojis)}")
+        embed.set_thumbnail(url=emoji.url)
         embed.clear_fields()
         emoji = emojis[page - 1]
         embed.title = f"`{page}` - click for emoji"
