@@ -22,16 +22,34 @@ class EmojiView(View):
     
     async def btn_disable(self, interaction: Interaction):
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
+        first_btn = [i for i in self.children if i.custom_id=="first"][0]
         if self.page == 1:
             back_btn.disabled = True
+            first_btn.disabled = True
         else:
             back_btn.disabled = False
+            first_btn.disabled = False
         next_btn = [i for i in self.children if i.custom_id=="next"][0]
+        last_btn = [i for i in self.children if i.custom_id=="last"][0]
         if self.page == len(self.emoji_list):
             next_btn.disabled = True
+            last_btn.disabled = True
         else:
             next_btn.disabled = False
+            last_btn.disabled = False
         await interaction.response.edit_message(view=self)
+
+    @nextcord.ui.button(
+        emoji = "⏮️",
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "first",
+        disabled = True
+    )
+    async def first(self, button: Button, btn_interaction: Interaction):
+        self.page = 1
+        await self.btn_disable(btn_interaction)
+        embed = self.get_embed_func(self.emoji_list, self.page)
+        await self.slash_interaction.edit_original_message(embed=embed)
 
     @nextcord.ui.button(
         emoji = "◀️",
@@ -52,6 +70,18 @@ class EmojiView(View):
     )
     async def next(self, button: Button, btn_interaction: Interaction):
         self.page += 1
+        await self.btn_disable(btn_interaction)
+        embed = self.get_embed_func(self.emoji_list, self.page)
+        await self.slash_interaction.edit_original_message(embed=embed)
+
+    @nextcord.ui.button(
+        emoji = "⏭️",
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "last",
+        disabled = True
+    )
+    async def last(self, button: Button, btn_interaction: Interaction):
+        self.page = len(self.emoji_list)
         await self.btn_disable(btn_interaction)
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
