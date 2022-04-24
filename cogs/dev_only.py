@@ -96,7 +96,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         if len(emojiname) < 3:
             await interaction.response.send_message(content="The search term must be longer than 3 characters.", delete_after=5)
         else:
-            emojis_found = []
+            emojis_found = [] 
             guild_emojis = []
             for guild in bot.guilds:
                 for emoji in guild.emojis:
