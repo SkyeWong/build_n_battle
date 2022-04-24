@@ -105,9 +105,12 @@ class dev_only(commands.Cog, name="Dev Only"):
                 if emojiname in emoji.name or emojiname == emoji.id:
                     emojis_found.append(emoji)
             if emojis_found != []:
-                view = EmojiView(interaction, emojis_found, self.get_emoji_embed)
                 embed = self.get_emoji_embed(emojis_found, 1)
-                await interaction.response.send_message(content=f"There are `{len(emojis_found)}` results for `{emojiname}`.", embed=embed, view=view)
+                if len(emojis_found) > 1:
+                    view = EmojiView(interaction, emojis_found, self.get_emoji_embed)
+                    await interaction.response.send_message(content=f"There are `{len(emojis_found)}` results for `{emojiname}`.", embed=embed, view=view)
+                else:
+                    await interaction.response.send_message(content=f"There are `{len(emojis_found)}` results for `{emojiname}`.", embed=embed)
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
