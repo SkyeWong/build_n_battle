@@ -12,6 +12,7 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
 import database as db
+from views.dev_views import EmojiView
 
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
@@ -64,6 +65,28 @@ class dev_only(commands.Cog, name="Dev Only"):
         await interaction.response.send_message(f"<{user.display_avatar.url}>")
         await interaction.followup.send(user.display_avatar.url)
 
+    class EmojiEmbeds():
+
+        def __init__(self, emojis) -> None:
+            self.emojis = emojis
+            
+        def get_emoji_embed(self, page):
+            embed = Embed()
+            embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
+            embed.colour = random.choice(main.embed_colours)
+            embed.clear_fields()
+            emoji = self.emojis[page - 1]
+            embed.title = f"`{page}` - click for emoji"
+            embed.url = emoji.url
+            embed.description = f"{emoji}"
+            field =f">>> ➼ `Name` - :{emoji.name}:"
+            field += f"\n➼ `Guild` - {emoji.guild.name}"
+            field += f"\n➼ `ID`    - {emoji.id}"
+            field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
+            field += f"\n➼ `Usage` - <\:{emoji.name}:{emoji.id}>"
+            embed.add_field(name=f":{emoji.name}:", value=field)
+            return embed
+
     @nextcord.slash_command(name="emoji", description="Search for emojis in servers the bot is in.", guild_ids=[main.DEVS_SERVER_ID])
     async def emoji(
         self, 
@@ -86,24 +109,10 @@ class dev_only(commands.Cog, name="Dev Only"):
                     emojis_found.append(emoji)
             if emojis_found != []:
                 await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
-                embed = Embed()
-                embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
-                embed.colour = random.choice(main.embed_colours)
-                for emoji in emojis_found:
-                    embed.clear_fields()
-                    embed.title = f"`{emojis_found.index(emoji) + 1}` - click for emoji"
-                    embed.url = emoji.url
-                    embed.description = f"{emoji}"
-                    field =f">>> ➼ `Name` - :{emoji.name}:"
-                    field += f"\n➼ `Guild` - {emoji.guild.name}"
-                    field += f"\n➼ `ID`    - {emoji.id}"
-                    field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
-                    field += f"\n➼ `Usage` - <\:{emoji.name}:{emoji.id}>"
-                    embed.add_field(name=f":{emoji.name}:", value=field)
-                    await interaction.followup.send(embed=embed)
-                if len(emojis_found) > 3:
-                    url = await interaction.original_message()
-                    await interaction.followup.send(f"Jump - {url.jump_url}")
+                view = EmojiView(interaction, self.get_emoji_embed)
+                get_embed_class = self.EmojiEmbeds(emojis_found)
+                embed = get_embed_class.get_emoji_embed(1)
+                await interaction.followup.send(embed=embed, view=view)
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
@@ -119,10 +128,10 @@ class dev_only(commands.Cog, name="Dev Only"):
             LIMIT 5
         """
         cursor = db.execute_query(sql)
-        richest = "5 richest players:"
+        richest = "5 richest players:\n>>> "
         for record in cursor.fetchall():
             user = await bot.fetch_user(record[0])
-            richest += f"\n{user.name}: {record[1]} gold"
+            richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
 def setup(bot: commands.Bot):
