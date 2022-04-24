@@ -1,5 +1,4 @@
 import os
-from discord import SlashOption
 from nextcord import ButtonStyle
 import nextcord
 import json 
@@ -24,26 +23,42 @@ class EmojiView(View):
     @nextcord.ui.button(
         emoji = "◀️",
         style = nextcord.ButtonStyle.blurple,
-        disabled = True
+        disabled = True,
+        custom_id = "back"
     )
     async def back(self, button: Button, btn_interaction: Interaction):
         self.page -= 1
-        if self.page == 1:
-            button.disabled = True
-        else:
-            button.disabled = False
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
     @nextcord.ui.button(
         emoji = "▶️",
-        style = nextcord.ButtonStyle.blurple
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "next"
     )
     async def next(self, button: Button, btn_interaction: Interaction):
         self.page += 1
-        if self.page == len(self.emoji_list):
-            button.disabled = True
-        else:
-            button.disabled = False
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
+
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.slash_interaction.edit_original_message(view=self)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.slash_interaction.user:
+            await interaction.response.send_message(f"This is not for you, sorry.", ephemeral=True)
+            return False
+        else:
+            back_btn = [i for i in self.children if i.custom_id=="back"]
+            if self.page == 2:
+                back_btn.disabled = True
+            else:
+                back_btn.disabled = False
+            next_btn = [i for i in self.children if i.custom_id=="next"]
+            if self.page == len(self.emoji_list) - 1:
+                next_btn.disabled = True
+            else:
+                next_btn.disabled = False
+            return True

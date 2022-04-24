@@ -69,6 +69,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed = Embed()
         embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
         embed.colour = random.choice(main.embed_colours)
+        embed.set_footer(text=f"Page {page}/{len(emojis)}")
         embed.clear_fields()
         emoji = emojis[page - 1]
         embed.title = f"`{page}` - click for emoji"
@@ -103,10 +104,9 @@ class dev_only(commands.Cog, name="Dev Only"):
                 if emojiname in emoji.name or emojiname == emoji.id:
                     emojis_found.append(emoji)
             if emojis_found != []:
-                await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
                 view = EmojiView(interaction, emojis_found, self.get_emoji_embed)
                 embed = self.get_emoji_embed(emojis_found, 1)
-                await interaction.followup.send(embed=embed, view=view)
+                await interaction.followup.send(content=f"There are `{len(emojis_found)}` results for `{emojiname}`.", embed=embed, view=view)
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
 
