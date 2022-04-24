@@ -109,8 +109,8 @@ class dev_only(commands.Cog, name="Dev Only"):
                     emojis_found.append(emoji)
             if emojis_found != []:
                 await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
-                view = EmojiView(interaction, self.get_emoji_embed)
                 get_embed_class = self.EmojiEmbeds(emojis_found)
+                view = EmojiView(interaction, get_embed_class)
                 embed = get_embed_class.get_emoji_embed(1)
                 await interaction.followup.send(embed=embed, view=view)
             else:
