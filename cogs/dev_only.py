@@ -102,7 +102,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 for emoji in guild.emojis:
                     guild_emojis.append(emoji)
             for emoji in guild_emojis:
-                if emojiname in emoji.name or int(emojiname) == emoji.id:
+                if emojiname in emoji.name or emojiname == str(emoji.id):
                     emojis_found.append(emoji)
             if emojis_found != []:
                 embed = self.get_emoji_embed(emojis_found, 1)
