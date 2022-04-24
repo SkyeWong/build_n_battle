@@ -64,28 +64,23 @@ class dev_only(commands.Cog, name="Dev Only"):
             user = interaction.user
         await interaction.response.send_message(f"<{user.display_avatar.url}>")
         await interaction.followup.send(user.display_avatar.url)
-
-    class EmojiEmbeds():
-
-        def __init__(self, emojis) -> None:
-            self.emojis = emojis
             
-        def get_emoji_embed(self, page):
-            embed = Embed()
-            embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
-            embed.colour = random.choice(main.embed_colours)
-            embed.clear_fields()
-            emoji = self.emojis[page - 1]
-            embed.title = f"`{page}` - click for emoji"
-            embed.url = emoji.url
-            embed.description = f"{emoji}"
-            field =f">>> ➼ `Name` - :{emoji.name}:"
-            field += f"\n➼ `Guild` - {emoji.guild.name}"
-            field += f"\n➼ `ID`    - {emoji.id}"
-            field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
-            field += f"\n➼ `Usage` - <\:{emoji.name}:{emoji.id}>"
-            embed.add_field(name=f":{emoji.name}:", value=field)
-            return embed
+    def get_emoji_embed(self, emojis, page):
+        embed = Embed()
+        embed.set_author(name="Emoji Searcher:", icon_url=bot.user.display_avatar.url)
+        embed.colour = random.choice(main.embed_colours)
+        embed.clear_fields()
+        emoji = emojis[page - 1]
+        embed.title = f"`{page}` - click for emoji"
+        embed.url = emoji.url
+        embed.description = f"{emoji}"
+        field =f">>> ➼ `Name` - :{emoji.name}:"
+        field += f"\n➼ `Guild` - {emoji.guild.name}"
+        field += f"\n➼ `ID`    - {emoji.id}"
+        field += f"\n➼ `Url`   - [{emoji.url}]({emoji.url})"
+        field += f"\n➼ `Usage` - <\:{emoji.name}:{emoji.id}>"
+        embed.add_field(name=f":{emoji.name}:", value=field)
+        return embed
 
     @nextcord.slash_command(name="emoji", description="Search for emojis in servers the bot is in.", guild_ids=[main.DEVS_SERVER_ID])
     async def emoji(
@@ -109,9 +104,8 @@ class dev_only(commands.Cog, name="Dev Only"):
                     emojis_found.append(emoji)
             if emojis_found != []:
                 await interaction.response.send_message(f"There are `{len(emojis_found)}` results for `{emojiname}`.")
-                get_embed_class = self.EmojiEmbeds(emojis_found)
-                view = EmojiView(interaction, get_embed_class)
-                embed = get_embed_class.get_emoji_embed(1)
+                view = EmojiView(interaction, emojis_found, self.get_emoji_embed)
+                embed = self.get_emoji_embed(emojis_found, 1)
                 await interaction.followup.send(embed=embed, view=view)
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
