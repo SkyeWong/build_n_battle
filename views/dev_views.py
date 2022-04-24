@@ -20,7 +20,7 @@ class EmojiView(View):
         self.get_embed_func = get_embed_func
         self.page = 1
     
-    def btn_disable(self):
+    async def btn_disable(self, interaction: Interaction):
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
         if self.page == 1:
             back_btn.disabled = True
@@ -31,6 +31,7 @@ class EmojiView(View):
             next_btn.disabled = True
         else:
             next_btn.disabled = False
+        await interaction.response.edit_message(view=self)
 
     @nextcord.ui.button(
         emoji = "◀️",
@@ -40,7 +41,7 @@ class EmojiView(View):
     )
     async def back(self, button: Button, btn_interaction: Interaction):
         self.page -= 1
-        self.btn_disable()
+        await self.btn_disable(btn_interaction)
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
@@ -51,7 +52,7 @@ class EmojiView(View):
     )
     async def next(self, button: Button, btn_interaction: Interaction):
         self.page += 1
-        self.btn_disable()
+        await self.btn_disable(btn_interaction)
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
