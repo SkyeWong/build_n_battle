@@ -69,6 +69,11 @@ class HitAndBlowView(View):
     async def show_modal(self, button, interaction: Interaction):
         await interaction.response.send_modal(HitAndBlowModal(self.slash_interaction, interaction, self.data_class))
 
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.message.edit(view=self)
+        
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
             await interaction.response.send_message(f"This is not for you, sorry.", ephemeral=True)
