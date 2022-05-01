@@ -14,7 +14,9 @@ from nextcord.ui import Button, View, Modal, TextInput
 class HitAndBlow(Modal):
 
     def __init__(self, timeout = None):
-        super().__init__(timeout=timeout)
+        super().__init__(
+            title = "Guess a number:",
+            timeout=timeout)
         self.message = None
         self.text = TextInput(
             label = "enter whatever you like" or self.message,
