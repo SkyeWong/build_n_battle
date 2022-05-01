@@ -133,7 +133,7 @@ class HitAndBlowModal(Modal):
                         if ans[y] == guess[x] and ans[x] != guess[x] and ans[y] != guess[y]:
                             blows += 1
                             break
-                guesses_field_value += f"\n`{i + 1}` ﹕ `{tries[i]}`〢`{hits}`H & `{blows}` B"
+                guesses_field_value += f"\n`{i + 1}` ﹕ `{tries[i]}`〢`{hits}` H & `{blows}` B"
             msg_embed.clear_fields()
             msg_embed.add_field(name="GUESSES", value=guesses_field_value)    
             msg_embed.set_footer(text=f"{len(tries)} guesses")
@@ -149,7 +149,7 @@ class HitAndBlowModal(Modal):
                 if len(tries) > 15:
                     msg_embed.colour = 0xde2f41
                     msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                    msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                    msg_embed.description = f"Sadly, you didn't guess the number in 15 tries 😥\nThe correct number is - `{''.join(self.data_class.ans)}`"
                     if self.bet != 0:
                         msg_embed.description += f"\nYou lost your ${self.bet} bet."
                         users.modify_gold(0 - self.bet)
@@ -165,7 +165,6 @@ class HitAndBlowModal(Modal):
                         won_bet = round(self.bet * (100 - reduction) / 100)
                         msg_embed.description += f"\nYou won ${won_bet}!"
                         users.modify_gold(won_bet)
-            await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`", ephemeral=True)
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
