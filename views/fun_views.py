@@ -94,20 +94,20 @@ class HitAndBlowModal(Modal):
         self.btn_interaction = btn_interaction
         self.data_class = data_class
         self.bet = bet
-        self.tries[i] = TextInput(
+        self.num = TextInput(
             label = "Enter a four-digit number",
             min_length = 4,
             max_length = 4
         )
-        self.add_item(self.tries[i])
+        self.add_item(self.num)
 
     async def callback(self, interaction: Interaction):
         slash_msg = await self.slash_interaction.original_message()
         msg_embed = slash_msg.embeds[0]
         msg_embed = main.delete_field(msg_embed, "⚠️ ERROR!")
-        if self.tries[i].value.isnumeric():
+        if self.num.value.isnumeric():
             tries = self.data_class.tries
-            tries.append(self.tries[i].value)
+            tries.append(self.num.value)
             guesses_field_value = ""
             hits_field_value = ""
             blows_field_value = ""
