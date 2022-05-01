@@ -153,8 +153,12 @@ class Fun(commands.Cog, name="Fun"):
             default = None
         )
     ):
-        view = HitAndBlow()
+        ans = []
+        for i in range(4):
+            ans.append(str(random.randint(0, 9)))
+        view = HitAndBlow(interaction, ans)
         await interaction.response.send_message("click the button to send something", view=view)
+        await interaction.send("".join(ans))
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):

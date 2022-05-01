@@ -13,7 +13,7 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self):
+    def __init__(self, ans):
         super().__init__(
             title = "Guess a number:",
             timeout=None
@@ -26,9 +26,12 @@ class HitAndBlowModal(Modal):
             max_length = 4
         )
         self.add_item(self.num)
-        self.ans = []
-        for i in range(4):
-            self.ans.append(str(random.randint(0, 9)))
-    
+        self.ans = ans
+
     async def callback(self, interaction: Interaction):
-        await interaction.response.send_message(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")
+        correct_input = False
+        while not correct_input:
+            await interaction.response.send_modal(self)
+            if self.num.value.isnumeric():
+                correct_input = True
+        await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")

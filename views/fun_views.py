@@ -49,8 +49,10 @@ class Analysis(View):
 
 class HitAndBlow(View):
 
-    def __init__(self):
+    def __init__(self, slash_interaction: Interaction, ans):
         super().__init__(timeout=None)
+        self.slash_interaction = slash_interaction
+        self.ans = ans
 
     @button(
         label = "GUESS!",
@@ -58,4 +60,11 @@ class HitAndBlow(View):
         style = nextcord.ButtonStyle.blurple
     )
     async def show_modal(self, button, interaction: Interaction):
-        await interaction.response.send_modal(HitAndBlowModal())
+        await interaction.response.send_modal(HitAndBlowModal(self.ans))
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.slash_interaction.user:
+            await interaction.response.send_message(f"This is not for you, sorry.", ephemeral=True)
+            return False
+        else:
+            return True
