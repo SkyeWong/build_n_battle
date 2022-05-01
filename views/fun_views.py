@@ -158,7 +158,7 @@ class HitAndBlowModal(Modal):
                         won_bet = self.bet * (100 - reduction) / 100
                         msg_embed.description += f"\nYou won ${won_bet}!"
                         users.modify_gold(won_bet)
-                await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
+            await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
