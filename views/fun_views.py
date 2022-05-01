@@ -79,6 +79,7 @@ class HitAndBlowView(View):
         users = Users(self.slash_interaction.user.name)
         msg_embed.set_author(name=f"{self.slash_interaction.user.name}'s lost Hit & Blow Game", icon_url=self.slash_interaction.user.display_avatar.url)
         msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+        self.bet = int(self.bet)
         if self.bet != 0:
             msg_embed.description += f"\nYou lost your ${self.bet} bet."
             users.modify_gold(0 - self.bet)
@@ -118,10 +119,7 @@ class HitAndBlowModal(Modal):
             tries = self.data_class.tries
             tries.append(self.num.value)
             guesses_field_value = ""
-            hits_field_value = ""
-            blows_field_value = ""
             for i in range(len(tries)):
-                guesses_field_value += f"\n`{i + 1}` - `{tries[i]}`"
                 hits = 0
                 blows = 0
                 ans = self.data_class.ans
@@ -135,12 +133,9 @@ class HitAndBlowModal(Modal):
                         if ans[y] == guess[x] and ans[x] != guess[x] and ans[y] != guess[y]:
                             blows += 1
                             break
-                hits_field_value +=  f"\n`{hits}`"
-                blows_field_value += f"\n`{blows}`"
+                guesses_field_value += f"\n`{i + 1}` ﹕ `{tries[i]}`〢`{hits}`H & `{blows}` B"
             msg_embed.clear_fields()
-            msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
-            msg_embed.add_field(name="HITS", value=hits_field_value)
-            msg_embed.add_field(name="BLOWS", value=blows_field_value)
+            msg_embed.add_field(name="GUESSES", value=guesses_field_value)    
             msg_embed.set_footer(text=f"{len(tries)} guesses")
             bet_msg = f" ● betting {self.bet}" if self.bet != 0 else ""
             msg_embed.set_footer(text=f"{len(tries)} guesses{bet_msg}")
