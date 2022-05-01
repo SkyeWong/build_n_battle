@@ -76,9 +76,9 @@ class HitAndBlowView(View):
         slash_msg = await self.slash_interaction.original_message()
         msg_embed = slash_msg.embeds[0]
         msg_embed.colour = 0xde2f41
-        users = Users(self.slash_interaction.user.name)
+        users = Users(self.slash_interaction.user)
         msg_embed.set_author(name=f"{self.slash_interaction.user.name}'s lost Hit & Blow Game", icon_url=self.slash_interaction.user.display_avatar.url)
-        msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+        msg_embed.description = f"Unfortunately, you didn't make a guess for a bit too long...⌛\nThe correct number is - `{''.join(self.data_class.ans)}`"
         self.bet = int(self.bet)
         if self.bet != 0:
             msg_embed.description += f"\nYou lost your ${self.bet} bet."
