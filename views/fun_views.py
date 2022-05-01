@@ -53,6 +53,7 @@ class HitAndBlowData():
         for i in range(4):
             self.ans.append(str(random.randint(0, 9)))
         self.tries = []
+        correct = False
 class HitAndBlowView(View):
 
     def __init__(self, slash_interaction: Interaction, data_class):
@@ -107,20 +108,29 @@ class HitAndBlowModal(Modal):
                 hits = 0
                 blows = 0
                 for x in range(4):
-                    if self.data_class.ans[x] == tries[x]:
+                    if self.data_class.ans[x] == tries[i][x]:
                         hits += 1
+                        if hits == 4:
+                            self.data_class.correct = True
                 for x in range(4):
                     for y in range(4):
-                        if self.data_class.ans[x] == tries[y] and self.data_class.ans[x] != tries[x] and self.data_class.ans[y] != tries[y]:
+                        if self.data_class.ans[x] == tries[i][y] and self.data_class.ans[x] != tries[i][x] and self.data_class.ans[y] != tries[i][y]:
                             blows += 1
                 hits_field_value +=  f"\n`{hits}`"
                 blows_field_value += f"\n`{blows}`"
-            msg_embed = main.delete_field(msg_embed, ["GUESSES", "HITS", "BLOWS"])
-            msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
-            msg_embed.add_field(name="HITS", value=hits_field_value)
-            msg_embed.add_field(name="BLOWS", value=blows_field_value)
-            msg_embed.set_footer(text=f"{len(tries)} Guesses")
-            await interaction.send(f"the correct number is: {''.join(self.data_class.ans)}", ephemeral=True)
+                msg_embed = main.delete_field(msg_embed, ["GUESSES", "HITS", "BLOWS"])
+                msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
+                msg_embed.add_field(name="HITS", value=hits_field_value)
+                msg_embed.add_field(name="BLOWS", value=blows_field_value)
+                msg_embed.set_footer(text=f"{len(tries)} Guesses")
+                if len(tries) > 12:
+                    msg_embed.colour = 0xde2f41
+                    msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                    msg_embed.description = f"Sadly, you didn't guess the number in 12 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                if self.data_class.correct == True:
+                    msg_embed.colour = 0x77b255
+                    msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                    msg_embed.description = f"The correct number is - `{''.join(self.data_class.ans)}`"
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
