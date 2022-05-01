@@ -153,7 +153,7 @@ class Fun(commands.Cog, name="Fun"):
             required = False,
             default = "enter whatever you want"
         )):
-        await interaction.response.send_modal(HitAndBlow())
+        await interaction.response.send_modal(HitAndBlow(message))
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):
