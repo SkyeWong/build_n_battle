@@ -95,17 +95,32 @@ class HitAndBlowModal(Modal):
     async def callback(self, interaction: Interaction):
         slash_msg = await self.slash_interaction.original_message()
         msg_embed = slash_msg.embeds[0]
-        msg_embed = main.delete_field(msg_embed, "⚠️ ERROR!")
+        msg_embed = main.delete_field(msg_embed, ["⚠️ ERROR!"])
         if self.num.value.isnumeric():
             tries = self.data_class.tries
             tries.append(self.num.value)
             guesses_field_value = ""
+            hits_field_value = ""
+            blows_field_value = ""
             for i in range(len(tries)):
                 guesses_field_value += f"\n`{i + 1}` - `{tries[i]}`"
-            msg_embed = main.delete_field(msg_embed, "GUESSES")
-            msg_embed.add_field(name="GUESSES", value=guesses_field_value)
+                hits = 0
+                blows = 0
+                for x in range(4):
+                    if self.data_class.ans[x] == tries[x]:
+                        hits += 1
+                for x in range(4):
+                    for y in range(4):
+                        if self.data_class.ans[x] == tries[y] and self.data_class.ans[x] != tries[x] and self.data_class.ans[y] != tries[y]:
+                            blows += 1
+                hits_field_value +=  f"\n`{hits}`"
+                blows_field_value += f"\n`{blows}`"
+            msg_embed = main.delete_field(msg_embed, ["GUESSES", "HITS", "BLOWS"])
+            msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
+            msg_embed.add_field(name="HITS", value=hits_field_value)
+            msg_embed.add_field(name="BLOWS", value=blows_field_value)
             msg_embed.set_footer(text=f"{len(tries)} Guesses")
-            await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.data_class.ans)}", ephemeral=True)
+            await interaction.send(f"the correct number is: {''.join(self.data_class.ans)}", ephemeral=True)
         else:
-            msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number")
+            msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
