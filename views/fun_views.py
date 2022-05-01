@@ -49,13 +49,16 @@ class Analysis(View):
 
 class HitAndBlow(View):
 
-    def __init__(self, message = None):
+    def __init__(self):
         super().__init__(timeout=None)
-        self.message = message
+        self.ans = []
+        for i in range(4):
+            self.ans.append(random.randint(0, 9))
 
     @button(
-        label = "show model",
+        label = "GUESS!",
+        emoji = "🔢",
         style = nextcord.ButtonStyle.blurple
     )
     async def show_modal(self, button, interaction: Interaction):
-        await interaction.response.send_modal(HitAndBlowModal(self.message))
+        await interaction.response.send_modal(HitAndBlowModal(self.ans))

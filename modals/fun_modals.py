@@ -13,18 +13,20 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self, message = None):
+    def __init__(self, ans):
         super().__init__(
             title = "Guess a number:",
-            timeout=None)
-        self.text = TextInput(
-            label = message or "enter whatever you want",
-            style = nextcord.TextInputStyle.paragraph,
-            placeholder = "skye is really smart",
-            max_length = 150,
-            required = True
+            timeout=None
         )
-        self.add_item(self.text)
+        self.num = TextInput(
+            label = "Enter a four-digit number",
+            style = nextcord.TextInputStyle.paragraph,
+            placeholder = "0000",
+            min_length = 4,
+            max_length = 4
+        )
+        self.add_item(self.num)
+        self.ans = ans
     
     async def callback(self, interaction: Interaction):
-        await interaction.response.send_message(f"{interaction.user.mention} you typed: {self.text.value}", ephemeral=True)
+        await interaction.response.send_message(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")

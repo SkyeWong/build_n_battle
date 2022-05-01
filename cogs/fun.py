@@ -146,14 +146,14 @@ class Fun(commands.Cog, name="Fun"):
     async def hit_or_blow(
         self, 
         interaction: Interaction, 
-        message: str = SlashOption(
-            name = "message",
-            description = "nothing really. appears in the modal",
+        bet: str = SlashOption(
+            name = "bet",
+            description = "TODO",
             required = False,
             default = None
         )
     ):
-        view = HitAndBlow(message)
+        view = HitAndBlow()
         await interaction.response.send_message("click the button to send something", view=view)
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
