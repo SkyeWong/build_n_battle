@@ -94,20 +94,20 @@ class HitAndBlowModal(Modal):
         self.btn_interaction = btn_interaction
         self.data_class = data_class
         self.bet = bet
-        self.num = TextInput(
+        self.tries[i] = TextInput(
             label = "Enter a four-digit number",
             min_length = 4,
             max_length = 4
         )
-        self.add_item(self.num)
+        self.add_item(self.tries[i])
 
     async def callback(self, interaction: Interaction):
         slash_msg = await self.slash_interaction.original_message()
         msg_embed = slash_msg.embeds[0]
         msg_embed = main.delete_field(msg_embed, "⚠️ ERROR!")
-        if self.num.value.isnumeric():
+        if self.tries[i].value.isnumeric():
             tries = self.data_class.tries
-            tries.append(self.num.value)
+            tries.append(self.tries[i].value)
             guesses_field_value = ""
             hits_field_value = ""
             blows_field_value = ""
@@ -115,13 +115,14 @@ class HitAndBlowModal(Modal):
                 guesses_field_value += f"\n`{i + 1}` - `{tries[i]}`"
                 hits = 0
                 blows = 0
+                ans = self.data_class.ans
+                guess = tries[i]
                 for x in range(4):
+                    if ans[x] == guess[x]:
+                        hits += 1
                     for y in range(4):
-                        if self.data_class.ans[x] == tries[i][y]:
-                            if x == y:
-                                hits += 1
-                            else:
-                                blows += 1
+                        if ans[y] == guess[x] and ans[x] != guess[x] and ans[y] != guess[y]:
+                            blows += 1
                             break
                 hits_field_value +=  f"\n`{hits}`"
                 blows_field_value += f"\n`{blows}`"
@@ -130,6 +131,8 @@ class HitAndBlowModal(Modal):
                 msg_embed.add_field(name="HITS", value=hits_field_value)
                 msg_embed.add_field(name="BLOWS", value=blows_field_value)
                 msg_embed.set_footer(text=f"{len(tries)} guesses")
+                bet_msg = f" ● betting {self.bet}" if self.bet != 0 else ""
+                msg_embed.set_footer(text=f"0 guesses {bet_msg}")
                 if len(tries) > 15 or self.data_class.correct == True:
                     btn_class = self.btn_class
                     users = Users()
