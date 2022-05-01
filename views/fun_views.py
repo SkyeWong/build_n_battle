@@ -147,7 +147,7 @@ class HitAndBlowModal(Modal):
                     msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
                     if self.bet != 0:
                         msg_embed.description += f"\nYou lost your ${self.bet} bet."
-                        users.modify_gold(-self.bet)
+                        users.modify_gold(0 - int(self.bet))
                 if self.data_class.correct == True:
                     msg_embed.colour = 0x77b255
                     msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
