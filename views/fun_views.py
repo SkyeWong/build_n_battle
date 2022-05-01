@@ -57,7 +57,7 @@ class HitAndBlowData():
 class HitAndBlowView(View):
 
     def __init__(self, slash_interaction: Interaction, data_class, bet: int):
-        super().__init__(timeout=3600)
+        super().__init__(timeout=600)
         self.slash_interaction = slash_interaction
         self.data_class = data_class
         self.bet = bet
