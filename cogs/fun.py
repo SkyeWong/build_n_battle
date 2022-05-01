@@ -156,72 +156,12 @@ class Fun(commands.Cog, name="Fun"):
         ans = []
         for i in range(4):
             ans.append(str(random.randint(0, 9)))
+        embed = Embed()
+        embed.set_author(name=f"{interaction.user}'s Hit & Blow game")
+        embed.description = f"Click the button to guess a number"
         view = HitAndBlow(interaction, ans)
-        await interaction.response.send_message("click the button to send something", view=view)
+        await interaction.response.send_message(embed=embed, view=view)
         await interaction.send("".join(ans))
-
-    @commands.command(name="dicegame", brief="Play a simple dice game!")
-    async def dicegame(self, ctx):
-        money = 500
-        author_avatar = ctx.author.avatar
-        dice_ui = Embed()
-        dice_ui.colour = random.choice(main.embed_colours)
-        dice_ui.set_author(name=f"{ctx.author.name}'s Dicegame", icon_url= author_avatar)
-        dice_ui_message = await ctx.send(embed=dice_ui)
-        while money > 10:
-            dice_ui.insert_field_at(index=0, name="Your money left:", value=f"${money}", inline=False)
-            dice_ui.insert_field_at(index=1, name="Your next guess!", value="What is your guess for the next number? Small, middle, or big?\nOr you can type \"end\" to end the game!", inline=False)
-            await dice_ui_message.edit(embed=dice_ui)
-            def check(message):
-                return message.author == ctx.author and message.channel == ctx.channel
-            guess_message = await bot.wait_for("message", check=check)
-            guess = guess_message.content.lower()
-            await guess_message.delete()
-            dice_ui.remove_field(1)
-            while guess != "small" and guess != "middle" and guess != "big" and guess != "end":
-                dice_ui.remove_field(1)
-                dice_ui.insert_field_at(index=1, name="Your next guess:", value="I don\"t get it. =/ Small, middle or big? Or type end to end the game!", inline=False)
-                await dice_ui_message.edit(embed=dice_ui)
-                def check(message):
-                    return message.author == ctx.author and message.channel == ctx.channel
-                guess_message = await bot.wait_for("message", check=check)
-                guess = guess_message.content.lower()
-                await guess_message.delete()
-            dice_ui.remove_field(1)
-            number = random.choice(range(1, 7))+random.choice(range(1, 7))
-            result = ""
-            dice_ui.clear_fields()
-            if guess == "small" and number <= 6:
-                result = "You\"re right!"
-                money += 50
-            elif guess == "middle" and number == 7:
-                result = "You\"re right!"
-                money += 300
-            elif guess == "big" and number >=8 :
-                result = "You\"re right!"
-                money += 50
-            elif guess != "end":
-                result = "Oh no! :/ It seems like you\"re wrong..."
-                money -= 50
-            if guess != "end":
-                dice_ui.insert_field_at(index=0, name="Your money left:", value=f"${money}", inline=False)
-                dice_ui.insert_field_at(index=1, name="Your guess:", value=guess, inline=False)
-                await dice_ui_message.edit(embed=dice_ui)
-                dice_ui.insert_field_at(index=2, name="THE SOOO IMPORTANT NUMBER:", value=number, inline=False)
-                dice_ui.insert_field_at(index=3, name="THE LONG-AWAITED RESULT:", value=result, inline=False)
-                dice_ui.set_footer(text="The number is produced by rolling two die together!")
-            else:
-                dice_ui.clear_fields()
-                dice_ui.insert_field_at(index=1, name="You ended the game!", value=f"OK then :D\n You have ${money}.", inline=False)
-                await dice_ui_message.edit(embed=dice_ui)
-                break
-            await dice_ui_message.edit(embed=dice_ui)
-            time.sleep(5)
-            dice_ui.clear_fields()
-            dice_ui.set_footer(text="")
-            await dice_ui_message.edit(embed=dice_ui)
-        if money <= 10:
-            await ctx.send(f"You lost! You have only ${money}...")
 
     #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
 

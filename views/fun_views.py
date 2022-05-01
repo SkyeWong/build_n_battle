@@ -60,7 +60,7 @@ class HitAndBlow(View):
         style = nextcord.ButtonStyle.blurple
     )
     async def show_modal(self, button, interaction: Interaction):
-        await interaction.response.send_modal(HitAndBlowModal(self.ans))
+        await interaction.response.send_modal(HitAndBlowModal(self.slash_interaction, interaction, self.ans))
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
