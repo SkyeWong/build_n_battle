@@ -154,7 +154,7 @@ class Fun(commands.Cog, name="Fun"):
         )
     ):
         embed = Embed()
-        embed.set_author(name=f"{interaction.user}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+        embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
         embed.description = f"Click the button to guess a number"
         embed.colour = random.choice(main.embed_colours)
         embed.set_footer(text="0 Guesses")

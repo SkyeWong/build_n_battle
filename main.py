@@ -40,11 +40,12 @@ def roundup(number, round_to):
 def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
 
-def delete_field(embed: Embed, field_name: str):
+def delete_field(embed: Embed, field_names: list):
     for i in range(len(embed.fields)):
         field = embed.fields[i]
-        if field.name == field_name:
-            embed.remove_field(i)
+        for name in field_names:
+            if field.name == name:
+                embed.remove_field(i)
     return embed
 
 for filename in os.listdir(f"cogs"):
