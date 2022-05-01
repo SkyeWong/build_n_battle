@@ -104,7 +104,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             for emoji in guild_emojis:
                 if emojiname in emoji.name or emojiname == str(emoji.id):
                     emojis_found.append(emoji)
-            if emojis_found != []:
+            if emojis_found != []: 
                 embed = self.get_emoji_embed(emojis_found, 1)
                 if len(emojis_found) > 1:
                     view = EmojiView(interaction, emojis_found, self.get_emoji_embed)
