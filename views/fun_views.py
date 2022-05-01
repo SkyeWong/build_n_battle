@@ -53,7 +53,7 @@ class HitAndBlowData():
         for i in range(4):
             self.ans.append(str(random.randint(0, 9)))
         self.tries = []
-        correct = False
+        self.correct = False
 class HitAndBlowView(View):
 
     def __init__(self, slash_interaction: Interaction, data_class):
