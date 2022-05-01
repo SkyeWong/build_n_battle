@@ -73,7 +73,16 @@ class HitAndBlowView(View):
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True
-        await self.slash_interaction.edit_original_message(view=self)
+        slash_msg = await self.slash_interaction.original_message()
+        msg_embed = slash_msg.embeds[0]
+        msg_embed.colour = 0xde2f41
+        users = Users(self.slash_interaction.user.name)
+        msg_embed.set_author(name=f"{self.slash_interaction.user.name}'s lost Hit & Blow Game", icon_url=self.slash_interaction.user.display_avatar.url)
+        msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+        if self.bet != 0:
+            msg_embed.description += f"\nYou lost your ${self.bet} bet."
+            users.modify_gold(0 - self.bet)
+        await self.slash_interaction.edit_original_message(embed=msg_embed, view=self)
         
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
