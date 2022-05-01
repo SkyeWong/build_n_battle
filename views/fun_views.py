@@ -158,7 +158,7 @@ class HitAndBlowModal(Modal):
                         reduction = 0
                         if len(tries) > 5:
                             reduction = (len(tries) - 5) * 8
-                        won_bet = self.bet * (100 - reduction) / 100
+                        won_bet = round(self.bet * (100 - reduction) / 100)
                         msg_embed.description += f"\nYou won ${won_bet}!"
                         users.modify_gold(won_bet)
             await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`", ephemeral=True)
