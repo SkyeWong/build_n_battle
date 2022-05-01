@@ -11,7 +11,7 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
-from views.fun_views import Analysis, HitAndBlow
+from views.fun_views import Analysis, HitAndBlowView, HitAndBlowData
 
 class Fun(commands.Cog, name="Fun"):
 
@@ -153,15 +153,12 @@ class Fun(commands.Cog, name="Fun"):
             default = None
         )
     ):
-        ans = []
-        for i in range(4):
-            ans.append(str(random.randint(0, 9)))
         embed = Embed()
-        embed.set_author(name=f"{interaction.user}'s Hit & Blow game")
+        embed.set_author(name=f"{interaction.user}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
         embed.description = f"Click the button to guess a number"
-        view = HitAndBlow(interaction, ans)
+        embed.colour = random.choice(main.embed_colours)
+        view = HitAndBlowView(interaction, HitAndBlowData)
         await interaction.response.send_message(embed=embed, view=view)
-        await interaction.send("".join(ans))
 
     #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
 
