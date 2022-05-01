@@ -21,7 +21,7 @@ class Fun(commands.Cog, name="Fun"):
         self.bot = bot
         self._last_member = None 
 
-    async def cog_application_command_before_invoke(interaction: Interaction):
+    async def cog_application_command_before_invoke(self, interaction: Interaction):
         users = Users(interaction.user)
         if users.if_user_present() == False:
             users.create_user_profile()
