@@ -7,10 +7,11 @@ from main import bot
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord import Embed, SelectOption, Interaction
-from nextcord.ui import Button, View
+from nextcord.ui import Button, View, button
 import database as db
 from typing import Optional
 from functions.users import Users
+from modals.fun_modals import HitAndBlowModal
 
 class Analysis(View):
                 
@@ -21,7 +22,7 @@ class Analysis(View):
         self.least = least
         self.result = result
 
-    @nextcord.ui.button(
+    @button(
         label = "Show Analysis", 
         style = nextcord.ButtonStyle.blurple, 
         emoji = "📊"
@@ -45,3 +46,16 @@ class Analysis(View):
         for i in self.children:
             i.disabled = True
         await self.interaction.edit_original_message(view=self)
+
+class HitAndBlow(View):
+
+    def __init__(self, message = None):
+        super().__init__(timeout=None)
+        self.message = message
+
+    @button(
+        label = "show model",
+        style = nextcord.ButtonStyle.blurple
+    )
+    async def show_modal(self, button, interaction: Interaction):
+        await interaction.response.send_modal(HitAndBlowModal(self.message))

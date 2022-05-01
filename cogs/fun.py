@@ -11,8 +11,7 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
-from views.fun_views import Analysis
-from modals.fun_modals import HitAndBlow
+from views.fun_views import Analysis, HitAndBlow
 
 class Fun(commands.Cog, name="Fun"):
 
@@ -151,9 +150,11 @@ class Fun(commands.Cog, name="Fun"):
             name = "message",
             description = "nothing really. appears in the modal",
             required = False,
-            default = "enter whatever you want"
-        )):
-        await interaction.response.send_modal(HitAndBlow(message))
+            default = None
+        )
+    ):
+        view = HitAndBlow(message)
+        await interaction.response.send_message("click the button to send something", view=view)
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):

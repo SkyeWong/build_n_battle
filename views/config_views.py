@@ -7,7 +7,7 @@ from main import bot
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord import Embed, SelectOption 
-from nextcord.ui import Button, View
+from nextcord.ui import Button, View, button
 import database as db
 from typing import Optional
 from functions.users import Users
@@ -19,7 +19,7 @@ class AddSpaceInPrefix(View):
         self.ctx = ctx
         self.pages = pages
 
-    @nextcord.ui.button(
+    @button(
         label = "Cancel", 
         style = nextcord.ButtonStyle.red, 
         emoji = "❎"
@@ -29,7 +29,7 @@ class AddSpaceInPrefix(View):
             i.disabled = True
         await interaction.response.edit_message(embed=self.pages.cancel_page(), view=self)
 
-    @nextcord.ui.button(
+    @button(
         label = "Confirm", 
         style = nextcord.ButtonStyle.green, 
         emoji = "✅"

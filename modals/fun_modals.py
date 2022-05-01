@@ -11,9 +11,9 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
 from nextcord.ui import Button, View, Modal, TextInput
 
-class HitAndBlow(Modal):
+class HitAndBlowModal(Modal):
 
-    def __init__(self, message):
+    def __init__(self, message = "enter whatever you like"):
         super().__init__(
             title = "Guess a number:",
             timeout=None)
@@ -27,4 +27,4 @@ class HitAndBlow(Modal):
         self.add_item(self.text)
     
     async def callback(self, interaction: Interaction):
-        await interaction.response.send_message(f"{interaction.user.mention} you typed: {self.text.value}")
+        await interaction.response.send_message(f"{interaction.user.mention} you typed: {self.text.value}", ephemeral=True)

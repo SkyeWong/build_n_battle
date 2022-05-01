@@ -9,7 +9,7 @@ import main
 from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
-from nextcord.ui import Button, View, Modal, TextInput
+from nextcord.ui import Button, View, button
 
 class EmojiView(View):
     
@@ -39,7 +39,7 @@ class EmojiView(View):
             last_btn.disabled = False
         await interaction.response.edit_message(view=self)
 
-    @nextcord.ui.button(
+    @button(
         emoji = "⏮️",
         style = nextcord.ButtonStyle.blurple,
         custom_id = "first",
@@ -51,7 +51,7 @@ class EmojiView(View):
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
-    @nextcord.ui.button(
+    @button(
         emoji = "◀️",
         style = nextcord.ButtonStyle.blurple,
         disabled = True,
@@ -63,7 +63,7 @@ class EmojiView(View):
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
-    @nextcord.ui.button(
+    @button(
         emoji = "▶️",
         style = nextcord.ButtonStyle.blurple,
         custom_id = "next"
@@ -74,7 +74,7 @@ class EmojiView(View):
         embed = self.get_embed_func(self.emoji_list, self.page)
         await self.slash_interaction.edit_original_message(embed=embed)
 
-    @nextcord.ui.button(
+    @button(
         emoji = "⏭️",
         style = nextcord.ButtonStyle.blurple,
         custom_id = "last"
