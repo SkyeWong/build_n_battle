@@ -105,7 +105,7 @@ class HitAndBlowModal(Modal):
             for i in range(len(tries)):
                 guesses_field_value += f"\n`{i + 1}` - `{tries[i]}`"
             msg_embed.add_field(name="GUESSES", value=guesses_field_value)
-            await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}", ephemeral=True)
+            await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.data_class.ans)}", ephemeral=True)
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number")
         await self.slash_interaction.edit_original_message(embed=msg_embed)
