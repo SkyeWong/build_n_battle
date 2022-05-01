@@ -147,7 +147,6 @@ class Fun(commands.Cog, name="Fun"):
         ] 
         await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
-    @nextcord.ext.application_checks.application_command_before_invoke(main.create_profile_if_none)
     @nextcord.slash_command(name="hit-and-blow", description="Play a fun hit & blow game!", guild_ids=[main.DEVS_SERVER_ID])
     async def hit_or_blow(
         self, 
