@@ -10,8 +10,9 @@ import main
 from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
-from nextcord.ui import Button, View
+from nextcord.ui import Button, View, Modal, TextInput
 from views.fun_views import Analysis
+from modals.fun_modals import HitAndBlow
 
 class Fun(commands.Cog, name="Fun"):
 
@@ -142,9 +143,9 @@ class Fun(commands.Cog, name="Fun"):
         ] 
         await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
-    @nextcord.slash_command(name="hit-or-blow", description="Play a fun hit or blow game!", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="hit-and-blow", description="Play a fun hit & blow game!", guild_ids=[main.DEVS_SERVER_ID])
     async def hit_or_blow(self, interaction: Interaction):
-        await interaction.response.send_message("i'll do this later")
+        await interaction.response.send_modal(HitAndBlow())
 
     @commands.command(name="dicegame", brief="Play a simple dice game!")
     async def dicegame(self, ctx):

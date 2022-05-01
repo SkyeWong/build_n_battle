@@ -9,7 +9,7 @@ import main
 from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
-from nextcord.ui import Button, View
+from nextcord.ui import Button, View, Modal, TextInput
 
 class EmojiView(View):
     
