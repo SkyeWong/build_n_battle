@@ -136,10 +136,10 @@ class HitAndBlowModal(Modal):
                     for i in btn_class.children:
                         i.disabled = True
                     await self.slash_interaction.edit_original_message(view=btn_class)
-                    if len(tries) > 12:
+                    if len(tries) > 15:
                         msg_embed.colour = 0xde2f41
                         msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                        msg_embed.description = f"Sadly, you didn't guess the number in 12 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                        msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
                         if self.bet != 0:
                             msg_embed.description += f"\nYou lost your ${self.bet} bet."
                             users.modify_gold(-self.bet)
@@ -148,6 +148,7 @@ class HitAndBlowModal(Modal):
                         msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
                         msg_embed.description = f"YAY you actually got it! I knew you could 😉\nThe correct number is - `{''.join(self.data_class.ans)}`"
                         if self.bet != 0:
+                            won_bet = 100
                             msg_embed.description += f"\nYou won ${self.bet}!"
                             users.modify_gold(self.bet)
                 await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
