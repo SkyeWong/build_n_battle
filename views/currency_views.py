@@ -34,13 +34,12 @@ class Generate(View):
     )
     async def gold_generate(self, button, interaction):
         users = Users(self.ctx.author)
-        profile = users.get_user_profile()
-        profile["user"]["gold"] += 500
-        profile = users.update_user_profile(profile)
+        gold_to_add = random.randint(100, 500)
+        profile = users.modify_gold(gold_to_add)
         button.label = "Gold obtained!"
         button.disabled = True
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send("Something appears in front of you. You pick it up and be **really** suprised that it's some gold COINS!", ephemeral=True)
+        await interaction.followup.send(f"Something appears in front of you. You pick it up and be **really** suprised that it's {gold_to_add} gold COINS!", ephemeral=True)
 
     @button(
         label = "Generate XP!", 

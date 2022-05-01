@@ -158,3 +158,13 @@ class Users():
             return new_profile
         else:
             return False
+
+    def modify_gold(self, gold: int):
+        if self.if_user_present() == True:
+            users = Users(self.user)
+            profile = users.get_user_profile()
+            profile["user"]["gold"] += gold
+            profile = users.update_user_profile(profile)
+            return profile
+        else:
+            return False

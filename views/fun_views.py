@@ -101,7 +101,7 @@ class HitAndBlowModal(Modal):
     async def callback(self, interaction: Interaction):
         slash_msg = await self.slash_interaction.original_message()
         msg_embed = slash_msg.embeds[0]
-        msg_embed = main.delete_field(msg_embed, ["⚠️ ERROR!"])
+        msg_embed = main.delete_field(msg_embed, "⚠️ ERROR!")
         if self.num.value.isnumeric():
             tries = self.data_class.tries
             tries.append(self.num.value)
@@ -123,11 +123,11 @@ class HitAndBlowModal(Modal):
                             blows += 1
                 hits_field_value +=  f"\n`{hits}`"
                 blows_field_value += f"\n`{blows}`"
-                msg_embed = main.delete_field(msg_embed, ["GUESSES", "HITS", "BLOWS"])
+                msg_embed.clear_fields()
                 msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
                 msg_embed.add_field(name="HITS", value=hits_field_value)
                 msg_embed.add_field(name="BLOWS", value=blows_field_value)
-                msg_embed.set_footer(text=f"{len(tries)} Guesses")
+                msg_embed.set_footer(text=f"{len(tries)} guesses")
                 if len(tries) > 12:
                     msg_embed.colour = 0xde2f41
                     msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)

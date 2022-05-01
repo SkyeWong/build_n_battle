@@ -157,8 +157,8 @@ class Fun(commands.Cog, name="Fun"):
         embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
         embed.description = f"Click the button to guess a number"
         embed.colour = random.choice(main.embed_colours)
-        embed.set_footer(text="0 Guesses")
-        view = HitAndBlowView(interaction, HitAndBlowData())
+        embed.set_footer(text="0 guesses")
+        view = HitAndBlowView(interaction, HitAndBlowData(), bet)
         await interaction.response.send_message(embed=embed, view=view)
 
     #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
