@@ -13,11 +13,13 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self, ans, num_label = "Enter a four-digit number"):
+    def __init__(self, slash_interaction: Interaction, btn_interaction: Interaction, ans, num_label = "Enter a four-digit number"):
         super().__init__(
             title = "Guess a number:",
             timeout=None
         )
+        self.slash_interaction = slash_interaction
+        self.btn_interaction = btn_interaction
         self.num = TextInput(
             label = num_label,
             style = nextcord.TextInputStyle.paragraph,
@@ -26,11 +28,23 @@ class HitAndBlowModal(Modal):
         )
         self.add_item(self.num)
         self.ans = ans
+        self.tries = []
 
     async def callback(self, interaction: Interaction):
-        correct_input = False
-        while not correct_input:
-            await interaction.response.send_modal(self(self.ans, "It isn't a four digit number. Try again."))
-            if self.num.value.isnumeric():
-                correct_input = True
+        if self.num.value.isnumeric():
+            msg_embed = slash_msg.embeds[0]
+            if len(msg_embed.fields) > 0:
+                msg_embed.remove_field(-1)
+        else:
+            slash_msg = await self.slash_interaction.original_message()
+            msg_embed = slash_msg.embeds[0]
+            if len(msg_embed.fields) > 0:
+                msg_embed.remove_field(-1)
+            msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number")
+        self.tries.append(self.num.value)
+        msg_embed = slash_msg.embeds[0]
+        guesses_field_value = ""
+        for i in range(len(self.tries)):
+            guesses_field_value += f"\n`{i + 1}` - `{self.tries[i]}`"
+        msg_embed.add_field(name="GUESSES", value=guesses_field_value)
         await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")
