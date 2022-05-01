@@ -42,8 +42,8 @@ class Users():
             profile = {
                 "user": {
                     "id": profile_user[0],
-                    "gold": int(profile_user[1]),
-                    "xp": int(profile_user[2])
+                    "gold": int(float(profile_user[1])),
+                    "xp": int(float(profile_user[2]))
                 }
             }
             sql = f"""
