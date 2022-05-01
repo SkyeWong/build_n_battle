@@ -56,10 +56,11 @@ class HitAndBlowData():
         self.correct = False
 class HitAndBlowView(View):
 
-    def __init__(self, slash_interaction: Interaction, data_class):
+    def __init__(self, slash_interaction: Interaction, data_class, bet: int):
         super().__init__(timeout=3600)
         self.slash_interaction = slash_interaction
         self.data_class = data_class
+        self.bet = bet
 
     @button(
         label = "GUESS!",
@@ -67,12 +68,12 @@ class HitAndBlowView(View):
         style = nextcord.ButtonStyle.blurple
     )
     async def show_modal(self, button, interaction: Interaction):
-        await interaction.response.send_modal(HitAndBlowModal(self.slash_interaction, interaction, self.data_class))
+        await interaction.response.send_modal(HitAndBlowModal(self, self.slash_interaction, interaction, self.data_class, self.bet))
 
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True
-        await self.message.edit(view=self)
+        await self.slash_interaction.edit_original_message(view=self)
         
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
@@ -83,14 +84,16 @@ class HitAndBlowView(View):
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self, slash_interaction: Interaction, btn_interaction: Interaction, data_class):
+    def __init__(self, btn_class: View, slash_interaction: Interaction, btn_interaction: Interaction, data_class, bet: int):
         super().__init__(
             title = "Hit & Blow",
             timeout=None
         )
+        self.btn_class = btn_class
         self.slash_interaction = slash_interaction
         self.btn_interaction = btn_interaction
         self.data_class = data_class
+        self.bet = bet
         self.num = TextInput(
             label = "Enter a four-digit number",
             min_length = 4,
@@ -113,14 +116,13 @@ class HitAndBlowModal(Modal):
                 hits = 0
                 blows = 0
                 for x in range(4):
-                    if self.data_class.ans[x] == tries[i][x]:
-                        hits += 1
-                        if hits == 4:
-                            self.data_class.correct = True
-                for x in range(4):
                     for y in range(4):
-                        if self.data_class.ans[x] == tries[i][y] and self.data_class.ans[x] != tries[i][x] and self.data_class.ans[y] != tries[i][y]:
-                            blows += 1
+                        if self.data_class.ans[x] == tries[i][y]:
+                            if x == y:
+                                hits += 1
+                            else:
+                                blows += 1
+                            break
                 hits_field_value +=  f"\n`{hits}`"
                 blows_field_value += f"\n`{blows}`"
                 msg_embed.clear_fields()
@@ -128,14 +130,26 @@ class HitAndBlowModal(Modal):
                 msg_embed.add_field(name="HITS", value=hits_field_value)
                 msg_embed.add_field(name="BLOWS", value=blows_field_value)
                 msg_embed.set_footer(text=f"{len(tries)} guesses")
-                if len(tries) > 12:
-                    msg_embed.colour = 0xde2f41
-                    msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                    msg_embed.description = f"Sadly, you didn't guess the number in 12 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
-                if self.data_class.correct == True:
-                    msg_embed.colour = 0x77b255
-                    msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                    msg_embed.description = f"The correct number is - `{''.join(self.data_class.ans)}`"
+                if len(tries) > 12 or self.data_class.correct == True:
+                    btn_class = self.btn_class
+                    users = Users()
+                    for i in btn_class.children:
+                        i.disabled = True
+                    await self.slash_interaction.edit_original_message(view=btn_class)
+                    if len(tries) > 12:
+                        msg_embed.colour = 0xde2f41
+                        msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                        msg_embed.description = f"Sadly, you didn't guess the number in 12 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                        if self.bet != 0:
+                            msg_embed.description += f"\nYou lost your ${self.bet} bet."
+                            users.modify_gold(-self.bet)
+                    if self.data_class.correct == True:
+                        msg_embed.colour = 0x77b255
+                        msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                        msg_embed.description = f"YAY you actually got it! I knew you could 😉\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                        if self.bet != 0:
+                            msg_embed.description += f"\nYou won ${self.bet}!"
+                            users.modify_gold(self.bet)
                 await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)

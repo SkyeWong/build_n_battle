@@ -4,6 +4,7 @@ import random
 from nextcord.ext import commands
 from nextcord import Embed, Interaction
 import database as db
+from functions.users import Users
 
 TOKEN = os.environ["DISCORD_TOKEN"]
 DEVS_SERVER_ID = 919223073054539858
@@ -46,6 +47,11 @@ def delete_field(embed: Embed, field_name: str):
         if field.name == field_name:
             embed.remove_field(i)
     return embed
+
+async def create_profile_if_none(interaction):
+    users = Users(interaction.user)
+    if users.if_user_present() == False:
+        users.create_user_profile()
 
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":

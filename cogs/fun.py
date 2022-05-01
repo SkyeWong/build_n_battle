@@ -12,6 +12,7 @@ from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
 from views.fun_views import Analysis, HitAndBlowView, HitAndBlowData
+from functions.users import Users
 
 class Fun(commands.Cog, name="Fun"):
 
@@ -142,6 +143,7 @@ class Fun(commands.Cog, name="Fun"):
         ] 
         await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
+    @nextcord.ext.application_checks.application_command_before_invoke(main.create_profile_if_none)
     @nextcord.slash_command(name="hit-and-blow", description="Play a fun hit & blow game!", guild_ids=[main.DEVS_SERVER_ID])
     async def hit_or_blow(
         self, 
@@ -150,15 +152,16 @@ class Fun(commands.Cog, name="Fun"):
             name = "bet",
             description = "TODO",
             required = False,
-            default = None
+            default = 0
         )
     ):
         embed = Embed()
         embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+        bet_msg = f"\nBet: {bet}" if bet != 0 else ""
         embed.description = f"Click the button to guess a number"
         embed.colour = random.choice(main.embed_colours)
-        embed.set_footer(text="0 guesses")
-        view = HitAndBlowView(interaction, HitAndBlowData())
+        embed.set_footer(text=f"0 guesses ● {bet_msg}")
+        view = HitAndBlowView(interaction, HitAndBlowData(), bet)
         await interaction.response.send_message(embed=embed, view=view)
 
     #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
