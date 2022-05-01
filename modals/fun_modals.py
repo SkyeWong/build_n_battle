@@ -13,15 +13,14 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self, ans):
+    def __init__(self, ans, num_label = "Enter a four-digit number"):
         super().__init__(
             title = "Guess a number:",
             timeout=None
         )
         self.num = TextInput(
-            label = "Enter a four-digit number",
+            label = num_label,
             style = nextcord.TextInputStyle.paragraph,
-            placeholder = "0000",
             min_length = 4,
             max_length = 4
         )
@@ -31,7 +30,7 @@ class HitAndBlowModal(Modal):
     async def callback(self, interaction: Interaction):
         correct_input = False
         while not correct_input:
-            await interaction.response.send_modal(self)
+            await interaction.response.send_modal(self(self.ans, "It isn't a four digit number. Try again."))
             if self.num.value.isnumeric():
                 correct_input = True
         await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")
