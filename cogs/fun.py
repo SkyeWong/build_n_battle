@@ -149,7 +149,9 @@ class Fun(commands.Cog, name="Fun"):
         interaction: Interaction, 
         message: str = SlashOption(
             name = "message",
-            description = "nothing really. appears in the modal"
+            description = "nothing really. appears in the modal",
+            required = False,
+            default = "enter whatever you want"
         )):
         await interaction.response.send_modal(HitAndBlow())
 

@@ -13,16 +13,15 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlow(Modal):
 
-    def __init__(self, timeout = None, message = None):
+    def __init__(self, message):
         super().__init__(
             title = "Guess a number:",
-            timeout=timeout)
+            timeout=None)
         self.text = TextInput(
-            label = "enter whatever you like" or message,
+            label = message,
             style = nextcord.TextInputStyle.paragraph,
             placeholder = "skye is really smart",
-            min_length = 3,
-            max_length = 50,
+            max_length = 150,
             required = True
         )
         self.add_item(self.text)
