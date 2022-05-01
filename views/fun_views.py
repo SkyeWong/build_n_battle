@@ -126,38 +126,38 @@ class HitAndBlowModal(Modal):
                             break
                 hits_field_value +=  f"\n`{hits}`"
                 blows_field_value += f"\n`{blows}`"
-                msg_embed.clear_fields()
-                msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
-                msg_embed.add_field(name="HITS", value=hits_field_value)
-                msg_embed.add_field(name="BLOWS", value=blows_field_value)
-                msg_embed.set_footer(text=f"{len(tries)} guesses")
-                bet_msg = f" ● betting {self.bet}" if self.bet != 0 else ""
-                msg_embed.set_footer(text=f"0 guesses {bet_msg}")
-                if len(tries) > 15 or self.data_class.correct == True:
-                    btn_class = self.btn_class
-                    users = Users()
-                    for i in btn_class.children:
-                        i.disabled = True
-                    await self.slash_interaction.edit_original_message(view=btn_class)
-                    if len(tries) > 15:
-                        msg_embed.colour = 0xde2f41
-                        msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                        msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
-                        if self.bet != 0:
-                            msg_embed.description += f"\nYou lost your ${self.bet} bet."
-                            users.modify_gold(-self.bet)
-                    if self.data_class.correct == True:
-                        msg_embed.colour = 0x77b255
-                        msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-                        msg_embed.description = f"YAY you actually got it! I knew you could 😉\nThe correct number is - `{''.join(self.data_class.ans)}`"
-                        if self.bet != 0:
-                            won_bet = self.bet
-                            reduction = 0
-                            if len(tries) > 5:
-                                reduction = (len(tries) - 5) * 8
-                            won_bet = self.bet * (100 - reduction) / 100
-                            msg_embed.description += f"\nYou won ${won_bet}!"
-                            users.modify_gold(won_bet)
+            msg_embed.clear_fields()
+            msg_embed.add_field(name="GUESSES", value=guesses_field_value)           
+            msg_embed.add_field(name="HITS", value=hits_field_value)
+            msg_embed.add_field(name="BLOWS", value=blows_field_value)
+            msg_embed.set_footer(text=f"{len(tries)} guesses")
+            bet_msg = f" ● betting {self.bet}" if self.bet != 0 else ""
+            msg_embed.set_footer(text=f"{len(tries)} guesses{bet_msg}")
+            if len(tries) > 15 or self.data_class.correct == True:
+                btn_class = self.btn_class
+                users = Users()
+                for i in btn_class.children:
+                    i.disabled = True
+                await self.slash_interaction.edit_original_message(view=btn_class)
+                if len(tries) > 15:
+                    msg_embed.colour = 0xde2f41
+                    msg_embed.set_author(name=f"{interaction.user.name}'s lost Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                    msg_embed.description = f"Sadly, you didn't guess the number in 15 tries.\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                    if self.bet != 0:
+                        msg_embed.description += f"\nYou lost your ${self.bet} bet."
+                        users.modify_gold(-self.bet)
+                if self.data_class.correct == True:
+                    msg_embed.colour = 0x77b255
+                    msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                    msg_embed.description = f"YAY you actually got it! I knew you could 😉\nThe correct number is - `{''.join(self.data_class.ans)}`"
+                    if self.bet != 0:
+                        won_bet = self.bet
+                        reduction = 0
+                        if len(tries) > 5:
+                            reduction = (len(tries) - 5) * 8
+                        won_bet = self.bet * (100 - reduction) / 100
+                        msg_embed.description += f"\nYou won ${won_bet}!"
+                        users.modify_gold(won_bet)
                 await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
