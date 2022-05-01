@@ -5,7 +5,7 @@ import main
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
-from nextcord import Embed
+from nextcord import Embed, Interaction
 from nextcord.ui import Button, View
 import database as db
 from typing import Optional
@@ -20,6 +20,11 @@ class Currency(commands.Cog, name="Currency"):
         self.bot = bot
         self._last_member = None 
 
+    async def cog_application_command_before_invoke(interaction: Interaction):
+        users = Users(interaction.user)
+        if users.if_user_present() == False:
+            users.create_user_profile()
+    
     @commands.command(name="create")
     async def create(self, ctx):
         """Create your own profile to start playing the Build & Battle game!"""

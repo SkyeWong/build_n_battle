@@ -130,7 +130,7 @@ class HitAndBlowModal(Modal):
                 msg_embed.add_field(name="HITS", value=hits_field_value)
                 msg_embed.add_field(name="BLOWS", value=blows_field_value)
                 msg_embed.set_footer(text=f"{len(tries)} guesses")
-                if len(tries) > 12 or self.data_class.correct == True:
+                if len(tries) > 15 or self.data_class.correct == True:
                     btn_class = self.btn_class
                     users = Users()
                     for i in btn_class.children:
@@ -148,9 +148,13 @@ class HitAndBlowModal(Modal):
                         msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
                         msg_embed.description = f"YAY you actually got it! I knew you could 😉\nThe correct number is - `{''.join(self.data_class.ans)}`"
                         if self.bet != 0:
-                            won_bet = 100
-                            msg_embed.description += f"\nYou won ${self.bet}!"
-                            users.modify_gold(self.bet)
+                            won_bet = self.bet
+                            reduction = 0
+                            if len(tries) > 5:
+                                reduction = (len(tries) - 5) * 8
+                            won_bet = self.bet * (100 - reduction) / 100
+                            msg_embed.description += f"\nYou won ${won_bet}!"
+                            users.modify_gold(won_bet)
                 await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)

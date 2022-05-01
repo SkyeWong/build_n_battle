@@ -13,7 +13,6 @@ from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
 from views.fun_views import Analysis, HitAndBlowView, HitAndBlowData
 from functions.users import Users
-
 class Fun(commands.Cog, name="Fun"):
 
     COG_EMOJI = "🎡"
@@ -21,6 +20,11 @@ class Fun(commands.Cog, name="Fun"):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None 
+
+    async def cog_application_command_before_invoke(interaction: Interaction):
+        users = Users(interaction.user)
+        if users.if_user_present() == False:
+            users.create_user_profile()
 
     @nextcord.slash_command(
         name = "dice", 
