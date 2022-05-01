@@ -31,6 +31,10 @@ class HitAndBlowModal(Modal):
         self.tries = []
 
     async def callback(self, interaction: Interaction):
+        slash_msg = await self.slash_interaction.original_message()
+        msg_embed = slash_msg.embeds[0]
+        if len(msg_embed.fields) > 0:
+            msg_embed.remove_field(-1)
         if self.num.value.isnumeric():
             msg_embed = slash_msg.embeds[0]
             if len(msg_embed.fields) > 0:
@@ -43,8 +47,4 @@ class HitAndBlowModal(Modal):
             msg_embed.add_field(name="GUESSES", value=guesses_field_value)
             await interaction.send(f"you guessed: {self.num.value}\nthe correct number is: {''.join(self.ans)}")
         else:
-            slash_msg = await self.slash_interaction.original_message()
-            msg_embed = slash_msg.embeds[0]
-            if len(msg_embed.fields) > 0:
-                msg_embed.remove_field(-1)
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number")
