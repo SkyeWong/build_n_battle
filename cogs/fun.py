@@ -158,7 +158,7 @@ class Fun(commands.Cog, name="Fun"):
         embed.description = f"Click the button to guess a number"
         embed.colour = random.choice(main.embed_colours)
         embed.set_footer(text="0 guesses")
-        view = HitAndBlowView(interaction, HitAndBlowData(), bet)
+        view = HitAndBlowView(interaction, HitAndBlowData())
         await interaction.response.send_message(embed=embed, view=view)
 
     #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
