@@ -131,6 +131,7 @@ class HitAndBlowModal(Modal):
                     msg_embed.colour = 0x77b255
                     msg_embed.set_author(name=f"{interaction.user.name}'s won Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
                     msg_embed.description = f"The correct number is - `{''.join(self.data_class.ans)}`"
+                await interaction.send(f"The correct number is - `{''.join(self.data_class.ans)}`")
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
