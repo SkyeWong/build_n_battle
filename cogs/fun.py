@@ -161,7 +161,7 @@ class Fun(commands.Cog, name="Fun"):
         embed = Embed()
         embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
         bet_msg = f" ● betting {bet}" if bet != 0 else ""
-        embed.description = f"Click the button to guess a number"
+        embed.description = f"Click the button to guess a number・`H` for **`HITS`** & `B` for **`BLOWS`**"
         embed.colour = random.choice(main.embed_colours)
         embed.set_footer(text=f"0 guesses {bet_msg}")
         view = HitAndBlowView(interaction, HitAndBlowData(), bet)
