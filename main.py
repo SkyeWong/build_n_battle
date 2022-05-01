@@ -40,6 +40,13 @@ def roundup(number, round_to):
 def rounddown(number, round_to):
     return number if number % round_to == 0 else number - number % round_to
 
+def delete_field(embed: Embed, field_name: str):
+    for i in range(len(embed.fields)):
+        field = embed.fields[i]
+        if field.name == field_name:
+            embed.remove_field(i)
+    return embed
+
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":
         bot.load_extension(f"cogs.{filename[:-3]}")
