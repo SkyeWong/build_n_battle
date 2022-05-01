@@ -13,12 +13,12 @@ from nextcord.ui import Button, View, Modal, TextInput
 
 class HitAndBlowModal(Modal):
 
-    def __init__(self, message = "enter whatever you like"):
+    def __init__(self, message = None):
         super().__init__(
             title = "Guess a number:",
             timeout=None)
         self.text = TextInput(
-            label = message,
+            label = message or "enter whatever you want",
             style = nextcord.TextInputStyle.paragraph,
             placeholder = "skye is really smart",
             max_length = 150,
