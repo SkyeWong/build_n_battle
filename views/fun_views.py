@@ -120,6 +120,8 @@ class HitAndBlowModal(Modal):
                 for x in range(4):
                     if ans[x] == guess[x]:
                         hits += 1
+                        if hits == 4:
+                            self.data_class.correct = True
                     for y in range(4):
                         if ans[y] == guess[x] and ans[x] != guess[x] and ans[y] != guess[y]:
                             blows += 1
