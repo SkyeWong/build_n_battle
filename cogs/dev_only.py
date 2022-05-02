@@ -132,7 +132,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="set-gold", guild_ids=[main.DEVS_SERVER_ID])
     async def modify_gold(
         self, 
         interaction: Interaction, 
@@ -145,7 +145,9 @@ class dev_only(commands.Cog, name="Dev Only"):
     ):
         user = interaction.user or user
         users = Users(user)
-        users.modify_gold(gold)
+        profile = users.get_user_profile()
+        profile["user"]["gold"] = gold
+        users.update_user_profile(profile)
         await interaction.response.send_message(f"modified {user.display_name}'s gold by {gold}")
 
 def setup(bot: commands.Bot):
