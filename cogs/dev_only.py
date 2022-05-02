@@ -1,5 +1,4 @@
 import os
-from discord import SlashOption
 from nextcord import ButtonStyle
 import nextcord
 import json 
@@ -9,9 +8,10 @@ import asyncio
 import main
 from main import bot
 from nextcord.ext import commands, tasks
-from nextcord import Embed, Interaction
+from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 import database as db
+from functions.users import Users
 from views.dev_views import EmojiView
 
 class dev_only(commands.Cog, name="Dev Only"):
@@ -131,6 +131,22 @@ class dev_only(commands.Cog, name="Dev Only"):
             user = await bot.fetch_user(record[0])
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
+
+    @nextcord.slash_command(name="modify-gold")
+    async def modify_gold(
+        self, 
+        interaction: Interaction, 
+        gold: int,
+        user: nextcord.Member = SlashOption(
+            name = "user",
+            required = False,
+            default = None
+        )
+    ):
+        user = interaction.user or user
+        users = Users(user)
+        users.modify_gold(gold)
+        await interaction.response.send_message(f"modified {user.display_name}'s gold by {gold}")
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))

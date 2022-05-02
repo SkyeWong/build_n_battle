@@ -164,6 +164,6 @@ class Users():
             profile = users.get_user_profile()
             profile["user"]["gold"] += gold
             profile = users.update_user_profile(profile)
-            return profile
+            return [profile, profile["user"]["gold"]]
         else:
             return False
