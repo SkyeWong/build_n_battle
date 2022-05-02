@@ -7,7 +7,7 @@ import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import commands, tasks
+from nextcord.ext import commands, tasks, application_checks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 import database as db
@@ -133,6 +133,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         await interaction.followup.send(richest)
 
     @nextcord.slash_command(name="set-gold", guild_ids=[main.DEVS_SERVER_ID])
+    @application_checks.check(main.check_if_it_is_skye)
     async def modify_gold(
         self, 
         interaction: Interaction, 
@@ -143,12 +144,13 @@ class dev_only(commands.Cog, name="Dev Only"):
             default = None
         )
     ):
-        user = interaction.user or user
+        if user == None:
+            user = interaction.user
         users = Users(user)
         profile = users.get_user_profile()
         profile["user"]["gold"] = gold
         users.update_user_profile(profile)
-        await interaction.response.send_message(f"modified {user.display_name}'s gold by {gold}", ephemeral=True)
+        await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
