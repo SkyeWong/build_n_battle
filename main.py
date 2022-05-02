@@ -48,7 +48,7 @@ def delete_field(embed: Embed, field_name: str):
     return embed
 
 def check_if_it_is_skye(interaction: Interaction):
-    return interaction.message.author.id == 806334528230129695
+    return interaction.user.id == 806334528230129695
 
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":
