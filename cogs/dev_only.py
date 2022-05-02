@@ -148,7 +148,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         profile = users.get_user_profile()
         profile["user"]["gold"] = gold
         users.update_user_profile(profile)
-        await interaction.response.send_message(f"modified {user.display_name}'s gold by {gold}")
+        await interaction.response.send_message(f"modified {user.display_name}'s gold by {gold}", ephemeral=True)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
