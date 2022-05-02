@@ -151,7 +151,7 @@ class Fun(commands.Cog, name="Fun"):
     async def hit_or_blow(
         self, 
         interaction: Interaction, 
-        bet: str = SlashOption(
+        bet: int = SlashOption(
             name = "bet",
             description = "TODO",
             required = False,

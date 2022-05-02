@@ -132,7 +132,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="modify-gold")
+    @nextcord.slash_command(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
     async def modify_gold(
         self, 
         interaction: Interaction, 
