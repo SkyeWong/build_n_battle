@@ -72,7 +72,7 @@ class HitAndBlowView(View):
 
     @button(
         label = "INFO",
-        emoji = ":information_source:",
+        emoji = "ℹ️",
         style = nextcord.ButtonStyle.grey
     )
     async def info(self, button, interaction: Interaction):
