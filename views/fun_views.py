@@ -77,20 +77,20 @@ class HitAndBlowView(View):
     )
     async def info(self, button, interaction: Interaction):
         points = {
-            "A fun code breaking game also known as Cows and Bulls or Pigs and Bulls": "",
+            "A fun code breaking game also known as _Cows and Bulls_ or _Pigs and Bulls_": "",
             "The board game _Mastermind_ and the popular online word game _Wordle_ originated from this!": "",
             "How to play:": {
                 "①": "I am gonna choose a **random four-digit** number (0-9)",
                 "②": "You have to try to **guess** it, that's hard, right? So I will give you some hints.",
                 "③": "If the matching digits are in their **right positions** → **HIT**",
                 "④": "If they are in **different positions** → **BLOW**",
-                "⑤": "EG:\n\tmy num:   **`5968`**\n\tyour num: **`5683`**\n\t`1` HIT `(5)`, `2` BLOWS `(6, 8)`"
+                "⑤": "EG:\n\⠀⠀⠀my num:   **`5968`**\n\⠀⠀⠀your num: **`5683`**\n\⠀⠀⠀`1` HIT `(5)` and`2` BLOWS `(6, 8)`"
             },
             "Get it? GOOD LUCK!": ""
         }
         msg = ""
         for point in points:
-            msg += f"\n`➼` {point}"
+            msg += f"\n**`➼`** {point}"
             if points[point] != "":
                 for subpoint in points[point]:
                     msg += f"\n⠀⠀⠀`{subpoint}` {points[point][subpoint]}"
