@@ -132,12 +132,17 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="set-gold", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="gold", guild_ids=[main.DEVS_SERVER_ID])
+    @application_checks.check(main.check_if_it_is_skye)
+    async def gold(self, interaction: Interaction):
+        await interaction.send("use `/set-gold` or `/modify-gold`")
+    
+    @nextcord.slash_command(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
     @application_checks.check(main.check_if_it_is_skye)
     async def modify_gold(
         self, 
         interaction: Interaction, 
-        gold: int,
+        gold: str,
         user: nextcord.Member = SlashOption(
             name = "user",
             required = False,
@@ -147,6 +152,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         if user == None:
             user = interaction.user
         users = Users(user)
+        gold = int(gold)
         profile = users.get_user_profile()
         profile["user"]["gold"] = gold
         users.update_user_profile(profile)
