@@ -70,6 +70,38 @@ class HitAndBlowView(View):
     async def show_modal(self, button, interaction: Interaction):
         await interaction.response.send_modal(HitAndBlowModal(self, self.slash_interaction, interaction, self.data_class, self.bet))
 
+    @button(
+        label = "INFO",
+        emoji = ":information_source:",
+        style = nextcord.ButtonStyle.grey
+    )
+    async def info(self, button, interaction: Interaction):
+        points = {
+            "A fun code breaking game also known as Cows and Bulls or Pigs and Bulls": "",
+            "The board game _Mastermind_ and the popular online word game _Wordle_ originated from this!": "",
+            "How to play:": {
+                "①": "I am gonna choose a **random four-digit** number (0-9)",
+                "②": "You have to try to **guess** it, that's hard, right? So I will give you some hints.",
+                "③": "If the matching digits are in their **right positions** → **HIT**",
+                "④": "If they are in **different positions** → **BLOW**",
+                "⑤": "EG:\n\tmy num:   **`5968`**\n\tyour num: **`5683`**\n\t`1` HIT `(5)`, `2` BLOWS `(6, 8)`"
+            },
+            "Get it? GOOD LUCK!": ""
+        }
+        msg = ""
+        for point in points:
+            msg += f"\n`➼` {point}"
+            if points[point] != "":
+                for subpoint in points[point]:
+                    msg += f"\n\t`{subpoint}` {points[point][subpoint]}"
+        embed = Embed()
+        embed.set_author(
+            name = "HIT & BLOW INFO",
+            icon_url = bot.user.display_avatar.url
+        )
+        embed.description = msg
+        await interaction.response.send_message(embed=embed, ephermal=True)
+
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True

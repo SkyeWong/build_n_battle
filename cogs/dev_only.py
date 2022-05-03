@@ -137,9 +137,9 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def gold(self, interaction: Interaction):
         await interaction.send("use `/set-gold` or `/modify-gold`")
     
-    @nextcord.slash_command(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
+    @gold.subcommand(name="set-gold", guild_ids=[main.DEVS_SERVER_ID])
     @application_checks.check(main.check_if_it_is_skye)
-    async def modify_gold(
+    async def set_gold(
         self, 
         interaction: Interaction, 
         gold: str,
@@ -156,7 +156,28 @@ class dev_only(commands.Cog, name="Dev Only"):
         profile = users.get_user_profile()
         profile["user"]["gold"] = gold
         users.update_user_profile(profile)
-        await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
+        await interaction.response.send_message(f"set {user.display_name}'s gold to {profile['user']['gold']}", ephemeral=True)
+
+    @gold.subcommand(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
+    @application_checks.check(main.check_if_it_is_skye)
+    async def modify_gold(
+        self, 
+        interaction: Interaction, 
+        gold: str,
+        user: nextcord.Member = SlashOption(
+            name = "user",
+            required = False,
+            default = None
+        )
+    ):
+        if user == None:
+            user = interaction.user
+        users = Users(user)
+        gold = int(gold)
+        profile = users.get_user_profile()
+        profile["user"]["gold"] += gold
+        profile = users.update_user_profile(profile)
+        await interaction.response.send_message(f"set {user.display_name}'s gold to {profile['user']['gold']}, modified by {gold}", ephemeral=True)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
