@@ -100,7 +100,7 @@ class HitAndBlowView(View):
             icon_url = bot.user.display_avatar.url
         )
         embed.description = msg
-        await interaction.response.send_message(embed=embed, ephermal=True)
+        await interaction.response.send_message(embed=embed, ephemeral=True)
 
     async def on_timeout(self) -> None:
         for i in self.children:
