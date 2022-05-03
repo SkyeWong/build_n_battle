@@ -93,7 +93,7 @@ class HitAndBlowView(View):
             msg += f"\n`➼` {point}"
             if points[point] != "":
                 for subpoint in points[point]:
-                    msg += f"\n\t`{subpoint}` {points[point][subpoint]}"
+                    msg += f"\n⠀⠀⠀`{subpoint}` {points[point][subpoint]}"
         embed = Embed()
         embed.set_author(
             name = "HIT & BLOW INFO",
