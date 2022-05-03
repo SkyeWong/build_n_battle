@@ -137,8 +137,7 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def gold(self, interaction: Interaction):
         await interaction.send("use `/set-gold` or `/modify-gold`")
     
-    @gold.subcommand(name="set-gold", guild_ids=[main.DEVS_SERVER_ID])
-    @application_checks.check(main.check_if_it_is_skye)
+    @gold.subcommand(name="set", inherit_hooks=True)
     async def set_gold(
         self, 
         interaction: Interaction, 
@@ -158,8 +157,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         users.update_user_profile(profile)
         await interaction.response.send_message(f"set {user.display_name}'s gold to {profile['user']['gold']}", ephemeral=True)
 
-    @gold.subcommand(name="modify-gold", guild_ids=[main.DEVS_SERVER_ID])
-    @application_checks.check(main.check_if_it_is_skye)
+    @gold.subcommand(name="modify", inherit_hooks=True)
     async def modify_gold(
         self, 
         interaction: Interaction, 
