@@ -158,7 +158,7 @@ class Fun(commands.Cog, name="Fun"):
             default = 0
         )
     ):
-        bet = main.text_to_num(bet)
+        bet = main.text_to_num(str(bet))
         users = Users(interaction.user)
         if bet > users.modify_gold(0)[1]:
             await interaction.response.send_message("You didn't actually have THAT much to lose, do you?", ephemeral=True)
