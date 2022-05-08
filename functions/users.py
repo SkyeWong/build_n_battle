@@ -19,12 +19,12 @@ class Users():
         self.user = user
     
     def if_user_present(self):
-        sql = f"""
+        sql = """
             SELECT id
             FROM users
-            WHERE id = {self.user.id};
+            WHERE id = %s;
             """
-        cursor = db.execute_query(sql)
+        cursor = db.execute_query(sql, (self.user.id,))
         if cursor.fetchall() == []:
             return False
         else:
@@ -179,7 +179,7 @@ class Users():
                 WHERE
                     id = %s;
                 """
-            db.execute_query(update_gold_query, (gold, self.user.id))
+            db.execute_query(update_gold_query, (gold, self.user.id,))
             db.conn.commit()
             return gold
         else:
