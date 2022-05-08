@@ -161,12 +161,12 @@ class Users():
     def modify_gold(self, gold_to_modify: int):
         if self.if_user_present() == True:
             get_gold_query = f"""
-                SELECT gold
+                SELECT id, gold, xp
                 FROM users
                 WHERE id = {self.user.id};
-            """
+                """
             cursor = db.execute_query(get_gold_query)
-            gold = int(cursor.fetchall()[0][0])
+            gold = int(cursor.fetchall()[0][1])
             gold += gold_to_modify
             update_gold_query = f"""
                 UPDATE 
