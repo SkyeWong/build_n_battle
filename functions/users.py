@@ -1,5 +1,4 @@
 import os
-from turtle import update
 import nextcord
 import random
 import math 
