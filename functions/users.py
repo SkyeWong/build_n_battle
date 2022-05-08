@@ -160,23 +160,23 @@ class Users():
 
     def modify_gold(self, gold_to_modify: int):
         if self.if_user_present() == True:
-            get_gold_query = f"""
-                SELECT id, gold, xp
+            get_gold_query = """
+                SELECT gold
                 FROM users
-                WHERE id = {self.user.id};
+                WHERE id = %s;
                 """
-            cursor = db.execute_query(get_gold_query)
+            cursor = db.execute_query(get_gold_query, (self.user.id,))
             gold = int(cursor.fetchall()[0][1])
             gold += gold_to_modify
-            update_gold_query = f"""
+            update_gold_query = """
                 UPDATE 
                     users
                 SET
-                    gold = {str(gold)},
+                    gold = %s,
                 WHERE
-                    id = {str(self.user.id)};
+                    id = %s;
                 """
-            db.execute_query(update_gold_query)
+            db.execute_query(update_gold_query, (gold, self.user.id))
             db.conn.commit()
             return gold
         else:
@@ -184,15 +184,15 @@ class Users():
     
     def set_gold(self, gold_to_set: int):
         if self.if_user_present() == True:
-            update_gold_query = f"""
+            update_gold_query = """
                 UPDATE 
                     users
                 SET
-                    gold = {str(gold_to_set)},
+                    gold = %s,
                 WHERE
-                    id = {str(self.user.id)};
+                    id = %s;
                 """
-            db.execute_query(update_gold_query)
+            db.execute_query(update_gold_query, (gold_to_set, self.user.id))
             db.conn.commit()
             return gold_to_set
         else:
