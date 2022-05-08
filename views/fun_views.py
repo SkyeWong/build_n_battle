@@ -118,7 +118,7 @@ class HitAndBlowView(View):
         
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
-            await interaction.response.send_message(f"This is not for you, sorry.", ephemeral=True)
+            await interaction.response.send_message(f"This is not for you, sorry. Use `/{self.slash_interaction.application_command.name}` to play the game.", ephemeral=True)
             return False
         else:
             return True

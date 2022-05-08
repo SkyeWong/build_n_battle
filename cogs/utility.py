@@ -30,19 +30,21 @@ class Utility(commands.Cog, name="Utility"):
 
     @nextcord.slash_command(name="help", description="Get a list of commands or info of a specific command.")
     async def help(self, interaction:Interaction):
-        cogs_commands = []
-        msg = ""
+        # .get_signature()[0] --> for later use
+        cogs_commands = {}
+        msg = "hi"
         for cog_name, cog in self.bot.cogs.items():
-            msg += f"\n{cog_name}"
+            commands = []
             for cmd in cog.get_commands():
-                msg += f" `+{cmd.qualified_name}`"
+                commands.append(cmd)
             for application_cmd in cog.to_register:
                 if application_cmd.is_global:
                     cmd_in_guild = True
                 elif interaction.guild_id in application_cmd.guild_ids:
                     cmd_in_guild = True
                 if cmd_in_guild == True:
-                    msg += f" `/{application_cmd.get_signature()[0]}`"
+                    commands.append(application_cmd)
+            cogs_commands[cog_name] = commands
         await interaction.followup.send(msg)
         slash_cmds = ""
         for command in bot.get_all_application_commands():
