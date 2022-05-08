@@ -84,7 +84,7 @@ class HitAndBlowView(View):
                 "②": "You have to try to **guess** it, that's hard, right? So I will give you some hints.",
                 "③": "If the matching digits are in their **right positions** → **HIT**",
                 "④": "If they are in **different positions** → **BLOW**",
-                "⑤": "EG:\n\⠀⠀⠀⠀⠀⠀my num:   **`5968`**\n\⠀⠀⠀⠀⠀⠀your num: **`5683`**\n\⠀⠀⠀⠀⠀⠀`1` HIT `(5)` and`2` BLOWS `(6, 8)`"
+                "⑤": "EG:\n\⠀my num:   **`5968`**\n\⠀your num: **`5683`**\n\⠀`1` HIT `(5)` and `2` BLOWS `(6, 8)`"
             },
             "Get it? GOOD LUCK!": ""
         }
@@ -93,7 +93,7 @@ class HitAndBlowView(View):
             msg += f"\n**`➼`** {point}"
             if points[point] != "":
                 for subpoint in points[point]:
-                    msg += f"\n⠀⠀⠀`{subpoint}` {points[point][subpoint]}"
+                    msg += f"\n⠀`{subpoint}` {points[point][subpoint]}"
         embed = Embed()
         embed.set_author(
             name = "HIT & BLOW INFO",
