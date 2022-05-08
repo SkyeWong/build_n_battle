@@ -163,7 +163,7 @@ class Users():
             get_gold_query = f"""
                 SELECT gold
                 FROM users
-                WHERE id = "{self.user.id}"
+                WHERE id = {self.user.id};
             """
             cursor = db.execute_query(get_gold_query)
             gold = int(cursor.fetchall()[0][0])
@@ -174,7 +174,7 @@ class Users():
                 SET
                     gold = {str(gold)},
                 WHERE
-                    id = "{str(self.user.id)}"
+                    id = {str(self.user.id)};
                 """
             db.execute_query(update_gold_query)
             db.conn.commit()
@@ -190,7 +190,7 @@ class Users():
                 SET
                     gold = {str(gold_to_set)},
                 WHERE
-                    id = "{str(self.user.id)}"
+                    id = {str(self.user.id)};
                 """
             db.execute_query(update_gold_query)
             db.conn.commit()
