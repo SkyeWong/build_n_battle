@@ -20,7 +20,7 @@ class Users():
     
     def if_user_present(self):
         sql = f"""
-            SELECT id, gold, xp
+            SELECT id
             FROM users
             WHERE id = {self.user.id};
             """
