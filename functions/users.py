@@ -32,12 +32,12 @@ class Users():
 
     def get_user_profile(self):
         if self.if_user_present():
-            sql = f"""
+            sql = """
                 SELECT id, gold, xp
                 FROM users
-                WHERE id = {self.user.id};
+                WHERE id = %s
                 """
-            cursor = db.execute_query(sql)
+            cursor = db.execute_query(sql, (self.user.id,))
             profile_user = cursor.fetchall()[0]
             profile = {
                 "user": {
@@ -46,12 +46,12 @@ class Users():
                     "xp": int(float(profile_user[2]))
                 }
             }
-            sql = f"""
+            sql = """
                 SELECT crops, crop_type, farm_width, farm_height
                 FROM farms
-                WHERE user_id = {self.user.id};
+                WHERE user_id = %s
                 """
-            cursor = db.execute_query(sql)
+            cursor = db.execute_query(sql, (self.user.id,))
             profile_farm = cursor.fetchall()[0]
             profile["farm"] = {
                 "crops": json.loads(profile_farm[0]),
@@ -59,12 +59,12 @@ class Users():
                 "farm_width": profile_farm[2],
                 "farm_height": profile_farm[3]
             }
-            sql = f"""
+            sql = """
                 SELECT farm
                 FROM commands_last_used
-                WHERE user_id = {self.user.id}
+                WHERE user_id = %s
                 """
-            cursor = db.execute_query(sql)
+            cursor = db.execute_query(sql, (self.user.id,))
             profile_commands_last_used = cursor.fetchall()[0]
             profile["commands_last_used"] = {
                 "farm": int(profile_commands_last_used[0])
@@ -75,39 +75,42 @@ class Users():
 
     def update_user_profile(self, new_profile):
         if self.if_user_present():
-            update_users_query = f"""
+            update_users_query = """
                 UPDATE 
                     users
                 SET
-                    gold = {str(new_profile["user"]["gold"])},
-                    xp = {str(new_profile["user"]["xp"])}
+                    gold = %s,
+                    xp = %s
                 WHERE
-                    id = {str(new_profile["user"]["id"])}
+                    id = %s
                 """
-            db.execute_query(update_users_query)
+            value = (new_profile["user"]["gold"], new_profile["user"]["xp"], new_profile["user"]["id"])
+            db.execute_query(update_users_query, value)
             db.conn.commit()
-            update_farms_query = f"""
+            update_farms_query = """
                 UPDATE 
                     farms
                 SET
-                    crops = '{json.dumps(new_profile["farm"]["crops"])}',
-                    crop_type = '{json.dumps(new_profile["farm"]["crop_type"])}',
-                    farm_width = {new_profile["farm"]["farm_width"]},
-                    farm_height = {new_profile["farm"]["farm_height"]}
+                    crops = '%s',
+                    crop_type = '%s',
+                    farm_width = %s,
+                    farm_height = %s
                 WHERE
                     user_id = {str(new_profile["user"]["id"])}
                 """
-            db.execute_query(update_farms_query)
+            value = (json.dumps(new_profile["farm"]["crops"]), json.dumps(new_profile["farm"]["crop_type"]), new_profile["farm"]["farm_width"], new_profile["farm"]["farm_height"])
+            db.execute_query(update_farms_query, value)
             db.conn.commit()
-            update_farms_query = f"""
+            update_farms_query = """
                 UPDATE 
                     commands_last_used
                 SET
-                    farm = {new_profile["commands_last_used"]["farm"]}
+                    farm = %s
                 WHERE
-                    user_id = {str(new_profile["user"]["id"])}
+                    user_id = %s
                 """
-            db.execute_query(update_farms_query)
+            value = (new_profile["commands_last_used"]["farm"], new_profile["user"]["id"])
+            db.execute_query(update_farms_query, value)
             db.conn.commit()
             return new_profile
         else:
@@ -166,7 +169,7 @@ class Users():
                 WHERE id = %s;
                 """
             cursor = db.execute_query(get_gold_query, (self.user.id,))
-            gold = int(cursor.fetchall()[0][1])
+            gold = int(cursor.fetchall()[0][0])
             gold += gold_to_modify
             update_gold_query = """
                 UPDATE 
