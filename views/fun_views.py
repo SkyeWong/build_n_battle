@@ -57,7 +57,7 @@ class HitAndBlowData():
 class HitAndBlowView(View):
 
     def __init__(self, slash_interaction: Interaction, data_class, bet: int):
-        super().__init__(timeout=1800)
+        super().__init__(timeout=30)
         self.slash_interaction = slash_interaction
         self.data_class = data_class
         self.bet = bet
@@ -84,7 +84,7 @@ class HitAndBlowView(View):
                 "②": "You have to try to **guess** it, that's hard, right? So I will give you some hints.",
                 "③": "If the matching digits are in their **right positions** → **HIT**",
                 "④": "If they are in **different positions** → **BLOW**",
-                "⑤": "EG:\n\⠀my num:   **`5968`**\n\⠀your num: **`5683`**\n\⠀`1` HIT `(5)` and `2` BLOWS `(6, 8)`"
+                "⑤": "EG:\n⠀my num:   **`5968`**\n\⠀your num: **`5683`**\n\⠀`1` HIT `(5)` and `2` BLOWS `(6, 8)`"
             },
             "Get it? GOOD LUCK!": ""
         }
@@ -111,7 +111,6 @@ class HitAndBlowView(View):
         users = Users(self.slash_interaction.user)
         msg_embed.set_author(name=f"{self.slash_interaction.user.name}'s lost Hit & Blow Game", icon_url=self.slash_interaction.user.display_avatar.url)
         msg_embed.description = f"Unfortunately, you didn't make a guess for a bit too long...⌛\nThe correct number is - `{''.join(self.data_class.ans)}`"
-        self.bet = int(self.bet)
         if self.bet != 0:
             msg_embed.description += f"\nYou lost your ${self.bet} bet."
             users.modify_gold(0 - self.bet)
@@ -173,7 +172,6 @@ class HitAndBlowModal(Modal):
             msg_embed.set_footer(text=f"{len(tries)} guesses{bet_msg}")
             if len(tries) > 15 or self.data_class.correct == True:
                 btn_class = self.btn_class
-                self.bet = int(self.bet)
                 users = Users(self.slash_interaction.user)
                 for i in btn_class.children:
                     i.disabled = True

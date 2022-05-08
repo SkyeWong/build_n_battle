@@ -151,18 +151,19 @@ class Fun(commands.Cog, name="Fun"):
     async def hit_or_blow(
         self, 
         interaction: Interaction, 
-        bet: int = SlashOption(
+        bet: str = SlashOption(
             name = "bet",
-            description = "TODO",
+            description = "Well, play big or go home. 🏠 MAX 80k",
             required = False,
             default = 0
         )
     ):
+        bet = main.text_to_num(bet)
         users = Users(interaction.user)
         if bet > users.modify_gold(0)[1]:
             await interaction.response.send_message("You didn't actually have THAT much to lose, do you?", ephemeral=True)
-        elif bet > 200000:
-            await interaction.response.send_message("The max gamble amount is 200k, sorry.")
+        elif bet > 80000:
+            await interaction.response.send_message("The max gamble amount is 80k, sorry.")
         else:
             embed = Embed()
             embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)

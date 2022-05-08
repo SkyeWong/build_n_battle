@@ -50,6 +50,29 @@ def delete_field(embed: Embed, field_name: str):
 def check_if_it_is_skye(interaction: Interaction):
     return interaction.user.id == 806334528230129695
 
+def text_to_num(text: str):
+    text = text.split()
+    gold = 0
+    for i in text:
+        d = {
+            'k': 1000,      # thousands
+            'm': 1000000,   # millions
+            'b': 1000000000 # billions
+        }
+        i = i.lower()
+        if not isinstance(i, str):
+            # Non-strings are bad are missing data in poster's submission
+            return False
+        elif i[-1] in d:
+            # separate out the K, M, or B
+            num, magnitude = i[:-1], i[-1]
+            gold += int(float(num) * d[magnitude])
+        elif i.isnumeric():
+            gold += float(i)
+        else:
+            return False
+    return gold
+
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":
         bot.load_extension(f"cogs.{filename[:-3]}")

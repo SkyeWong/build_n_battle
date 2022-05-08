@@ -151,11 +151,9 @@ class dev_only(commands.Cog, name="Dev Only"):
         if user == None:
             user = interaction.user
         users = Users(user)
-        gold = int(gold)
-        profile = users.get_user_profile()
-        profile["user"]["gold"] = gold
-        users.update_user_profile(profile)
-        await interaction.response.send_message(f"set {user.display_name}'s gold to {profile['user']['gold']}", ephemeral=True)
+        gold = main.text_to_num(gold)
+        users.set_gold(gold)
+        await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
 
     @gold.subcommand(name="modify", inherit_hooks=True)
     async def modify_gold(
@@ -171,11 +169,9 @@ class dev_only(commands.Cog, name="Dev Only"):
         if user == None:
             user = interaction.user
         users = Users(user)
-        gold = int(gold)
-        profile = users.get_user_profile()
-        profile["user"]["gold"] += gold
-        profile = users.update_user_profile(profile)
-        await interaction.response.send_message(f"set {user.display_name}'s gold to {profile['user']['gold']}, modified by {gold}", ephemeral=True)
+        gold = main.text_to_num(gold)
+        new_gold = users.modify_gold(gold)
+        await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))

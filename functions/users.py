@@ -1,4 +1,5 @@
 import os
+from turtle import update
 import nextcord
 import random
 import math 
@@ -15,7 +16,7 @@ import nextcord
 class Users():
     """Functions about users."""
     
-    def __init__(self, user):
+    def __init__(self, user: nextcord.User):
         self.user = user
     
     def if_user_present(self):
@@ -158,12 +159,43 @@ class Users():
         else:
             return False
 
-    def modify_gold(self, gold: int):
+    def modify_gold(self, gold_to_modify: int):
         if self.if_user_present() == True:
             users = Users(self.user)
-            profile = users.get_user_profile()
-            profile["user"]["gold"] += gold
-            profile = users.update_user_profile(profile)
-            return [profile, profile["user"]["gold"]]
+            get_gold_query = f"""
+                SELECT gold
+                FROM users
+                WHERE id = {self.user.id}
+            """
+            cursor = db.execute_query(get_gold_query)
+            gold = cursor.fetchall()[0][0]
+            gold += gold_to_modify
+            update_gold_query = f"""
+                UPDATE 
+                    users
+                SET
+                    gold = {str(gold)},
+                WHERE
+                    id = {str(self.user.id)}
+                """
+            db.execute_query(update_gold_query)
+            db.conn.commit()
+            return gold
+        else:
+            return False
+    
+    def set_gold(self, gold_to_set: int):
+        if self.if_user_present() == True:
+            update_gold_query = f"""
+                UPDATE 
+                    users
+                SET
+                    gold = {str(gold_to_set)},
+                WHERE
+                    id = {str(self.user.id)}
+                """
+            db.execute_query(update_gold_query)
+            db.conn.commit()
+            return gold_to_set
         else:
             return False
