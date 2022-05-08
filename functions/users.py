@@ -167,7 +167,7 @@ class Users():
                 WHERE id = {self.user.id}
             """
             cursor = db.execute_query(get_gold_query)
-            gold = cursor.fetchall()[0][0]
+            gold = int(cursor.fetchall()[0][0])
             gold += gold_to_modify
             update_gold_query = f"""
                 UPDATE 
