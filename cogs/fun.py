@@ -160,6 +160,7 @@ class Fun(commands.Cog, name="Fun"):
     ):
         bet_msg = ""
         valid = False
+        bet = 0
         if bet_str != None:
             bet = main.text_to_num(bet_str)
             if bet != False:
