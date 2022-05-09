@@ -151,30 +151,31 @@ class Fun(commands.Cog, name="Fun"):
     async def hit_or_blow(
         self, 
         interaction: Interaction, 
-        bet: str = SlashOption(
+        bet_str: str = SlashOption(
             name = "bet",
             description = "Well, play big or go home. 🏠 MAX 80k",
             required = False,
             default = 0
         )
     ):
-        bet = main.text_to_num(str(bet))
-        users = Users(interaction.user)
-        if bet > users.modify_gold(0):
-            await interaction.response.send_message("You didn't actually have THAT much to lose, do you?", ephemeral=True)
-        elif bet > 80000:
-            await interaction.response.send_message("The max gamble amount is 80k, sorry.")
+        bet = main.text_to_num(str(bet_str))
+        if bet != False:
+            users = Users(interaction.user)
+            if bet > users.modify_gold(0):
+                await interaction.response.send_message("You didn't actually have THAT much to lose, do you?", ephemeral=True)
+            elif bet > 80000:
+                await interaction.response.send_message("The max gamble amount is 80k, sorry.")
+            else:
+                embed = Embed()
+                embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
+                bet_msg = f" ● betting {bet}" if bet != 0 else ""
+                embed.description = f"Click the button to guess a number・`H` for **`HITS`** & `B` for **`BLOWS`**"
+                embed.colour = random.choice(main.embed_colours)
+                embed.set_footer(text=f"0 guesses {bet_msg}")
+                view = HitAndBlowView(interaction, HitAndBlowData(), bet)
+                await interaction.response.send_message(embed=embed, view=view)
         else:
-            embed = Embed()
-            embed.set_author(name=f"{interaction.user.name}'s Hit & Blow Game", icon_url=interaction.user.display_avatar.url)
-            bet_msg = f" ● betting {bet}" if bet != 0 else ""
-            embed.description = f"Click the button to guess a number・`H` for **`HITS`** & `B` for **`BLOWS`**"
-            embed.colour = random.choice(main.embed_colours)
-            embed.set_footer(text=f"0 guesses {bet_msg}")
-            view = HitAndBlowView(interaction, HitAndBlowData(), bet)
-            await interaction.response.send_message(embed=embed, view=view)
-
-    #@nextcord.slash_command(name="slots", description="play a nice game of slots", guild_ids=[main.DEVS_SERVER_ID])
+            await interaction.response.send_message(f"what do you mean by _`{bet_str}`_??? come on gimme a valid value", ephemeral=True)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))

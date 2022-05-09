@@ -181,7 +181,7 @@ class Users():
                 """
             db.execute_query(update_gold_query, (gold, self.user.id,))
             db.conn.commit()
-            return gold
+            return int(gold)
         else:
             return False
     
@@ -197,6 +197,6 @@ class Users():
                 """
             db.execute_query(update_gold_query, (gold_to_set, self.user.id))
             db.conn.commit()
-            return gold_to_set
+            return int(gold_to_set)
         else:
             return False
