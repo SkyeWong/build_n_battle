@@ -44,7 +44,7 @@ class Utility(commands.Cog, name="Utility"):
                 if cmd_in_guild == True:
                     commands.append(application_cmd)
             cog_commands[cog_name] = commands
-        view = HelpView(interaction, cog_commands, cog_commands.keys()[0])
+        view = HelpView(interaction, cog_commands, list(cog_commands.keys())[0])
         await interaction.send(msg)
 
 def setup(bot: commands.Bot):
