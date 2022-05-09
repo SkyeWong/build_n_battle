@@ -155,7 +155,7 @@ class Fun(commands.Cog, name="Fun"):
             name = "bet",
             description = "Well, play big or go home. 🏠 MAX 80k",
             required = False,
-            default = 0
+            default = "0"
         )
     ):
         bet = main.text_to_num(bet_str)
