@@ -63,11 +63,11 @@ class Utility(commands.Cog, name="Utility"):
                     cmd = i
             if cmd_found:
                 embed = Embed()
-                embed.title = f"/{cmd.name} Help"
+                embed.title = f"Info of /{cmd.name}"
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 embed.description = cmd.description
                 cmd_options = [i for i in list(cmd.options.values())]
-                usage = "`"
+                usage = f"`{cmd.name}"
                 for option in cmd_options:
                     if option.required == True:
                         usage += f"<{option.name}> "
@@ -76,6 +76,8 @@ class Utility(commands.Cog, name="Utility"):
                 usage = usage[:-1]
                 usage += "`"
                 embed.add_field(name="Usage", value=usage)
+                embed.colour = random.choice(main.embed_colours)
+                embed.set_footer(text="<required> [optional]")
                 await interaction.send(embed=embed)
             else:
                 await interaction.send("The command is not found! Use `/help` for a list of available commands")
