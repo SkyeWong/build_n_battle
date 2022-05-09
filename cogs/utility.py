@@ -66,7 +66,7 @@ class Utility(commands.Cog, name="Utility"):
                 embed.title = f"/{cmd.name} Help"
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 embed.description = cmd.description
-                cmd_options: list[nextcord.ApplicationCommand] = [i.name for i in list(cmd.options.items())]
+                cmd_options = [i.name for i in list(cmd.options.values())]
                 usage = "`"
                 for option in cmd_options:
                     if option.required == True:
