@@ -57,7 +57,7 @@ class HelpView(View):
             embed.colour = random.choice(main.embed_colours)
             embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
             for cmd in self.cog_commands[cog_name][1]:
-                embed.add_field(name=f"/{cmd.get_signature()[0]}\n")
+                embed.add_field(name=f"/{cmd.get_signature()[0]}\n", value=f"`➼` {cmd.description if len(cmd.description) < 30 else cmd.desciription[-30] + '...'}", inline=False)
             return embed
 
     @select(
