@@ -66,9 +66,9 @@ def text_to_num(text: str):
         elif i[-1] in d:
             # separate out the K, M, or B
             num, magnitude = i[:-1], i[-1]
-            gold += int(float(num) * d[magnitude])
+            gold += int(num) * d[magnitude]
         elif i.isnumeric():
-            gold += float(i)
+            gold += int(i)
         else:
             return False
     return gold

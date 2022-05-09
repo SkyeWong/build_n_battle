@@ -11,3 +11,8 @@ from nextcord.ui import Button, View, button, Modal, TextInput
 import database as db
 from typing import Optional
 from functions.users import Users
+
+class HelpView(View):
+
+    def __init__(self, interaction: Interaction, result, most, least):
+        super().__init__(timeout=180)

@@ -8,6 +8,7 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, ButtonStyle
 from nextcord.ui import Button, View
+from views.utility_views import HelpView
 
 class Utility(commands.Cog, name="Utility"):
 
@@ -43,14 +44,8 @@ class Utility(commands.Cog, name="Utility"):
                 if cmd_in_guild == True:
                     commands.append(application_cmd)
             cogs_commands[cog_name] = commands
-        await interaction.followup.send(msg)
-        slash_cmds = ""
-        for command in bot.get_all_application_commands():
-            if interaction.guild_id in command.guild_ids or command.is_global:
-                name = command.get_signature()[0]
-                slash_cmds += f" `/{name}`"
-        if slash_cmds != "":
-            await interaction.followup.send(slash_cmds)
+
+        await interaction.send(msg)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))

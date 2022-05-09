@@ -148,7 +148,7 @@ class Fun(commands.Cog, name="Fun"):
         await interaction.response.send_message(f"You shook me and some words appeared...\n```md\n# {str(random.choices(responses)[0])}\n```")
 
     @nextcord.slash_command(name="hit-and-blow", description="Play a fun hit & blow game!", guild_ids=[main.DEVS_SERVER_ID])
-    async def hit_or_blow(
+    async def hit_and_blow(
         self, 
         interaction: Interaction, 
         bet_str: str = SlashOption(
@@ -158,7 +158,7 @@ class Fun(commands.Cog, name="Fun"):
             default = 0
         )
     ):
-        bet = main.text_to_num(str(bet_str))
+        bet = main.text_to_num(bet_str)
         if bet != False:
             users = Users(interaction.user)
             if bet > users.modify_gold(0):
