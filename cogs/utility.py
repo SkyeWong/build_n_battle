@@ -51,7 +51,8 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_in_guild = True
                     if cmd_in_guild == True:
                         commands.append(application_cmd)
-                cog_commands[cog_name] = (cog, commands)
+                if len(commands) != 0:
+                    cog_commands[cog_name] = (cog, commands)
             view = HelpView(interaction, cog_commands, "Currency")
             await interaction.send(msg, view=view)
         else:

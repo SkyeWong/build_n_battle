@@ -54,7 +54,11 @@ class HelpView(View):
             return False
         else:
             embed = Embed()
-            embed.set_author(name="Commands", )
+            embed.colour = random.choice(main.embed_colours)
+            embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
+            for cmd in self.cog_commands[cog_name][1]:
+                embed.add_field(name=f"/{cmd.get_signature()[0]}\n")
+            return embed
 
     @select(
         placeholder = "Choose a category...",  
@@ -64,14 +68,12 @@ class HelpView(View):
         custom_id = "cog_select"
     )
     async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
-        cmds = ""
-        for cmd in self.cog_commands[select.values[0]][1]:
-            cmds += f"/{cmd.get_signature()[0]}\n"
+        embed = self.get_help_embed(select.values[0])
         for option in select.options:
             option.default = False
             if option.label == select.values[0]:
                 option.default = True
-        await self.slash_interaction.edit_original_message(content=cmds, view=self)
+        await self.slash_interaction.edit_original_message(embed=embed, view=self)
         await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
     async def on_timeout(self) -> None:

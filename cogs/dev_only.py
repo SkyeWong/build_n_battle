@@ -160,12 +160,15 @@ class dev_only(commands.Cog, name="Dev Only"):
             user = interaction.user
         users = Users(user)
         gold = main.text_to_num(gold)
-        if set_or_modify == 0:
-            users.set_gold(gold)
-            await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
+        if gold:
+            if set_or_modify == 0:
+                users.set_gold(gold)
+                await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
+            else:
+                new_gold = users.modify_gold(gold)
+                await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
         else:
-            new_gold = users.modify_gold(gold)
-            await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
+            await interaction.response.send_message("can't set the gold to that, try again")
                     
 
 def setup(bot: commands.Bot):
