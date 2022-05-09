@@ -67,7 +67,7 @@ class Utility(commands.Cog, name="Utility"):
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 embed.description = cmd.description
                 cmd_options = [i for i in list(cmd.options.values())]
-                usage = f"`{cmd.name}"
+                usage = f"`/{cmd.name} "
                 for option in cmd_options:
                     if option.required == True:
                         usage += f"<{option.name}> "
