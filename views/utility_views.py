@@ -51,5 +51,19 @@ class HelpView(View):
         max_values = 1,
         custom_id = "cog_select"
     )
-    async def select_cog(self, select, interaction: Interaction):
-        pass
+    async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
+        cmds = [f"/{i}\n" for i in self.cog_commands[select.values[0]][1]]
+        await self.slash_interaction.edit_original_message(cmds)
+        await interaction.send(f"you chose the category:{select.values[0]}", ephemeral=True)
+
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.slash_interaction.edit_original_message(view=self)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.slash_interaction.user:
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `{self.slash_interaction.application_command}`", ephemeral=True)
+            return False
+        else:
+            return True
