@@ -96,9 +96,9 @@ class Users():
                     farm_width = %s,
                     farm_height = %s
                 WHERE
-                    user_id = {str(new_profile["user"]["id"])}
+                    user_id = %s
                 """
-            value = (json.dumps(new_profile["farm"]["crops"]), json.dumps(new_profile["farm"]["crop_type"]), new_profile["farm"]["farm_width"], new_profile["farm"]["farm_height"])
+            value = (json.dumps(new_profile["farm"]["crops"]), json.dumps(new_profile["farm"]["crop_type"]), new_profile["farm"]["farm_width"], new_profile["farm"]["farm_height"], new_profile["user"]["id"])
             db.execute_query(update_farms_query, value)
             db.conn.commit()
             update_farms_query = """
@@ -175,7 +175,7 @@ class Users():
                 UPDATE 
                     users
                 SET
-                    gold = %s,
+                    gold = %s
                 WHERE
                     id = %s;
                 """
@@ -191,7 +191,7 @@ class Users():
                 UPDATE 
                     users
                 SET
-                    gold = %s,
+                    gold = %s
                 WHERE
                     id = %s;
                 """
