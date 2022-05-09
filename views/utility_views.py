@@ -52,8 +52,10 @@ class HelpView(View):
         custom_id = "cog_select"
     )
     async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
-        cmds = [f"/{i}\n" for i in self.cog_commands[select.values[0]][1]]
-        await self.slash_interaction.edit_original_message(cmds)
+        cmds = ""
+        for cmd in self.cog_commands[select.values[0]][1]:
+            cmds += f"/{cmd.get_signature()[0]}\n"
+        await self.slash_interaction.edit_original_message(content=cmds)
         await interaction.send(f"you chose the category:{select.values[0]}", ephemeral=True)
 
     async def on_timeout(self) -> None:

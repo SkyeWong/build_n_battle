@@ -29,7 +29,6 @@ class Utility(commands.Cog, name="Utility"):
 
     @nextcord.slash_command(name="help", description="Get a list of commands or info of a specific command.")
     async def help(self, interaction:Interaction):
-        # .get_signature()[0] --> for later use
         cog_commands = {}
         msg = "Help Command"
         for cog_name, cog in self.bot.cogs.items():

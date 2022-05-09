@@ -132,12 +132,11 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="gold", guild_ids=[main.DEVS_SERVER_ID])
-    @application_checks.check(main.check_if_it_is_skye)
-    async def gold(self, interaction: Interaction):
+    @nextcord.slash_command(name="edit", guild_ids=[main.DEVS_SERVER_ID])
+    async def edit(self, interaction: Interaction):
         await interaction.send("use `/set-gold` or `/modify-gold`")
     
-    @gold.subcommand(name="set", inherit_hooks=True)
+    @edit.subcommand(name="gold", inherit_hooks=True)
     async def set_gold(
         self, 
         interaction: Interaction, 
@@ -146,32 +145,28 @@ class dev_only(commands.Cog, name="Dev Only"):
             name = "user",
             required = False,
             default = None
+        ),
+        set_or_modify: int = SlashOption(
+            name = "set-or-modify",
+            description = "Changes the user's gold by a certain value or sets it to the value. DEFAULT: MODIFY",
+            choices = {
+                "set": 0,
+                "modify": 1
+            },
+            default = 1
         )
     ):
         if user == None:
             user = interaction.user
         users = Users(user)
         gold = main.text_to_num(gold)
-        users.set_gold(gold)
-        await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
-
-    @gold.subcommand(name="modify", inherit_hooks=True)
-    async def modify_gold(
-        self, 
-        interaction: Interaction, 
-        gold: str,
-        user: nextcord.Member = SlashOption(
-            name = "user",
-            required = False,
-            default = None
-        )
-    ):
-        if user == None:
-            user = interaction.user
-        users = Users(user)
-        gold = main.text_to_num(gold)
-        new_gold = users.modify_gold(gold)
-        await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
+        if set_or_modify == 0:
+            users.set_gold(gold)
+            await interaction.response.send_message(f"set {user.display_name}'s gold to {gold}", ephemeral=True)
+        else:
+            new_gold = users.modify_gold(gold)
+            await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
+                    
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
