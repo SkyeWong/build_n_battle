@@ -20,16 +20,29 @@ class HelpView(View):
         self.cog_commands = cog_commands
         self.default_cog_name = default_cog_name
         cog_select_menu = [i for i in self.children if i.custom_id == "cog_select"][0]
-        cog_select_menu.options = self.get_cogs_option()
+        cog_select_menu.options = self._get_cogs_option()
     
-    def get_cogs_option(self):
-        selectoptions = []
+    def _get_cogs_option(self) -> list[SelectOption]:
+        options: list[SelectOption] = []
         for cog_name in self.cog_commands:
             default = False
             if cog_name == self.default_cog_name:
                 default = True
-            selectoptions.append(SelectOption(label = cog_name, default = default))
-        return selectoptions
+            cog = self.cog_commands[cog_name][0]
+            emoji = getattr(cog, "COG_EMOJI", None)
+            description = ""
+            if cog.description:
+                if len(cog.description) > 90:
+                    description = f"{cog.description[:90]}..."
+                else:
+                    description = cog.description
+            options.append(SelectOption(
+                label = cog_name, 
+                emoji = emoji,
+                description = description if cog.desciription else None,
+                default = default
+            ))
+        return options
 
     @select(
         placeholder = "Choose a category...",  

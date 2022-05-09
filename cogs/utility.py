@@ -43,7 +43,7 @@ class Utility(commands.Cog, name="Utility"):
                     cmd_in_guild = True
                 if cmd_in_guild == True:
                     commands.append(application_cmd)
-            cog_commands[cog_name] = commands
+            cog_commands[cog_name] = (cog, commands)
         view = HelpView(interaction, cog_commands, list(cog_commands.keys())[0])
         await interaction.send(msg, view=view)
 
