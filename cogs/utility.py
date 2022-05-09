@@ -6,7 +6,7 @@ import random
 import main
 from main import bot
 from nextcord.ext import commands, tasks
-from nextcord import Embed, Interaction, ButtonStyle
+from nextcord import Embed, Interaction, ButtonStyle, SlashOption
 from nextcord.ui import Button, View
 from views.utility_views import HelpView
 
@@ -27,23 +27,33 @@ class Utility(commands.Cog, name="Utility"):
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
 
-    @nextcord.slash_command(name="help", description="Get a list of commands or info of a specific command.")
-    async def help(self, interaction:Interaction):
-        cog_commands = {}
-        msg = "Help Command"
-        for cog_name, cog in self.bot.cogs.items():
-            commands = []
-            for application_cmd in cog.to_register:
-                cmd_in_guild = False
-                if application_cmd.is_global:
-                    cmd_in_guild = True
-                elif interaction.guild_id in application_cmd.guild_ids:
-                    cmd_in_guild = True
-                if cmd_in_guild == True:
-                    commands.append(application_cmd)
-            cog_commands[cog_name] = (cog, commands)
-        view = HelpView(interaction, cog_commands, "Currency")
-        await interaction.send(msg, view=view)
+    @nextcord.slash_command(name="help")
+    async def help(
+        self, 
+        interaction:Interaction,
+        command: str = SlashOption(
+            description = "Get extra info for this command",
+            default = None
+        )
+    ):
+        """Get a list of commands or info of a specific command."""
+        if not command:
+            cog_commands = {}
+            msg = "Help Command"
+            for cog_name, cog in self.bot.cogs.items():
+                commands = []
+                for application_cmd in cog.to_register:
+                    cmd_in_guild = False
+                    if application_cmd.is_global:
+                        cmd_in_guild = True
+                    elif interaction.guild_id in application_cmd.guild_ids:
+                        cmd_in_guild = True
+                    if cmd_in_guild == True:
+                        commands.append(application_cmd)
+                cog_commands[cog_name] = (cog, commands)
+            view = HelpView(interaction, cog_commands, "Currency")
+            await interaction.send(msg, view=view)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))

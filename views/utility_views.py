@@ -44,6 +44,9 @@ class HelpView(View):
             ))
         return options
 
+    def get_help_embed(cog_name):
+        pass
+
     @select(
         placeholder = "Choose a category...",  
         options = [],
@@ -55,6 +58,7 @@ class HelpView(View):
         cmds = ""
         for cmd in self.cog_commands[select.values[0]][1]:
             cmds += f"/{cmd.get_signature()[0]}\n"
+        self.default_cog_name = select.values[0]
         await self.slash_interaction.edit_original_message(content=cmds)
         await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
