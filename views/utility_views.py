@@ -39,7 +39,7 @@ class HelpView(View):
             options.append(SelectOption(
                 label = cog_name, 
                 emoji = emoji,
-                description = description if cog.desciription else None,
+                description = description if cog.description else "...",
                 default = default
             ))
         return options
