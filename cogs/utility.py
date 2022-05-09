@@ -45,7 +45,7 @@ class Utility(commands.Cog, name="Utility"):
                     commands.append(application_cmd)
             cog_commands[cog_name] = commands
         view = HelpView(interaction, cog_commands, list(cog_commands.keys())[0])
-        await interaction.send(msg)
+        await interaction.send(msg, view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))

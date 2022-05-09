@@ -20,7 +20,7 @@ class HelpView(View):
         self.cog_commands = cog_commands
         self.default_cog_name = default_cog_name
         cog_select_menu = [i for i in self.children if i.custom_id == "cog_select"][0]
-        cog_select_menu.options = self.get_cog_option()
+        cog_select_menu.options = self.get_cogs_option()
     
     def get_cogs_option(self):
         selectoptions = []
