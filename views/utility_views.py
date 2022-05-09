@@ -56,7 +56,7 @@ class HelpView(View):
         for cmd in self.cog_commands[select.values[0]][1]:
             cmds += f"/{cmd.get_signature()[0]}\n"
         await self.slash_interaction.edit_original_message(content=cmds)
-        await interaction.send(f"you chose the category:{select.values[0]}", ephemeral=True)
+        await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
     async def on_timeout(self) -> None:
         for i in self.children:

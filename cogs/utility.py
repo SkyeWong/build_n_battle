@@ -33,9 +33,8 @@ class Utility(commands.Cog, name="Utility"):
         msg = "Help Command"
         for cog_name, cog in self.bot.cogs.items():
             commands = []
-            for cmd in cog.get_commands():
-                commands.append(cmd)
             for application_cmd in cog.to_register:
+                cmd_in_guild = False
                 if application_cmd.is_global:
                     cmd_in_guild = True
                 elif interaction.guild_id in application_cmd.guild_ids:
