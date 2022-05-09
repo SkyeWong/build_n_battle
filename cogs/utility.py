@@ -55,22 +55,29 @@ class Utility(commands.Cog, name="Utility"):
             view = HelpView(interaction, cog_commands, "Currency")
             await interaction.send(msg, view=view)
         else:
-            cmd = [i for i in bot.get_all_application_commands() if i == command][0]
-            embed = Embed()
-            embed.title = f"/{cmd} Help"
-            embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
-            embed.description = cmd.description
-            cmd_options: list[nextcord.ApplicationCommand] = [i.name for i in list(cmd.options.items())]
-            usage = "`"
-            for option in cmd_options:
-                if option.required == True:
-                    usage += f"<{option.name}> "
-                else:
-                    usage += f"[{option.name}] "
-            usage = usage[:-1]
-            usage += "`"
-            embed.add_field(name="Usage", value=usage)
-            await interaction.send(embed=embed)
+            cmd_found = False
+            for i in bot.get_all_application_commands():
+                if i.name == command:
+                    cmd_found = True
+                    cmd = i
+            if cmd_found:
+                embed = Embed()
+                embed.title = f"/{cmd.name} Help"
+                embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
+                embed.description = cmd.description
+                cmd_options: list[nextcord.ApplicationCommand] = [i.name for i in list(cmd.options.items())]
+                usage = "`"
+                for option in cmd_options:
+                    if option.required == True:
+                        usage += f"<{option.name}> "
+                    else:
+                        usage += f"[{option.name}] "
+                usage = usage[:-1]
+                usage += "`"
+                embed.add_field(name="Usage", value=usage)
+                await interaction.send(embed=embed)
+            else:
+                await interaction.send("The command is not found! Use `/help` for a list of available commands")
 
 
 def setup(bot: commands.Bot):

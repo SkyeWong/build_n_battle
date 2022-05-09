@@ -44,8 +44,17 @@ class HelpView(View):
             ))
         return options
 
-    def get_help_embed(cog_name):
-        pass
+    def get_help_embed(self, cog_name):
+        exists = False
+        for i in self.cog_commands:
+            if i == cog_name:
+                exists = True
+                break
+        if not exists:
+            return False
+        else:
+            embed = Embed()
+            embed.set_author(name="Commands", )
 
     @select(
         placeholder = "Choose a category...",  
@@ -58,7 +67,10 @@ class HelpView(View):
         cmds = ""
         for cmd in self.cog_commands[select.values[0]][1]:
             cmds += f"/{cmd.get_signature()[0]}\n"
-        self.default_cog_name = select.values[0]
+        for option in select.options:
+            option.default = False
+            if option.label == select.values[0]:
+                option.default = True
         await self.slash_interaction.edit_original_message(content=cmds)
         await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
