@@ -71,7 +71,7 @@ class HelpView(View):
             option.default = False
             if option.label == select.values[0]:
                 option.default = True
-        await self.slash_interaction.edit_original_message(content=cmds)
+        await self.slash_interaction.edit_original_message(content=cmds, view=self)
         await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
     async def on_timeout(self) -> None:
