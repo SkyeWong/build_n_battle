@@ -132,9 +132,9 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="edit", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="edit", description="edit a user's profile or bot items", guild_ids=[main.DEVS_SERVER_ID])
     async def edit(self, interaction: Interaction):
-        await interaction.send("use `/set-gold` or `/modify-gold`")
+        pass
     
     @edit.subcommand(name="gold", inherit_hooks=True)
     async def set_gold(
