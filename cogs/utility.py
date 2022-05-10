@@ -40,7 +40,6 @@ class Utility(commands.Cog, name="Utility"):
         """Get a list of commands or info of a specific command."""
         if not command:
             cog_commands = {}
-            msg = "Help Command"
             for cog_name, cog in self.bot.cogs.items():
                 commands = []
                 for application_cmd in cog.to_register:
@@ -51,17 +50,24 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_in_guild = True
                     if cmd_in_guild == True:
                         commands.append(application_cmd)
-                        print("name", application_cmd.name, "description", application_cmd.description)
                 if len(commands) != 0:
                     cog_commands[cog_name] = (cog, commands)
             view = HelpView(interaction, cog_commands, "Currency")
-            await interaction.send(msg, view=view)
+            embed = view.get_help_embed("Currency")
+            await interaction.send(embed=embed, view=view)
         else:
             cmd_found = False
             for i in bot.get_all_application_commands():
-                if i.name == command:
-                    cmd_found = True
-                    cmd = i
+                cmd_in_guild = False
+                if application_cmd.is_global:
+                        cmd_in_guild = True
+                elif interaction.guild_id in application_cmd.guild_ids:
+                    cmd_in_guild = True
+                if cmd_in_guild == True:
+                    if i.name == command:
+                        cmd_found = True
+                        cmd = i
+                        break
             if cmd_found:
                 embed = Embed()
                 embed.title = f"Info of /{cmd.name}"

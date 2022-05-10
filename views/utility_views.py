@@ -58,8 +58,8 @@ class HelpView(View):
             embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
             for cmd in self.cog_commands[cog_name][1]:
                 description = cmd.description if cmd.description else "..."
-                if len(description) > 30:
-                    description = description[:30] + "..."
+                if len(description) > 50:
+                    description = description[:50] + "..."
                 embed.add_field(name=f"/{cmd.name}\n", value=f"`➸` {description}", inline=False)
             return embed
 
@@ -77,7 +77,6 @@ class HelpView(View):
             if option.label == select.values[0]:
                 option.default = True
         await self.slash_interaction.edit_original_message(embed=embed, view=self)
-        await interaction.send(f"you chose the category: {select.values[0]}", ephemeral=True)
 
     async def on_timeout(self) -> None:
         for i in self.children:
