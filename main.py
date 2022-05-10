@@ -13,7 +13,7 @@ def get_prefix(bot, message): # define get_prefix
             SELECT prefix
             FROM server_prefixes
             WHERE server_id = {message.guild.id}
-            """
+        """
     cursor = db.execute_query(sql)
     server_prefix = cursor.fetchall()[0][0]
     return server_prefix #recieve the prefix for the guild id given

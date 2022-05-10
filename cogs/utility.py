@@ -51,6 +51,7 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_in_guild = True
                     if cmd_in_guild == True:
                         commands.append(application_cmd)
+                        print("name", application_cmd.name, "description", application_cmd.description)
                 if len(commands) != 0:
                     cog_commands[cog_name] = (cog, commands)
             view = HelpView(interaction, cog_commands, "Currency")
@@ -77,7 +78,7 @@ class Utility(commands.Cog, name="Utility"):
                 usage += "`"
                 embed.add_field(name="Usage", value=usage)
                 embed.colour = random.choice(main.embed_colours)
-                embed.set_footer(text="<required> [optional]")
+                embed.set_footer(text="Syntax: <required> [optional]")
                 await interaction.send(embed=embed)
             else:
                 await interaction.send("The command is not found! Use `/help` for a list of available commands")
