@@ -59,9 +59,9 @@ class Utility(commands.Cog, name="Utility"):
             cmd_found = False
             for i in bot.get_all_application_commands():
                 cmd_in_guild = False
-                if application_cmd.is_global:
+                if i.is_global:
                         cmd_in_guild = True
-                elif interaction.guild_id in application_cmd.guild_ids:
+                elif interaction.guild_id in i.guild_ids:
                     cmd_in_guild = True
                 if cmd_in_guild == True:
                     if i.name == command:

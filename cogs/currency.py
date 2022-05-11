@@ -60,9 +60,7 @@ class Currency(commands.Cog, name="Currency"):
             required = False,
             default = None
         )):
-        """Check the profile of your own or others.
-        If you left the `[user]` parameter blank, the bot shows your own profile.
-        Otherwise, it shows other users" profiles."""
+        """Check the profile of your own or others."""
         if user == None:
             user = interaction.user
         users = Users(user)
