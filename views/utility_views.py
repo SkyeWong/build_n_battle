@@ -90,7 +90,7 @@ class HelpView(View):
         custom_id = "cog_select"
     )
     async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
-        embed = self.help_embed(self.mapping[select.values[0]])
+        embed = self.help_embed(self.mapping[select.values[0]][1])
         for option in select.options:
             option.default = False
             if option.label == select.values[0]:
