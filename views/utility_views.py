@@ -58,9 +58,9 @@ class HelpView(View):
             avatar = bot.user.avatar or bot.user.default_avatar
             embed.set_author(name="Commands", icon_url=avatar.url)
         if not command_list:
-            for cog_name, cog in self.bot.cogs.items():
+            for cog_name in self.mapping:
                 if cog_name == self.default_cog_name:
-                    command_list = cog.to_register
+                    command_list = self.mapping[cog_name][0].to_register
                     break
         filtered = []
         for i in command_list:
