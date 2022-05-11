@@ -14,21 +14,21 @@ from functions.users import Users
 
 class HelpView(View):
 
-    def __init__(self, slash_interaction: Interaction, cog_commands: dict, default_cog_name: str):
+    def __init__(self, slash_interaction: Interaction, mapping: dict, default_cog_name: str):
         super().__init__(timeout=180)
         self.slash_interaction = slash_interaction
-        self.cog_commands = cog_commands
+        self.mapping = mapping
         self.default_cog_name = default_cog_name
         cog_select_menu = [i for i in self.children if i.custom_id == "cog_select"][0]
         cog_select_menu.options = self._get_cogs_option()
     
     def _get_cogs_option(self) -> list[SelectOption]:
         options: list[SelectOption] = []
-        for cog_name in self.cog_commands:
+        for cog_name in self.mapping:
             default = False
             if cog_name == self.default_cog_name:
                 default = True
-            cog = self.cog_commands[cog_name][0]
+            cog = self.mapping[cog_name][0]
             emoji = getattr(cog, "COG_EMOJI", None)
             description = ""
             if cog.description:
@@ -46,7 +46,7 @@ class HelpView(View):
 
     def get_help_embed(self, cog_name):
         exists = False
-        for i in self.cog_commands:
+        for i in self.mapping:
             if i == cog_name:
                 exists = True
                 break
@@ -56,7 +56,7 @@ class HelpView(View):
             embed = Embed()
             embed.colour = random.choice(main.embed_colours)
             embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
-            for cmd in self.cog_commands[cog_name][1]:
+            for cmd in self.mapping[cog_name][1]:
                 description = cmd.description if cmd.description else "..."
                 description = f"{description[:50]}..." if len(description) > 50 else description
                 embed.add_field(name=f"/{cmd.name}\n", value=f"`➸` {description}", inline=False)

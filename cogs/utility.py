@@ -53,8 +53,9 @@ class Utility(commands.Cog, name="Utility"):
                 if len(commands) != 0:
                     cog_commands[cog_name] = (cog, commands)
             view = HelpView(interaction, cog_commands, "Currency")
-            embed = view.get_help_embed("Currency")
-            await interaction.send(embed=embed, view=view)
+            #embed = view.get_help_embed("Currency")
+            #await interaction.send(embed=embed, view=view)
+            await interaction.send("Help Command", view=view)
         else:
             cmd_found = False
             for i in bot.get_all_application_commands():
