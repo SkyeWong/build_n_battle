@@ -39,7 +39,7 @@ class Utility(commands.Cog, name="Utility"):
     ):
         """Get a list of commands or info of a specific command."""
         if not command:
-            cog_commands = {}
+            mapping = {}
             for cog_name, cog in self.bot.cogs.items():
                 commands = []
                 for application_cmd in cog.to_register:
@@ -51,9 +51,9 @@ class Utility(commands.Cog, name="Utility"):
                     if cmd_in_guild == True:
                         commands.append(application_cmd)
                 if len(commands) != 0:
-                    cog_commands[cog_name] = (cog, commands)
-            view = HelpView(interaction, cog_commands, "Currency")
-            embed = view.get_help_embed("Currency")
+                    mapping[cog_name] = (cog, commands)
+            view = HelpView(interaction, mapping, "Currency")
+            embed = view.help_embed()
             await interaction.send(embed=embed, view=view)
         else:
             cmd_found = False

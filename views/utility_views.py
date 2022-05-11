@@ -44,23 +44,43 @@ class HelpView(View):
             ))
         return options
 
-    def get_help_embed(self, cog_name):
-        exists = False
-        for i in self.mapping:
-            if i == cog_name:
-                exists = True
-                break
-        if not exists:
-            return False
-        else:
-            embed = Embed()
-            embed.colour = random.choice(main.embed_colours)
-            embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
-            for cmd in self.mapping[cog_name][1]:
-                description = cmd.description if cmd.description else "..."
-                description = f"{description[:50]}..." if len(description) > 50 else description
-                embed.add_field(name=f"/{cmd.name}\n", value=f"`➸` {description}", inline=False)
-            return embed
+    def help_embed(
+        self, 
+        description: Optional[str] = None, 
+        command_list: Optional[list[nextcord.ApplicationCommand]] = None, 
+        set_author: bool = True
+    ):
+        embed = Embed()
+        embed.colour = random.choice(main.embed_colours)
+        if description:
+            embed.description = description
+        if set_author:
+            avatar = bot.user.avatar or bot.user.default_avatar
+            embed.set_author(name="Commands", icon_url=avatar.url)
+        if not command_list:
+            for cog_name, cog in self.bot.cogs.items():
+                if cog_name == self.default_cog_name:
+                    command_list = cog.to_register
+                    break
+        filtered = []
+        for i in command_list:
+            cmd_in_guild = False
+            if i.is_global:
+                cmd_in_guild = True
+            elif self.slash_interaction.guild_id in i.guild_ids:
+                cmd_in_guild = True
+            if cmd_in_guild == True:
+                filtered.append(i)
+        for cmd in filtered:
+            value = cmd.description if cmd.description else "..."
+            if len(value) > 50:
+                value = f"{description[:50]}..."
+            embed.add_field(
+                name = cmd.name,
+                value = f"`➸` {value}",
+                inline = False
+            )
+        return embed
 
     @select(
         placeholder = "Choose a category...",  
