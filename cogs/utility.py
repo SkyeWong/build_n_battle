@@ -40,7 +40,7 @@ class Utility(commands.Cog, name="Utility"):
         """Get a list of commands or info of a specific command."""
         if not command:
             mapping = {}
-            for cog_name, cog in self.bot.cogs.items():
+            for cog_name, cog in bot.cogs.items():
                 commands = []
                 for application_cmd in cog.to_register:
                     cmd_in_guild = False
