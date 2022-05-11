@@ -58,8 +58,7 @@ class HelpView(View):
             embed.set_author(name="Commands", icon_url=bot.user.display_avatar.url)
             for cmd in self.cog_commands[cog_name][1]:
                 description = cmd.description if cmd.description else "..."
-                if len(description) > 50:
-                    description = description[:50] + "..."
+                description = f"{description[:50]}..." if len(description) > 50 else description
                 embed.add_field(name=f"/{cmd.name}\n", value=f"`➸` {description}", inline=False)
             return embed
 
