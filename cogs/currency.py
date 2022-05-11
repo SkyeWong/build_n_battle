@@ -5,7 +5,7 @@ import main
 from main import bot
 from datetime import datetime
 from nextcord.ext import commands
-from nextcord import Embed, Interaction
+from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 import database as db
 from typing import Optional
@@ -50,13 +50,21 @@ class Currency(commands.Cog, name="Currency"):
         else:
             await ctx.send("You are already a player!")
 
-    @commands.command(name="profile")
-    async def profile(self, ctx, user: nextcord.Member=None):
+    @nextcord.slash_command(name="profile")
+    async def profile(
+        self,
+        interaction: Interaction, 
+        user: nextcord.Member = SlashOption(
+            name = "user",
+            description = "The user to check the profile",
+            required = False,
+            default = None
+        )):
         """Check the profile of your own or others.
         If you left the `[user]` parameter blank, the bot shows your own profile.
         Otherwise, it shows other users" profiles."""
         if user == None:
-            user = ctx.author
+            user = interaction.user
         users = Users(user)
         if users.if_user_present() == False:
             users.create_user_profile()
@@ -70,7 +78,7 @@ class Currency(commands.Cog, name="Currency"):
         profile_ui.add_field(name="XP", value=f'{xp}/{main.roundup(xp, 100) if xp != 0 else 100}', inline=False)
         profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
         profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
-        profile_msg = await ctx.send(embed=profile_ui)
+        profile_msg = await interaction.send(embed=profile_ui)
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)
