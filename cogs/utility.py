@@ -38,7 +38,7 @@ class Utility(commands.Cog, name="Utility"):
         )
     ):
         """Get a list of commands or info of a specific command."""
-        mapping = self.get_mapping(interaction)
+        mapping = main.get_mapping(interaction)
         if not command:
             view = HelpView(interaction, mapping, "Currency")
             embed = view.help_embed()
