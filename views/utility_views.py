@@ -74,7 +74,7 @@ class HelpView(View):
         for cmd in filtered:
             value = cmd.description if cmd.description else "..."
             if len(value) > 50:
-                value = f"{description[:50]}..."
+                value = f"{value[:50]}..."
             embed.add_field(
                 name = cmd.name,
                 value = f"`➸` {value}",
