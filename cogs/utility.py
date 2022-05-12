@@ -30,7 +30,7 @@ class Utility(commands.Cog, name="Utility"):
     @nextcord.slash_command(name="help")
     async def help(
         self, 
-        interaction:Interaction,
+        interaction: Interaction,
         command: str = SlashOption(
             description = "Get extra info for this command",
             default = None,
@@ -38,53 +38,46 @@ class Utility(commands.Cog, name="Utility"):
         )
     ):
         """Get a list of commands or info of a specific command."""
+        mapping = self.get_mapping(interaction)
         if not command:
-            mapping = {}
-            for cog_name, cog in bot.cogs.items():
-                commands = []
-                for application_cmd in cog.to_register:
-                    cmd_in_guild = False
-                    if application_cmd.is_global:
-                        cmd_in_guild = True
-                    elif interaction.guild_id in application_cmd.guild_ids:
-                        cmd_in_guild = True
-                    if cmd_in_guild == True:
-                        commands.append(application_cmd)
-                if len(commands) != 0:
-                    mapping[cog_name] = (cog, commands)
             view = HelpView(interaction, mapping, "Currency")
             embed = view.help_embed()
             await interaction.send(embed=embed, view=view)
         else:
             cmd_found = False
-            for i in bot.get_all_application_commands():
-                cmd_in_guild = False
-                if i.is_global:
+            for cog, commands in mapping.values():
+                for i in commands:
+                    cmd_in_guild = False
+                    if i.is_global:
+                            cmd_in_guild = True
+                    elif interaction.guild_id in i.guild_ids:
                         cmd_in_guild = True
-                elif interaction.guild_id in i.guild_ids:
-                    cmd_in_guild = True
-                if cmd_in_guild == True:
-                    if i.name == command:
-                        cmd_found = True
-                        cmd = i
-                        break
+                    if cmd_in_guild == True:
+                        if i.name == command:
+                            cmd_found = True
+                            cmd = i
+                            break
             if cmd_found:
                 embed = Embed()
                 embed.title = f"Info of /{cmd.name}"
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
-                embed.description = cmd.description
-                cmd_options = [i for i in list(cmd.options.values())]
-                usage = f"`/{cmd.name} "
-                for option in cmd_options:
-                    if option.required == True:
-                        usage += f"<{option.name}> "
-                    else:
-                        usage += f"[{option.name}] "
-                usage = usage[:-1]
-                usage += "`"
-                embed.add_field(name="Usage", value=usage)
+                if len(cmd.children) > 0:
+                    view = HelpView(interaction, mapping, "Currency")
+                    embed = view.help_embed(command_list=cmd.children.values())
+                else:
+                    embed.description = cmd.description
+                    cmd_options = [i for i in list(cmd.options.values())]
+                    usage = f"`/{cmd.name} "
+                    for option in cmd_options:
+                        if option.required == True:
+                            usage += f"<{option.name}> "
+                        else:
+                            usage += f"[{option.name}] "
+                    usage = usage[:-1]
+                    usage += "`"
+                    embed.add_field(name="Usage", value=usage)
+                    embed.set_footer(text="Syntax: <required> [optional]")
                 embed.colour = random.choice(main.embed_colours)
-                embed.set_footer(text="Syntax: <required> [optional]")
                 await interaction.send(embed=embed)
             else:
                 await interaction.send("The command is not found! Use `/help` for a list of available commands")
