@@ -61,30 +61,19 @@ class HelpView(View):
         if not command_list:
             for cog_name in self.mapping:
                 if cog_name == self.default_cog_name:
-                    command_list = self.mapping[cog_name][0].to_register
+                    command_list = self.mapping[cog_name][1]
                     break
         filtered = []
         for i in command_list:
             cmd_in_guild = False
-            if isinstance(i, nextcord.ApplicationSubcommand):
-                parent_cmd = i.parent_command
-                if parent_cmd.is_global:
-                    cmd_in_guild = True
-                elif self.slash_interaction.guild_id in parent_cmd.guild_ids:
-                    cmd_in_guild = True
-                if parent_cmd.checks != None:
-                    for i in parent_cmd.checks:
-                        if not i():
-                            cmd_in_guild = False
-            else:
-                if i.is_global:
-                    cmd_in_guild = True
-                elif self.slash_interaction.guild_id in i.guild_ids:
-                    cmd_in_guild = True
-                if parent_cmd.checks != None:
-                    for i in parent_cmd.checks:
-                        if not i():
-                            cmd_in_guild = False
+            if i.is_global:
+                cmd_in_guild = True
+            elif self.slash_interaction.guild_id in i.guild_ids:
+                cmd_in_guild = True
+            if i.checks != None:
+                for i in i.checks:
+                    if not i():
+                        cmd_in_guild = False
             if cmd_in_guild == True:
                 filtered.append(i)
         for cmd in filtered:
