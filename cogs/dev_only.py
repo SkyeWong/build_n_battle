@@ -140,7 +140,9 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def gold(
         self, 
         interaction: Interaction, 
-        gold: str,
+        gold: str = SlashOption(
+            name = "gold"
+        ),
         user: nextcord.Member = SlashOption(
             name = "user",
             required = False,
@@ -167,6 +169,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             else:
                 new_gold = users.modify_gold(gold)
                 await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
+            skye = await bot.fetch_user(806334528230129695)
+            await skye.send(f"<@{interaction.user.id}> set <@{user.id}> to {gold}")
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
                     
