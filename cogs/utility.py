@@ -76,7 +76,7 @@ class Utility(commands.Cog, name="Utility"):
                 else:
                     embed.description = cmd.description
                     cmd_options = [i for i in list(cmd.options.values())]
-                    usage = f"`/{cmd.name} "
+                    usage = f"`/{name} "
                     for option in cmd_options:
                         if option.required == True:
                             usage += f"<{option.name}> "

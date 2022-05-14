@@ -113,7 +113,7 @@ class HelpView(View):
 
     async def interaction_check(self, interaction) -> bool:
         if interaction.user != self.slash_interaction.user:
-            await interaction.response.send_message(f"This is not for you, sorry.\nUse `{self.slash_interaction.application_command}`", ephemeral=True)
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `/{self.slash_interaction.application_command}`", ephemeral=True)
             return False
         else:
             return True

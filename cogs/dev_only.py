@@ -141,7 +141,8 @@ class dev_only(commands.Cog, name="Dev Only"):
         self, 
         interaction: Interaction, 
         gold: str = SlashOption(
-            name = "gold"
+            name = "gold",
+            required = True
         ),
         user: nextcord.Member = SlashOption(
             name = "user",
@@ -155,6 +156,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 "set": 0,
                 "modify": 1
             },
+            required = True,
             default = 1
         )
     ):
