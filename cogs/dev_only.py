@@ -156,7 +156,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 "set": 0,
                 "modify": 1
             },
-            required = True,
+            required = False,
             default = 1
         )
     ):
