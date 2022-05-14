@@ -65,10 +65,25 @@ class HelpView(View):
         filtered = []
         for i in command_list:
             cmd_in_guild = False
-            if i.is_global:
-                cmd_in_guild = True
-            elif self.slash_interaction.guild_id in i.guild_ids:
-                cmd_in_guild = True
+            if isinstance(i, nextcord.ApplicationSubcommand):
+                parent_cmd = i.parent_command
+                if parent_cmd.is_global:
+                    cmd_in_guild = True
+                elif self.slash_interaction.guild_id in parent_cmd.guild_ids:
+                    cmd_in_guild = True
+                if parent_cmd.checks != None:
+                    for i in parent_cmd.checks:
+                        if not i():
+                            cmd_in_guild = False
+            else:
+                if i.is_global:
+                    cmd_in_guild = True
+                elif self.slash_interaction.guild_id in i.guild_ids:
+                    cmd_in_guild = True
+                if parent_cmd.checks != None:
+                    for i in parent_cmd.checks:
+                        if not i():
+                            cmd_in_guild = False
             if cmd_in_guild == True:
                 filtered.append(i)
         for cmd in filtered:
