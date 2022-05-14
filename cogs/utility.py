@@ -67,7 +67,7 @@ class Utility(commands.Cog, name="Utility"):
                                     break
             if cmd_found:
                 embed = Embed()
-                name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else cmd.full_parent_name
+                name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}"
                 embed.title = f"Info of /{name}"
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 if len(cmd.children) > 0:
