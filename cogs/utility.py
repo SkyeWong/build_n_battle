@@ -57,7 +57,7 @@ class Utility(commands.Cog, name="Utility"):
                             cmd_found = True
                             cmd = i
                             break
-                        subcommands = i.children
+                        subcommands = i.children.values()
                         if len(subcommands) > 0:
                             for x in subcommands:
                                 subcmd_name = x.name
