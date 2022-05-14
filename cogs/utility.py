@@ -40,7 +40,7 @@ class Utility(commands.Cog, name="Utility"):
         """Get a list of commands or info of a specific command."""
         mapping = main.get_mapping(interaction)
         if not command:
-            view = HelpView(interaction, mapping, "Currency")
+            view = HelpView(interaction, mapping)
             embed = view.help_embed()
             await interaction.send(embed=embed, view=view)
         else:
@@ -57,13 +57,22 @@ class Utility(commands.Cog, name="Utility"):
                             cmd_found = True
                             cmd = i
                             break
+                        subcommands = i.children
+                        if len(subcommands) > 0:
+                            for x in subcommands:
+                                subcmd_name = x.name
+                                if command == f"{i} {subcmd_name}":
+                                    cmd_found = True
+                                    cmd = x
+                                    break
             if cmd_found:
                 embed = Embed()
-                embed.title = f"Info of /{cmd.name}"
+                name = f"{cmd.parent.name} {cmd.name}" if isinstance(cmd, nextcord.ApplicationSubcommand) else cmd.name
+                embed.title = f"Info of /{name}"
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 if len(cmd.children) > 0:
-                    view = HelpView(interaction, mapping, "Currency")
-                    embed = view.help_embed(command_list=cmd.children.values())
+                    view = HelpView(interaction, mapping)
+                    embed = view.help_embed(command_list=cmd.children.values(), author_name=embed.title)
                 else:
                     embed.description = cmd.description
                     cmd_options = [i for i in list(cmd.options.values())]

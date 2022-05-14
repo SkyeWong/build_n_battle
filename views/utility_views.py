@@ -14,7 +14,7 @@ from functions.users import Users
 
 class HelpView(View):
 
-    def __init__(self, slash_interaction: Interaction, mapping: dict, default_cog_name: str):
+    def __init__(self, slash_interaction: Interaction, mapping: dict, default_cog_name: str = "Currency"):
         super().__init__(timeout=180)
         self.slash_interaction = slash_interaction
         self.mapping = mapping
@@ -48,7 +48,8 @@ class HelpView(View):
         self, 
         description: Optional[str] = None, 
         command_list: Optional[list[nextcord.ApplicationCommand]] = None, 
-        set_author: bool = True
+        set_author: bool = True,
+        author_name: str = "Commands"
     ):
         embed = Embed()
         embed.colour = random.choice(main.embed_colours)
@@ -56,7 +57,7 @@ class HelpView(View):
             embed.description = description
         if set_author:
             avatar = bot.user.avatar or bot.user.default_avatar
-            embed.set_author(name="Commands", icon_url=avatar.url)
+            embed.set_author(name=author_name, icon_url=avatar.url)
         if not command_list:
             for cog_name in self.mapping:
                 if cog_name == self.default_cog_name:
