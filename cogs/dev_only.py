@@ -175,6 +175,17 @@ class dev_only(commands.Cog, name="Dev Only"):
             await skye.send(f"<@{interaction.user.id}> set <@{user.id}> to {gold}")
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
+    
+    @edit.subcommand(name="item", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
+    async def item(
+        self, 
+        interaction: Interaction,
+        itemname: str = SlashOption(
+            description="The item to edit",
+            choices = main.get_all_item_names()
+        )
+    ):
+        pass
                     
 
 def setup(bot: commands.Bot):

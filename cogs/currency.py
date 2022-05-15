@@ -82,7 +82,7 @@ class Currency(commands.Cog, name="Currency"):
     async def item(
         self, 
         interaction: Interaction, 
-        item: str = SlashOption(
+        itemname: str = SlashOption(
             description = "The item to search for",
             choices = main.get_all_item_names()
         )
@@ -95,7 +95,7 @@ class Currency(commands.Cog, name="Currency"):
             ORDER BY name ASC
             LIMIT 1
         """
-        cursor = db.execute_query(sql, (f"%{item}%",) * 2)
+        cursor = db.execute_query(sql, (f"%{itemname}%",) * 2)
         results = cursor.fetchall()
         if len(results) == 0:
             await interaction.send("The item is not found!")
@@ -104,7 +104,7 @@ class Currency(commands.Cog, name="Currency"):
             item = results[0]
             for i in range(len(item)):
                 msg += f"\n`{cursor.description[i][0]}` {item[i]}"
-            msg += f"\n<:{item[3]}:{item[4]}"
+            msg += f"\n<:{item[3]}:{item[4]}>"
             await interaction.send(msg)
         
     @commands.command(name="buttons")

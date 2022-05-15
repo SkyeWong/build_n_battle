@@ -9,7 +9,7 @@ import main
 from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction
-from nextcord.ui import Button, View, button
+from nextcord.ui import Button, View, button, Modal
 
 class EmojiView(View):
     
@@ -96,3 +96,11 @@ class EmojiView(View):
             return False
         else:
             return True
+
+class EditItemView(View):
+    def __init__(self, slash_interaction: Interaction):
+        super().__init__(timeout=30)
+        self.slash_interaction = slash_interaction
+
+class EditItemModal(Modal):
+    pass
