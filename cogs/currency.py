@@ -78,7 +78,7 @@ class Currency(commands.Cog, name="Currency"):
         profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
         profile_msg = await interaction.send(embed=profile_ui)
 
-    @nextcord.slash_command(name="item")
+    @nextcord.slash_command(name="item", guild_ids=[main.DEVS_SERVER_ID])
     async def item(
         self, 
         interaction: Interaction, 
