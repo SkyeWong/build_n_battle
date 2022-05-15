@@ -101,8 +101,10 @@ class Currency(commands.Cog, name="Currency"):
             await interaction.send("The item is not found!")
         else:
             msg = ""
-            for i in range(len(results[0])):
-                msg += f"\n`{cursor.description[i]}` {results[0][i]}"
+            item = results[0]
+            for i in range(len(item)):
+                msg += f"\n`{cursor.description[i][0]}` {item[i]}"
+            msg += f"\n<:{item[4]}:{item[5]}"
             await interaction.send(msg)
         
     @commands.command(name="buttons")
