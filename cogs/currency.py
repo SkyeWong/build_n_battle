@@ -87,6 +87,7 @@ class Currency(commands.Cog, name="Currency"):
             choices = main.get_all_item_names()
         )
     ):
+        """Get information of an item."""
         sql = """
             SELECT * 
             FROM items

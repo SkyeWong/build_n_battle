@@ -95,7 +95,7 @@ def get_all_item_names():
     FROM items
     """
     cursor = db.execute_query(sql)
-    return cursor.fetchall()
+    return cursor.fetchall()[0]
 
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":
