@@ -77,6 +77,31 @@ class Currency(commands.Cog, name="Currency"):
         profile_ui.add_field(name="Farm Width", value=f'{user_profile["farm"]["farm_width"]} crops', inline=False)
         profile_ui.add_field(name="Farm Height", value=f'{user_profile["farm"]["farm_height"]} crops', inline=False)
         profile_msg = await interaction.send(embed=profile_ui)
+
+    @nextcord.slash_command(name="item")
+    async def item(
+        self, 
+        interaction: Interaction, 
+        item: str = SlashOption(
+            description = "The item to search for"
+        )
+    ):
+        sql = """
+            SELECT * 
+            FROM items
+            WHERE name LIKE '%s' or emoji_name LIKE '%s'
+            ORDER BY name ASC
+            LIMIT 1
+        """
+        cursor = db.execute_query(sql, (f"%{item}%",) * 2)
+        results = cursor.fetchall()
+        if len(results) == 0:
+            await interaction.send("The item is not found!")
+        else:
+            msg = ""
+            for i in range(results[0]()):
+                msg += f"\n`{cursor.description[i]}` {results[0][i]}"
+            await interaction.send(msg)
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)

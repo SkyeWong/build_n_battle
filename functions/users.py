@@ -13,7 +13,7 @@ from typing import Optional
 import nextcord
 
 class Users():
-    """Functions about users."""
+    """Functions for users."""
     
     def __init__(self, user: nextcord.User):
         self.user = user
@@ -200,3 +200,6 @@ class Users():
             return int(gold_to_set)
         else:
             return False
+
+    def get_inv(self):
+        pass
