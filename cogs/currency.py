@@ -83,13 +83,14 @@ class Currency(commands.Cog, name="Currency"):
         self, 
         interaction: Interaction, 
         item: str = SlashOption(
-            description = "The item to search for"
+            description = "The item to search for",
+            choices = main.get_all_item_names()
         )
     ):
         sql = """
             SELECT * 
             FROM items
-            WHERE name LIKE '%s' or emoji_name LIKE '%s'
+            WHERE name LIKE %s or emoji_name LIKE %s
             ORDER BY name ASC
             LIMIT 1
         """

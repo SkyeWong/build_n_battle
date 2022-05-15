@@ -74,23 +74,28 @@ def text_to_num(text: str):
     return gold
 
 def get_mapping(interaction: Interaction):
-        mapping = {}
-        for cog_name, cog in bot.cogs.items():
-            commands = []
-            for application_cmd in cog.to_register:
-                cmd_in_guild = False
-                if application_cmd.is_global:
-                    cmd_in_guild = True
-                elif interaction.guild_id in application_cmd.guild_ids:
-                    cmd_in_guild = True
-                if cmd_in_guild == True:
-                    commands.append(application_cmd)
-            if len(commands) != 0:
-                mapping[cog_name] = (cog, commands)
-        return mapping
+    mapping = {}
+    for cog_name, cog in bot.cogs.items():
+        commands = []
+        for application_cmd in cog.to_register:
+            cmd_in_guild = False
+            if application_cmd.is_global:
+                cmd_in_guild = True
+            elif interaction.guild_id in application_cmd.guild_ids:
+                cmd_in_guild = True
+            if cmd_in_guild == True:
+                commands.append(application_cmd)
+        if len(commands) != 0:
+            mapping[cog_name] = (cog, commands)
+    return mapping
     
-def get_command_options(interaction: Interaction):
-    mapping = get_mapping(interaction)
+def get_all_item_names():
+    sql = """
+    SELECT * 
+    FROM items
+    """
+    cursor = db.execute_query(sql)
+    return cursor.fetchall()
 
 for filename in os.listdir(f"cogs"):
     if filename.endswith("py") and filename != "__init__.py":
