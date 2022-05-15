@@ -91,7 +91,7 @@ def get_mapping(interaction: Interaction):
     
 def get_all_item_names():
     sql = """
-    SELECT * 
+    SELECT name
     FROM items
     """
     cursor = db.execute_query(sql)
