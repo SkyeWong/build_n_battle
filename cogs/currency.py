@@ -104,7 +104,7 @@ class Currency(commands.Cog, name="Currency"):
             item = results[0]
             for i in range(len(item)):
                 msg += f"\n`{cursor.description[i][0]}` {item[i]}"
-            msg += f"\n<:{item[3]}:{item[4]}>"
+            msg += f"\n<:{item[2]}:{item[3]}>"
             await interaction.send(msg)
         
     @commands.command(name="buttons")
