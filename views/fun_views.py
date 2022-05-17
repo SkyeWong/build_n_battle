@@ -211,5 +211,5 @@ class HappyBirthdayView(View):
         question = random.choice(self.questions)
         msg = question["question"]
         for i in question["answers"]:
-            msg += f"{i}, {'correct' if question['answers'][i] else 'wrong'}"
+            msg += f"\n{i}, {'correct' if question['answers'][i] else 'wrong'}"
         return msg
