@@ -11,7 +11,7 @@ from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
-from views.fun_views import Analysis, HitAndBlowView, HitAndBlowData
+from views.fun_views import Analysis, HitAndBlowView, HitAndBlowData, HappyBirthdayView
 from functions.users import Users
 class Fun(commands.Cog, name="Fun"):
 
@@ -186,6 +186,64 @@ class Fun(commands.Cog, name="Fun"):
             embed.set_footer(text=f"0 guesses {bet_msg}")
             view = HitAndBlowView(interaction, HitAndBlowData(), bet)
             await interaction.response.send_message(embed=embed, view=view)
+    
+    @nextcord.slash_command(name="happy-birthday-hoho", description="Happy Birthday! 🎉 Use this on 25/5", guild_ids=[main.DEVS_SERVER_ID])
+    async def happy_birthday_hoho(self, interaction: Interaction):
+        questions = [
+            {
+                "question": "Choose A",
+                "answers": {
+                    "A": True,
+                    "B": False,
+                    "C": False,
+                    "D": False,
+                    "E": False,
+                }
+            },
+            {
+                "question": "Choose B",
+                "answers": {
+                    "A": False,
+                    "B": True,
+                    "C": False,
+                    "D": False,
+                    "E": False,
+                }
+            },
+            {
+                "question": "Choose C",
+                "answers": {
+                    "A": False,
+                    "B": False,
+                    "C": True,
+                    "D": False,
+                    "E": False,
+                }
+            },
+            {
+                "question": "Choose D",
+                "answers": {
+                    "A": False,
+                    "B": False,
+                    "C": False,
+                    "D": True,
+                    "E": False,
+                }
+            },
+            {
+                "question": "Choose E",
+                "answers": {
+                    "A": False,
+                    "B": False,
+                    "C": False,
+                    "D": False,
+                    "E": True,
+                }
+            }
+        ]
+        view = HappyBirthdayView(interaction, questions)
+        embed = view.get_question_embed()
+        await interaction.send(embed)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))

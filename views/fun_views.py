@@ -128,7 +128,7 @@ class HitAndBlowModal(Modal):
     def __init__(self, btn_class: View, slash_interaction: Interaction, btn_interaction: Interaction, data_class, bet: int):
         super().__init__(
             title = "Hit & Blow",
-            timeout=None
+            timeout = None
         )
         self.btn_class = btn_class
         self.slash_interaction = slash_interaction
@@ -198,3 +198,18 @@ class HitAndBlowModal(Modal):
         else:
             msg_embed.add_field(name="⚠️ ERROR!", value="The inputted value is not a four-digit number", inline=False)
         await self.slash_interaction.edit_original_message(embed=msg_embed)
+
+class HappyBirthdayView(View):
+    
+    def __init__(self, slash_interaction: Interaction, questions: list[dict]):
+        super().__init__(timeout=180)
+        self.questions = questions
+        self.slash_interaction = slash_interaction
+        self.get_question_embed()
+
+    def get_question_embed(self):
+        question = random.choice(self.questions)
+        msg = question["question"]
+        for i in question["answers"]:
+            msg += f"{i}, {'correct' if question['answers'][i] else 'wrong'}"
+        return msg

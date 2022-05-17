@@ -89,7 +89,7 @@ class Currency(commands.Cog, name="Currency"):
     ):
         """Get information of an item."""
         sql = """
-            SELECT * 
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
             FROM items
             WHERE name LIKE %s or emoji_name LIKE %s
             ORDER BY name ASC

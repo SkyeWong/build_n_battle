@@ -1,15 +1,14 @@
-import os
 from nextcord import ButtonStyle
 import nextcord
-import json 
+import database as db
 from datetime import datetime
 import random
 import asyncio
 import main
 from main import bot
-from nextcord.ext import commands, tasks
+from nextcord.ext import commands
 from nextcord import Embed, Interaction
-from nextcord.ui import Button, View, button, Modal
+from nextcord.ui import Button, View, button, Modal, TextInput
 
 class EmojiView(View):
     
@@ -103,4 +102,24 @@ class EditItemView(View):
         self.slash_interaction = slash_interaction
 
 class EditItemModal(Modal):
-    pass
+    def __init__(self, itemname):
+        super().__init__(
+            title = f"Edit the item {itemname}",
+            timeout = None
+        )
+        self.itemname = itemname
+        sql = """
+            SHOW COLUMNS
+            FROM items
+        """
+        cursor = db.execute_query(sql)
+        results = cursor.fetchall()
+        self.inputs = []
+        if results > 0:
+            self.inputs.append(
+                TextInput(
+                    label = "",
+                    min_length = 4,
+                    max_length = 4
+                )
+            )
