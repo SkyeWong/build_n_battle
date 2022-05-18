@@ -7,7 +7,7 @@ from main import bot
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord import Embed, SelectOption, Interaction
-from nextcord.ui import Button, View, button, Modal, TextInput
+from nextcord.ui import Button, View, button, Modal, TextInput, select, Select
 import database as db
 from typing import Optional
 from functions.users import Users
@@ -57,7 +57,7 @@ class HitAndBlowData():
 class HitAndBlowView(View):
 
     def __init__(self, slash_interaction: Interaction, data_class, bet: int):
-        super().__init__(timeout=30)
+        super().__init__(timeout=1800)
         self.slash_interaction = slash_interaction
         self.data_class = data_class
         self.bet = bet
@@ -204,12 +204,37 @@ class HappyBirthdayView(View):
     def __init__(self, slash_interaction: Interaction, questions: list[dict]):
         super().__init__(timeout=180)
         self.questions = questions
+        self.question = self.get_random_question()
         self.slash_interaction = slash_interaction
-        self.get_question_embed()
+        answer_select = [i for i in self.children if i.custom_id == "answer"][0]
+        answer_select.options = self._get_select_options()
+
+    def get_random_question(self):
+        return random.choice(self.questions)
 
     def get_question_embed(self):
-        question = random.choice(self.questions)
+        question = self.get_random_question()
         msg = question["question"]
         for i in question["answers"]:
             msg += f"\n{i}, {'correct' if question['answers'][i] else 'wrong'}"
         return msg
+
+    def _get_select_options(self) -> list[SelectOption]:
+        options = []
+        question = self.get_random_question()
+        answers = question["answers"]
+        for option in answers:
+            options.append(
+                SelectOption(
+                    label = option,
+                    value = answers[option]
+                )
+            )
+        return options
+    
+    @select(placeholder="What's your answer?", options=[], custom_id="answer")
+    async def user_answer(self, select: Select, interaction: Interaction):
+        if select.values[0] == "True":
+            await interaction.send("You are right!")
+        else:
+            await interaction.send("you are wrong!")
