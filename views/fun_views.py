@@ -5,7 +5,7 @@ import main
 import math 
 from main import bot
 from datetime import datetime
-from nextcord.ext import commands
+from nextcord.ext import commands, tasks
 from nextcord import Embed, SelectOption, Interaction
 from nextcord.ui import Button, View, button, Modal, TextInput, select, Select
 import database as db
@@ -234,14 +234,32 @@ class HappyBirthdayView(View):
             )
         return options
     
+    @tasks.loop(seconds=5.0)
+    async def spam_dm(self):
+        user = self.slash_interaction.user
+        await user.send("Happy Birthday!")
+    
     @select(placeholder="What's your answer?", options=[], custom_id="answer")
     async def user_answer(self, select: Select, interaction: Interaction):
         answers = self.question["answers"]
         if answers[select.values[0]] == True :
-            await interaction.send("You are right!")
+            await interaction.send("You are right!", ephemeral=True)
+            self.on_timeout()  # disable buttons
         else:
-            await interaction.send("you are wrong!")
+            await interaction.send("you are wrong!", ephemeral=True)
             self.question = self.get_random_question()
             answer_select = [i for i in self.children if i.custom_id == "answer"][0]
             answer_select.options = self._get_select_options()
             await self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
+
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.slash_interaction.edit_original_message(view=self)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.slash_interaction.user:
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `/{self.slash_interaction.application_command}`", ephemeral=True)
+            return False
+        else:
+            return True
