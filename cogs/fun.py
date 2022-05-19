@@ -243,7 +243,7 @@ class Fun(commands.Cog, name="Fun"):
         ]
         view = HappyBirthdayView(interaction, questions)
         embed = view.get_question_embed()
-        await interaction.send(embed, view=view)
+        await interaction.send(embed=embed, view=view)
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))
