@@ -234,7 +234,7 @@ class HappyBirthdayView(View):
             )
         return options
     
-    @tasks.loop(seconds=5.0)
+    @tasks.loop(seconds=2.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
         await user.send("Happy Birthday!")
@@ -245,6 +245,7 @@ class HappyBirthdayView(View):
         if answers[select.values[0]] == True :
             await interaction.send("You are right!", ephemeral=True)
             self.on_timeout()  # disable buttons
+            self.spam_dm.start()
         else:
             await interaction.send("you are wrong!", ephemeral=True)
             self.question = self.get_random_question()
