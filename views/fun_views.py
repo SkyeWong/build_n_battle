@@ -213,7 +213,7 @@ class HappyBirthdayView(View):
         return random.choice(self.questions)
 
     def get_question_embed(self):
-        question = self.get_random_question()
+        question = self.question
         msg = question["question"]
         for i in question["answers"]:
             msg += f"\n{i}, {'correct' if question['answers'][i] else 'wrong'}"
@@ -221,20 +221,23 @@ class HappyBirthdayView(View):
 
     def _get_select_options(self) -> list[SelectOption]:
         options = []
-        question = self.get_random_question()
+        question = self.question
         answers = question["answers"]
         for option in answers:
             options.append(
                 SelectOption(
-                    label = option,
-                    value = answers[option]
+                    label = option
                 )
             )
         return options
     
     @select(placeholder="What's your answer?", options=[], custom_id="answer")
     async def user_answer(self, select: Select, interaction: Interaction):
-        if select.values[0] == "True":
+        answers = self.question["answers"]
+        if answers[select.values[0]] == True :
             await interaction.send("You are right!")
         else:
             await interaction.send("you are wrong!")
+            answer_select = [i for i in self.children if i.custom_id == "answer"][0]
+            answer_select.options = self._get_select_options()
+            self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
