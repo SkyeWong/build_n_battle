@@ -239,7 +239,7 @@ class HappyBirthdayView(View):
         user = self.slash_interaction.user
         view = View()
         stop_btn = Button(label="STOP")
-        stop_btn.callback = self.stop_spam_dm()
+        stop_btn.callback = self.stop_spam_dm
         view.add_item(stop_btn)
         await user.send(f"Happy Birthday!, {user.mention}", view=view)
 
