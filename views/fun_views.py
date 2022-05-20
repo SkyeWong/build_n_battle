@@ -217,7 +217,7 @@ class HappyBirthdayView(View):
         question = self.question
         embed = Embed()
         embed.title = f"Happy Birthday {self.slash_interaction.user.name}!"
-        embed.description = f"Answer this trivia to get your prize. You have {len(self.questions)} chances."
+        embed.description = f"Answer this trivia to get your prize. You have {len(self.questions)} chances.\n"
         embed.description += question["question"]
         embed.colour = random.choice(main.embed_colours)
         return embed
@@ -262,7 +262,7 @@ class HappyBirthdayView(View):
                 self.stopped = False
         else:
             await interaction.send(f"You are wrong!\nThe correct answer is {[i for i in answers if answers[i] == True][0]}", ephemeral=True)
-            question_index = self.questions.index[self.question]
+            question_index = self.questions.index(self.question)
             self.questions.pop(question_index)
             if len(self.questions) == 0:
                 await self.on_timeout()

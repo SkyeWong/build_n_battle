@@ -221,22 +221,22 @@ class Fun(commands.Cog, name="Fun"):
                 }
             },
             {
-                "question": "Choose D",
+                "question": "Choose D and B",
                 "answers": {
                     "A": False,
-                    "B": False,
+                    "B": True,
                     "C": False,
                     "D": True,
                     "E": False,
                 }
             },
             {
-                "question": "Choose E",
+                "question": "Choose everything but A",
                 "answers": {
                     "A": False,
-                    "B": False,
-                    "C": False,
-                    "D": False,
+                    "B": True,
+                    "C": True,
+                    "D": True,
                     "E": True,
                 }
             }
