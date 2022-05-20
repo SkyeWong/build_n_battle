@@ -216,10 +216,9 @@ class HappyBirthdayView(View):
     def get_question_embed(self):
         question = self.question
         embed = Embed()
-        description = question["question"]
-        for i in question["answers"]:
-            description += f"\n{i}, {'correct' if question['answers'][i] else 'wrong'}"
-        embed.description = description
+        embed.title = f"Happy Birthday {self.slash_interaction.user.name}!"
+        embed.description = f"Answer this trivia to get your prize. You have {len(self.questions)} chances."
+        embed.description += question["question"]
         embed.colour = random.choice(main.embed_colours)
         return embed
 
@@ -262,11 +261,17 @@ class HappyBirthdayView(View):
                 self.spam_dm.start()
                 self.stopped = False
         else:
-            await interaction.send("you are wrong!", ephemeral=True)
-            self.question = self.get_random_question()
-            answer_select = [i for i in self.children if i.custom_id == "answer"][0]
-            answer_select.options = self._get_select_options()
-            await self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
+            await interaction.send(f"You are wrong!\nThe correct answer is {[i for i in answers if answers[i] == True][0]}", ephemeral=True)
+            question_index = self.questions.index[self.question]
+            self.questions.pop(question_index)
+            if len(self.questions) == 0:
+                await self.on_timeout()
+                await interaction.send("OOF! you ran out of chances. bad luck mate", ephemeral=True)
+            else:
+                self.question = self.get_random_question()
+                answer_select = [i for i in self.children if i.custom_id == "answer"][0]
+                answer_select.options = self._get_select_options()
+                await self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
 
     async def on_timeout(self) -> None:
         for i in self.children:
