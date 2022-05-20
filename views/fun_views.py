@@ -242,11 +242,11 @@ class HappyBirthdayView(View):
         stop_btn = Button(label="STOP")
         stop_btn.callback = self.stop_spam_dm
         view.add_item(stop_btn)
-        for i in range(1, 6):
-            await user.send(f"Happy Birthday!, {user.mention}", view=view)
+        for i in range(6):
+            await user.send(f"Happy Birthday, {user.mention}", view=view)
 
     async def stop_spam_dm(self, interaction: Interaction):
-        if not self.stop:
+        if not self.stopped:
             self.spam_dm.cancel()
             self.stopped = True
         else:
