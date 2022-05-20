@@ -259,7 +259,7 @@ class HappyBirthdayView(View):
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
             if not self.stop:
-                await self.spam_dm.start()
+                self.spam_dm.start()
                 self.stop = False
         else:
             await interaction.send("you are wrong!", ephemeral=True)
