@@ -208,6 +208,7 @@ class HappyBirthdayView(View):
         self.slash_interaction = slash_interaction
         answer_select = [i for i in self.children if i.custom_id == "answer"][0]
         answer_select.options = self._get_select_options()
+        self.stopped = None
 
     def get_random_question(self):
         return random.choice(self.questions)
@@ -234,17 +235,22 @@ class HappyBirthdayView(View):
             )
         return options
     
-    @tasks.loop(seconds=2.0)
+    @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
         view = View()
         stop_btn = Button(label="STOP")
         stop_btn.callback = self.stop_spam_dm
         view.add_item(stop_btn)
-        await user.send(f"Happy Birthday!, {user.mention}", view=view)
+        for i in range(1, 6):
+            await user.send(f"Happy Birthday!, {user.mention}", view=view)
 
-    def stop_spam_dm(self):
-        self.spam_dm.cancel()
+    async def stop_spam_dm(self, interaction: Interaction):
+        if not self.stop:
+            self.spam_dm.cancel()
+            self.stop = True
+        else:
+            await interaction.send("i've already stopped didn't i")
     
     @select(placeholder="What's your answer?", options=[], custom_id="answer")
     async def user_answer(self, select: Select, interaction: Interaction):
@@ -252,7 +258,9 @@ class HappyBirthdayView(View):
         if answers[select.values[0]] == True :
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
-            await self.spam_dm.start()
+            if not self.stop:
+                await self.spam_dm.start()
+                self.stop = False
         else:
             await interaction.send("you are wrong!", ephemeral=True)
             self.question = self.get_random_question()
