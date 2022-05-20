@@ -248,7 +248,7 @@ class HappyBirthdayView(View):
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stop:
             self.spam_dm.cancel()
-            self.stop = True
+            self.stopped = True
         else:
             await interaction.send("i've already stopped didn't i")
     
@@ -258,9 +258,9 @@ class HappyBirthdayView(View):
         if answers[select.values[0]] == True :
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
-            if not self.stop:
+            if not self.stopped:
                 self.spam_dm.start()
-                self.stop = False
+                self.stopped = False
         else:
             await interaction.send("you are wrong!", ephemeral=True)
             self.question = self.get_random_question()
