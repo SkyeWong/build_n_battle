@@ -208,6 +208,9 @@ class HappyBirthdayView(View):
         self.slash_interaction = slash_interaction
         answer_select = [i for i in self.children if i.custom_id == "answer"][0]
         answer_select.options = self._get_select_options()
+        no_of_answers = self._get_no_of_answers()
+        answer_select.min_values = no_of_answers
+        answer_select.max_values = no_of_answers
         self.stopped = None
 
     def get_random_question(self):
@@ -233,7 +236,13 @@ class HappyBirthdayView(View):
                 )
             )
         return options
-    
+
+    def _get_no_of_answers(self):
+        """Gets the number of correct questions in the current question."""
+        answers = self.question["answers"]
+        correct_answers = [answer for answer in answers if answers[answer] == True]
+        return len(correct_answers)
+
     @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
@@ -254,12 +263,20 @@ class HappyBirthdayView(View):
     @select(placeholder="What's your answer?", options=[], custom_id="answer")
     async def user_answer(self, select: Select, interaction: Interaction):
         answers = self.question["answers"]
-        if answers[select.values[0]] == True :
+        correct = False
+        for user_answer in select.values:
+            if answers[select.values[0]] == True :
+                correct = True
+            else:
+                correct = False
+        if correct:
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
             if not self.stopped:
                 self.spam_dm.start()
                 self.stopped = False
+            else:
+                await interaction.send("I'm already spamming your dm, you don't want me to spam more, right...?")
         else:
             await interaction.send(f"You are wrong!\nThe correct answer is {[i for i in answers if answers[i] == True][0]}", ephemeral=True)
             question_index = self.questions.index(self.question)
@@ -269,8 +286,7 @@ class HappyBirthdayView(View):
                 await interaction.send("OOF! you ran out of chances. bad luck mate", ephemeral=True)
             else:
                 self.question = self.get_random_question()
-                answer_select = [i for i in self.children if i.custom_id == "answer"][0]
-                answer_select.options = self._get_select_options()
+                select.options = self._get_select_options()
                 await self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
 
     async def on_timeout(self) -> None:
