@@ -286,7 +286,7 @@ class HappyBirthdayView(View):
             channel = interaction.user.dm_channel
             spamming = False
             if not channel:
-                channel = interaction.user.create_dm()
+                channel = await interaction.user.create_dm()
             message = await channel.fetch_message(channel.last_message_id)
             if message.author == bot.user and int(datetime.now().timestamp()) - int(message.created_at.timestamp()) < 5:
                 spamming = True
