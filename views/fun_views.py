@@ -246,12 +246,15 @@ class HappyBirthdayView(View):
     @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
+        msgs = [
+            f"Happy Birthday, {user.mention}",
+        ]
         view = View()
         stop_btn = Button(label="STOP")
         stop_btn.callback = self.stop_spam_dm
         view.add_item(stop_btn)
         for i in range(6):
-            await user.send(f"Happy Birthday, {user.mention}", view=view)
+            await user.send(random.choice(msgs), view=view)
 
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stopped:
@@ -265,7 +268,7 @@ class HappyBirthdayView(View):
         answers = self.question["answers"]
         correct = False
         for user_answer in select.values:
-            if user_answer == True :
+            if answers[user_answer] == True :
                 correct = True
             else:
                 correct = False
