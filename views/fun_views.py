@@ -285,10 +285,9 @@ class HappyBirthdayView(View):
             await self.on_timeout()  # disable buttons
             channel = interaction.user.dm_channel
             spamming = False
-            if channel:
-                message = await channel.fetch_message(channel.last_message_id)
-            else:
+            if not channel:
                 channel = interaction.user.create_dm()
+            message = await channel.fetch_message(channel.last_message_id)
             if message.author == bot.user and int(datetime.now().timestamp()) - int(message.created_at.timestamp()) < 5:
                 spamming = True
             if not self.stopped and not spamming:
