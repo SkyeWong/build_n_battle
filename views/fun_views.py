@@ -248,6 +248,14 @@ class HappyBirthdayView(View):
         user = self.slash_interaction.user
         msgs = [
             f"Happy Birthday, {user.mention}",
+            "We are your best friends, forever.",
+            "Don't you realise this is a prank from the FIRST MOMENT you typed this command???",
+            "I hope you get to do something fun to celebrate, not getting annoyed at this. Maybe try muting me.",
+            "There's a way to stop me, i hope you can find it out.",
+            "I wonder how long can i spam you for?",
+            "This is the most incredible creation from <@806334528230129695>",
+            "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
+            "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
         ]
         view = View()
         stop_btn = Button(label="STOP")
@@ -290,6 +298,9 @@ class HappyBirthdayView(View):
             else:
                 self.question = self.get_random_question()
                 select.options = self._get_select_options()
+                no_of_answers = self._get_no_of_answers()
+                select.min_values = no_of_answers
+                select.max_values = no_of_answers
                 await self.slash_interaction.edit_original_message(embed=self.get_question_embed(), view=self)
 
     async def on_timeout(self) -> None:
