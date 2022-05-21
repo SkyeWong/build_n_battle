@@ -287,11 +287,8 @@ class HappyBirthdayView(View):
             spamming = False
             if not channel:
                 channel = await interaction.user.create_dm()
-            message = []
-            async for message in channel.history(limit=10):
-                if message.author == interaction.client:
-                    message.append(message)
-            message = message[0]
+            message = await channel.history(limit=20).flatten()
+            message = [i for i in message if i.author == interaction.client][0]
             if message.author == bot.user and int(datetime.now().timestamp()) - int(message.created_at.timestamp()) < 5:
                 spamming = True
             if not self.stopped and not spamming:
