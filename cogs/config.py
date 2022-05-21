@@ -2,7 +2,6 @@ import os
 import nextcord
 import random
 import main
-from main import bot
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord import Embed
@@ -14,12 +13,11 @@ from views.config_views import AddSpaceInPrefix
 class Config(commands.Cog, name="Config"):
     COG_EMOJI = "⚙️"
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self):
         self._last_member = None 
     
     @commands.command(name="prefix")
-    async def prefix(self, ctx, prefix: str=None):
+    async def prefix(self, ctx: commands.Context, prefix: str=None):
         if prefix == None:
             sql = f"""
             SELECT prefix
@@ -88,4 +86,4 @@ class Config(commands.Cog, name="Config"):
                 await ctx.send("Sorry you don't have the `Manage Server` perm required to set the prefix.")
 
 def setup(bot: commands.Bot):
-    bot.add_cog(Config(bot))
+    bot.add_cog(Config())

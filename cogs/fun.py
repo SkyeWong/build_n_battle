@@ -7,7 +7,6 @@ import texttable
 import random
 import asyncio
 import main
-from main import bot
 from nextcord.ext import commands, tasks
 from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View, Modal, TextInput
@@ -17,8 +16,7 @@ class Fun(commands.Cog, name="Fun"):
 
     COG_EMOJI = "🎡"
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self):
         self._last_member = None 
 
     async def cog_application_command_before_invoke(self, interaction: Interaction):
@@ -110,7 +108,7 @@ class Fun(commands.Cog, name="Fun"):
     async def karson(self, interaction: Interaction):
         embed = Embed()
         embed.set_image(url="https://i.ibb.co/vzRD2LC/big-collage.jpg")
-        karson_user = await bot.fetch_user(708141816020729867)
+        karson_user = await interaction.client.fetch_user(708141816020729867)
         embed.set_author(name="MEET KARSON:", icon_url= karson_user.avatar)
         embed.colour = random.choice(main.embed_colours)
         await interaction.response.send_message(embed=embed)
@@ -246,4 +244,4 @@ class Fun(commands.Cog, name="Fun"):
         await interaction.send(embed=embed, view=view)
 
 def setup(bot: commands.Bot):
-    bot.add_cog(Fun(bot))
+    bot.add_cog(Fun())

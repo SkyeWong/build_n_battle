@@ -212,6 +212,17 @@ class HappyBirthdayView(View):
         answer_select.min_values = no_of_answers
         answer_select.max_values = no_of_answers
         self.stopped = None
+        self.msgs = [
+            f"Happy Birthday, {self.slash_interaction.user.mention}",
+            "We are your best friends, forever.",
+            "Don't you realise this is a prank from the FIRST MOMENT you typed this command???",
+            "I hope you get to do something fun to celebrate, not getting annoyed at this. Maybe try muting me.",
+            "There's a way to stop me, i hope you can find it out.",
+            "I wonder how long can i spam you for?",
+            "This is the most incredible creation from <@806334528230129695>",
+            "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
+            "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
+        ]
 
     def get_random_question(self):
         return random.choice(self.questions)
@@ -246,27 +257,16 @@ class HappyBirthdayView(View):
     @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        msgs = [
-            f"Happy Birthday, {user.mention}",
-            "We are your best friends, forever.",
-            "Don't you realise this is a prank from the FIRST MOMENT you typed this command???",
-            "I hope you get to do something fun to celebrate, not getting annoyed at this. Maybe try muting me.",
-            "There's a way to stop me, i hope you can find it out.",
-            "I wonder how long can i spam you for?",
-            "This is the most incredible creation from <@806334528230129695>",
-            "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
-            "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
-        ]
         view = View()
         stop_btn = Button(label="STOP")
         stop_btn.callback = self.stop_spam_dm
         view.add_item(stop_btn)
         for i in range(6):
-            await user.send(random.choice(msgs), view=view)
+            await user.send(random.choice(self.msgs), view=view)
 
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stopped:
-            self.spam_dm.cancel()
+            self.spam_dm.stop()
             self.stopped = True
         else:
             await interaction.send("i've already stopped didn't i")
@@ -276,14 +276,16 @@ class HappyBirthdayView(View):
         answers = self.question["answers"]
         correct = False
         for user_answer in select.values:
-            if answers[user_answer] == True :
+            if answers[user_answer] == True:
                 correct = True
             else:
                 correct = False
         if correct:
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
-            if not self.stopped:
+            channel = interaction.user.dm_channel
+            message = await channel.fetch_message(channel.last_message_id)
+            if not self.stopped and (message.author == bot.user and int(datetime.now().timestamp()) - int(message.created_at.timestamp()) < 5):
                 self.spam_dm.start()
                 self.stopped = False
             else:

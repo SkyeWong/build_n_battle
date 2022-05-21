@@ -2,7 +2,6 @@ import os
 import nextcord
 import random
 import main
-from main import bot
 from datetime import datetime
 from nextcord.ext import commands
 from nextcord import Embed, Interaction, SlashOption
@@ -16,8 +15,7 @@ class Currency(commands.Cog, name="Currency"):
     
     COG_EMOJI = "🪙"
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self):
         self._last_member = None 
 
     async def cog_application_command_before_invoke(self, interaction: Interaction):
@@ -109,13 +107,13 @@ class Currency(commands.Cog, name="Currency"):
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)
-    async def buttons(self, ctx):
+    async def buttons(self, ctx: commands.Context):
         """uh... so this is a test for buttons, that i'm gonna implement it in the bot
         ||some time soon||
         """
         buttons_ui = Embed()
         buttons_ui.colour = random.choice(main.embed_colours)
-        buttons_ui.set_author(name=bot.user.name, icon_url=bot.user.avatar)
+        buttons_ui.set_author(name=ctx.bot.user.name, icon_url=ctx.bot.user.avatar)
         buttons_ui.description = "Click the buttons below to test the buttons."
         view = Generate(ctx)
         view.message = await ctx.send(embed=buttons_ui, view=view)
@@ -148,8 +146,8 @@ class Currency(commands.Cog, name="Currency"):
             def page_ui_b(self):
                 page = Embed()
                 page.set_author(
-                            name = bot.user.name,
-                            icon_url = bot.user.avatar
+                            name = ctx.bot.user.name,
+                            icon_url = ctx.bot.user.avatar
                             )
                 page.add_field(
                             name = "Everything can be completely different",
@@ -178,7 +176,7 @@ class Currency(commands.Cog, name="Currency"):
             
             async def keith_sucks(self):
                 page = Embed()
-                hoho = await bot.fetch_user(798720829583523861)
+                hoho = await ctx.bot.fetch_user(798720829583523861)
                 page.set_author(
                             name = hoho.name,
                             icon_url = hoho.avatar
@@ -190,8 +188,8 @@ class Currency(commands.Cog, name="Currency"):
             def everything(self):
                 page = Embed()
                 page.set_author(
-                            name = bot.user.name,
-                            icon_url = bot.user.avatar
+                            name = ctx.bot.user.name,
+                            icon_url = ctx.bot.user.avatar
                             )
                 page.title = "Page 3 - Everything can be completely different"
                 page.description = "i made one using buttons check it out with `+advanced_cmd`"
@@ -202,4 +200,4 @@ class Currency(commands.Cog, name="Currency"):
 
 
 def setup(bot: commands.Bot):
-    bot.add_cog(Currency(bot))
+    bot.add_cog(Currency())
