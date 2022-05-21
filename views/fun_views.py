@@ -265,7 +265,7 @@ class HappyBirthdayView(View):
         answers = self.question["answers"]
         correct = False
         for user_answer in select.values:
-            if answers[select.values[0]] == True :
+            if user_answer == True :
                 correct = True
             else:
                 correct = False
