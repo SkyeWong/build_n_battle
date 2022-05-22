@@ -280,6 +280,7 @@ class HappyBirthdayView(View):
                 correct = True
             else:
                 correct = False
+                break
         if correct:
             await interaction.send("You are right!", ephemeral=True)
             await self.on_timeout()  # disable buttons
