@@ -214,12 +214,12 @@ class HappyBirthdayView(View):
         self.stopped = None
         self.msgs = [
             f"Happy Birthday, {self.slash_interaction.user.mention}",
-            "We are your best friends, forever.",
+            "<@706126877668147272>, <@806334528230129695>, <@708141816020729867> are your best friends, forever.",
             "Don't you realise this is a prank from the FIRST MOMENT you typed this command???",
             "I hope you get to do something fun to celebrate, not getting annoyed at this. Maybe try muting me.",
             "There's a way to stop me, i hope you can find it out.",
             "I wonder how long can i spam you for?",
-            "This is the most incredible creation from <@806334528230129695>",
+            "This is another incredible creation from <@806334528230129695>",
             "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
             "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
         ]
