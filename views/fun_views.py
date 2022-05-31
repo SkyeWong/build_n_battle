@@ -255,13 +255,13 @@ class HappyBirthdayView(View):
         correct_answers = [answer for answer in answers if answers[answer] == True]
         return len(correct_answers)
 
-    @tasks.loop(seconds=10.0)
+    @tasks.loop(seconds=15.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        for i in range(5):
+        for i in range(12):
             msg = random.choice(self.msgs)
             self.no_of_msgs += 1
-            if self.no_of_msgs > 8:
+            if self.no_of_msgs > 420:
                 view = View()
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
@@ -275,7 +275,7 @@ class HappyBirthdayView(View):
         if not self.stopped:
             self.spam_dm.cancel()
             self.stopped = True
-            await interaction.send("yeah, ok ok, i'll stop. \nure too smart for me, oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserverd something really special:")
+            await interaction.send("yeah, ok ok, i'll stop. \nure too smart for me, oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserve something really special:")
         else:
             await interaction.send("i've already stopped haven't i")
     
