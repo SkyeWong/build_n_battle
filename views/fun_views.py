@@ -214,12 +214,12 @@ class HappyBirthdayView(View):
         self.stopped = None
         self.msgs = [
             f"Happy Birthday, {self.slash_interaction.user.mention}",
-            "<@706126877668147272>, <@806334528230129695>, <@708141816020729867> are your best friends, forever.",
+            "Skye, Keith, Karson are your best friends, forever.",
             "Don't you realise this is a prank from the FIRST MOMENT you typed this command???",
             "I hope you get to do something fun to celebrate, not getting annoyed at this. Maybe try muting me.",
             "There's a way to stop me, i hope you can find it out.",
             "I wonder how long can i spam you for?",
-            "This is another incredible creation from <@806334528230129695>",
+            "This is another incredible creation from Skye!!! ||noice||",
             "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
             "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
         ]
@@ -232,7 +232,7 @@ class HappyBirthdayView(View):
         question = self.question
         embed = Embed()
         embed.title = f"Happy Birthday {self.slash_interaction.user.name}!"
-        embed.description = f"Answer this trivia to get your prize. You have {len(self.questions)} chances.\n"
+        embed.description = f"Answer this trivia to get your prize. You have {len(self.questions)} chances. Get one right and u win!\n"
         embed.description += question["question"]
         embed.colour = random.choice(main.embed_colours)
         return embed
@@ -258,14 +258,15 @@ class HappyBirthdayView(View):
     @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        for i in range(6):
+        for i in range(5):
             msg = random.choice(self.msgs)
             self.no_of_msgs += 1
-            if self.no_of_msgs > 10:
+            if self.no_of_msgs > 8:
                 view = View()
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
                 view.add_item(stop_btn)
+                view.on_timeout = self.on_timeout
                 await user.send(msg, view=view)
             else:
                 await user.send(msg)
@@ -276,7 +277,7 @@ class HappyBirthdayView(View):
             self.stopped = True
             await interaction.send("yeah, ok ok, i'll stop. \nure too smart for me, oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserverd something really special:")
         else:
-            await interaction.send("i've already stopped didn't i")
+            await interaction.send("i've already stopped haven't i")
     
     @select(placeholder="What's your answer?", options=[], custom_id="answer")
     async def user_answer(self, select: Select, interaction: Interaction):
@@ -306,7 +307,11 @@ class HappyBirthdayView(View):
             else:
                 await interaction.send("I'm already spamming your dm, you don't want me to spam more, right...?")
         else:
-            await interaction.send(f"You are wrong!\nThe correct answer is {[i for i in answers if answers[i] == True][0]}", ephemeral=True)
+            answers_str = ""
+            for i in answers:
+                if answers[i] == True:
+                    answers_str += f"{i}, "
+            await interaction.send(f"You are wrong!\nThe correct answer is {answers_str[:-2]}", ephemeral=True)
             question_index = self.questions.index(self.question)
             self.questions.pop(question_index)
             if len(self.questions) == 0:

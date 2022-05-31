@@ -189,55 +189,67 @@ class Fun(commands.Cog, name="Fun"):
     async def happy_birthday_hoho(self, interaction: Interaction):
         questions = [
             {
-                "question": "Choose A",
+                "question": "How many passengers ride the MTR each day?",
                 "answers": {
-                    "A": True,
-                    "B": False,
-                    "C": False,
-                    "D": False,
-                    "E": False,
+                    "1.38m": False,
+                    "2.46m": True,
+                    "6.9m": False,
+                    "4.2m": False,
+                    "3.24m": False,
                 }
             },
             {
-                "question": "Choose B",
+                "question": "What year was the TKO line opened?",
                 "answers": {
-                    "A": False,
-                    "B": True,
-                    "C": False,
-                    "D": False,
-                    "E": False,
+                    "2000": False,
+                    "1995": False,
+                    "2005": False,
+                    "2002": True,
+                    "2008": False,
                 }
             },
             {
-                "question": "Choose C",
+                "question": "What year was the London underground (i prefer 'tube') opened?",
                 "answers": {
-                    "A": False,
-                    "B": False,
-                    "C": True,
-                    "D": False,
-                    "E": False,
+                    "1863": True,
+                    "1879": False,
+                    "1854": True,
+                    "1865": False,
+                    "1848": False,
                 }
             },
             {
-                "question": "Choose D and B",
+                "question": "True or False. All tube stations are underground. easy one dude.",
                 "answers": {
-                    "A": False,
-                    "B": True,
-                    "C": False,
-                    "D": True,
-                    "E": False,
+                    "True": False,
+                    "False": True
                 }
             },
             {
-                "question": "Choose everything but A",
+                "question": "Choose the right combination. Which tube line is fastest and how fast exactly is it?",
                 "answers": {
-                    "A": False,
-                    "B": True,
-                    "C": True,
-                    "D": True,
-                    "E": True,
+                    "DLR Line, 77 kmh": False,
+                    "Circle Line, 108 kmh": False,
+                    "Bakerloo Line, 68 kmh": False,
+                    "Metropolitan Line, 96 kmh": True,
                 }
-            }
+            },
+            {
+                "question": "Which of the following stations are ACTUALLY real tube station names? (i suppose u know the number of correct answers?)",
+                "answers": {
+                    "Swiss Cottage": True,
+                    "Grand Central Terminal": False,
+                    "Chicago Union Station": False,
+                    "King's Cross": True,
+                    "Ogilvie Transportation Center": False,
+                    "Aldgate": True,
+                    "South Station": False,
+                    "Abbey Wood": True,
+                    "Woolwich": True,
+                    "Montreal Central Station": False,
+                    "Platform 9 ¾": False
+                }
+            },
         ]
         view = HappyBirthdayView(interaction, questions)
         embed = view.get_question_embed()
