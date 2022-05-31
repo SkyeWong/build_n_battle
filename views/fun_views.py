@@ -223,6 +223,7 @@ class HappyBirthdayView(View):
             "Another year older, and you just keep getting stronger, wiser, funnier and more amazing!",
             "what a fantastic website, check this out: <https://www.coopers-seafood.com/birthday-wishes-what-to-write-in-a-birthday-card/>"
         ]
+        self.no_of_msgs = 0
 
     def get_random_question(self):
         return random.choice(self.questions)
@@ -257,16 +258,21 @@ class HappyBirthdayView(View):
     @tasks.loop(seconds=10.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        view = View()
-        stop_btn = Button(label="STOP")
-        stop_btn.callback = self.stop_spam_dm
-        view.add_item(stop_btn)
         for i in range(6):
-            await user.send(random.choice(self.msgs), view=view)
+            msg = random.choice(self.msgs)
+            self.no_of_msgs += 1
+            if self.no_of_msgs >= 10:
+                view = View()
+                stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
+                stop_btn.callback = self.stop_spam_dm
+                view.add_item(stop_btn)
+                await user.send(msg, view=view)
+            else:
+                await user.send(msg, view=view)
 
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stopped:
-            self.spam_dm.stop()
+            self.spam_dm.cancel()
             self.stopped = True
         else:
             await interaction.send("i've already stopped didn't i")
@@ -293,6 +299,7 @@ class HappyBirthdayView(View):
             if message.author == bot.user and int(datetime.now().timestamp()) - int(message.created_at.timestamp()) < 5:
                 spamming = True
             if not self.stopped and not spamming:
+                self.msg_history = []
                 self.spam_dm.start()
                 self.stopped = False
             else:
