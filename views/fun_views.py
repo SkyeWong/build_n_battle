@@ -266,7 +266,7 @@ class HappyBirthdayView(View):
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
                 view.add_item(stop_btn)
-                await user.send(f"`{self.no_of_msgs}` --- {msg}, view=view)
+                await user.send(f"`{self.no_of_msgs}` --- {msg}", view=view)
             else:
                 await user.send(msg)
                 
