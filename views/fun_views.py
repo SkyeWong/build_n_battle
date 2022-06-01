@@ -255,13 +255,13 @@ class HappyBirthdayView(View):
         correct_answers = [answer for answer in answers if answers[answer] == True]
         return len(correct_answers)
 
-    @tasks.loop(seconds=15.0)
+    @tasks.loop(seconds=5.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        for i in range(12):
+        for i in range(18):
             msg = random.choice(self.msgs)
             self.no_of_msgs += 1
-            if self.no_of_msgs > 15:
+            if self.no_of_msgs > 6942:
                 view = View(timeout=None)
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
