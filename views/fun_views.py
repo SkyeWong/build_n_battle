@@ -261,16 +261,15 @@ class HappyBirthdayView(View):
         for i in range(12):
             msg = random.choice(self.msgs)
             self.no_of_msgs += 1
-            if self.no_of_msgs > 420:
-                view = View()
+            if self.no_of_msgs > 15:
+                view = View(timeout=None)
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
                 view.add_item(stop_btn)
-                view.on_timeout = self.on_timeout
-                await user.send(msg, view=view)
+                await user.send(f"`{self.no_of_msgs}` --- {msg}, view=view)
             else:
                 await user.send(msg)
-
+                
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stopped:
             self.spam_dm.cancel()
