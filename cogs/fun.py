@@ -213,7 +213,7 @@ class Fun(commands.Cog, name="Fun"):
                 "answers": {
                     "1863": True,
                     "1879": False,
-                    "1854": True,
+                    "1854": False,
                     "1865": False,
                     "1848": False,
                 }
