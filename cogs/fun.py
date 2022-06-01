@@ -250,6 +250,24 @@ class Fun(commands.Cog, name="Fun"):
                     "Platform 9 ¾": False
                 }
             },
+            {
+                "question": "What is Hoho's favourite number? tip: the more the merrier!",
+                "answers": {
+                    "7": False,
+                    "6942": True,
+                    "420": False,
+                    "69": False,
+                }
+            },
+            {
+                "question": "What is Hoho's favourite number? tip: the more the merrier!",
+                "answers": {
+                    "7": False,
+                    "6942": True,
+                    "420": False,
+                    "69": False,
+                }
+            },
         ]
         view = HappyBirthdayView(interaction, questions)
         embed = view.get_question_embed()
