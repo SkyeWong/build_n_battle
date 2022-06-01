@@ -266,7 +266,7 @@ class HappyBirthdayView(View):
             channel = await interaction.user.create_dm()
         message = await channel.history(limit=20).flatten()
         message = [i for i in message if i.author == user][0]
-        if message.content = "I AM SKYE STOP!!!":
+        if message.content == "I AM SKYE STOP!!!":
             self.spam_dm.cancel()
             self.stopped = True
         for i in range(18):
