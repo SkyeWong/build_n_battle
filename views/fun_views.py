@@ -268,7 +268,7 @@ class HappyBirthdayView(View):
                 view.add_item(stop_btn)
                 await user.send(f"`{self.no_of_msgs}` --- {msg}", view=view)
             else:
-                await user.send(msg)
+                await user.send(f"`{self.no_of_msgs}` --- {msg}")
                 
     async def stop_spam_dm(self, interaction: Interaction):
         if not self.stopped:
