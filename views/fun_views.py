@@ -277,7 +277,11 @@ class HappyBirthdayView(View):
         if not self.stopped:
             self.spam_dm.cancel()
             self.stopped = True
-            await interaction.send("yeah, ok ok, i'll stop. \nu outsmarted me AND ur patience is omg-level. oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserve something really special:")
+            embed = Embed()
+            embed.description = "yeah, ok ok, i'll stop. \nu outsmarted me AND ur patience is omg-level. oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserve something really special:"
+            embed.set_image(url="https://i.imgur.com/dY69FSS.png")
+            embed.colour = random.choice(main.embed_colours)
+            await interaction.send(embed=embed)
         else:
             await interaction.send("i've already stopped haven't i")
     
