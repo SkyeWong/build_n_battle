@@ -263,7 +263,8 @@ class HappyBirthdayView(View):
         for i in range(18):
             msg = random.choice(self.msgs)
             self.no_of_msgs += 1
-            if self.no_of_msgs > 6942:
+            required_msgs = 6942 if user.id == 798720829583523861 else 20
+            if self.no_of_msgs > required_msgs:
                 view = View(timeout=None)
                 stop_btn = Button(label="STOP", emoji="🚧", style=nextcord.ButtonStyle.red)
                 stop_btn.callback = self.stop_spam_dm
