@@ -71,7 +71,7 @@ class HitAndBlowView(View):
         await interaction.response.send_modal(HitAndBlowModal(self, self.slash_interaction, interaction, self.data_class, self.bet))
 
     @button(
-        label = "INFO",
+        label = "INFO", 
         emoji = "ℹ️",
         style = nextcord.ButtonStyle.grey
     )
