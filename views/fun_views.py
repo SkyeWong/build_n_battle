@@ -260,10 +260,10 @@ class HappyBirthdayView(View):
     @tasks.loop(seconds=5.0)
     async def spam_dm(self):
         user = self.slash_interaction.user
-        channel = interaction.user.dm_channel
+        channel = user.dm_channel
         spamming = False
         if not channel:
-            channel = await interaction.user.create_dm()
+            channel = await user.create_dm()
         message = await channel.history(limit=20).flatten()
         message = [i for i in message if i.author == user][0]
         if message.content == "I AM SKYE STOP!!!":
