@@ -10,7 +10,7 @@ from nextcord import Embed, SelectOption, Interaction
 from nextcord.ui import Button, View, button, Modal, TextInput, select, Select
 import database as db
 from typing import Optional
-from functions.users import Users
+from functions.users import Users 
 
 class Analysis(View):
                 
