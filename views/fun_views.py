@@ -241,7 +241,7 @@ class HappyBirthdayView(View):
         options = []
         question = self.question
         answers = question["answers"]
-        for option in answers:
+        for option in random.shuffle(answers.keys()):
             options.append(
                 SelectOption(
                     label = option
@@ -274,7 +274,7 @@ class HappyBirthdayView(View):
         if not self.stopped:
             self.spam_dm.cancel()
             self.stopped = True
-            await interaction.send("yeah, ok ok, i'll stop. \nu outsmarted me, oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserve something really special:")
+            await interaction.send("yeah, ok ok, i'll stop. \nu outsmarted me AND ur patience is omg-level. oh yeah if u could count the number of messages i sent before the first stop button appeared.\nu deserve something really special:")
         else:
             await interaction.send("i've already stopped haven't i")
     
