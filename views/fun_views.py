@@ -241,7 +241,7 @@ class HappyBirthdayView(View):
         options = []
         question = self.question
         answers = question["answers"]
-        for option in random.shuffle(answers.keys()):
+        for option in random.shuffle(list(answers.keys())):
             options.append(
                 SelectOption(
                     label = option
