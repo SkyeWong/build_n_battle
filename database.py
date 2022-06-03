@@ -27,3 +27,15 @@ def execute_query(sql, val=None):
         else:
             cursor.execute(sql)
     return cursor
+
+def execute_query_dict(sql, val=None) -> dict: 
+    try:
+        cursor = conn.cursor(dictionary=True)
+        if val:
+            cursor.execute(sql, val)
+        else:
+            cursor.execute(sql)
+    except (AttributeError, Error):
+        start()
+        cursor = execute_query_dict(sql, val if val else None)
+    return cursor

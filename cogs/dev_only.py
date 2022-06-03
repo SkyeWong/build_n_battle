@@ -172,11 +172,15 @@ class dev_only(commands.Cog, name="Dev Only"):
                 new_gold = users.modify_gold(gold)
                 await interaction.response.send_message(f"set {user.display_name}'s gold to {new_gold}, modified by {gold}", ephemeral=True)
             skye = await bot.fetch_user(806334528230129695)
-            await skye.send(f"<@{interaction.user.id}> set <@{user.id}> to {gold}")
+            await skye.send(f"{interaction.user.name} set {user.name} to {gold}")
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
-    
-    @edit.subcommand(name="item", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
+
+    @nextcord.slash_command(name="item")
+    async def item(self, interaction: Interaction):
+        pass
+
+    @item.subcommand(name="edit", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
     async def item(
         self, 
         interaction: Interaction,
@@ -185,8 +189,28 @@ class dev_only(commands.Cog, name="Dev Only"):
             choices = main.get_all_item_names()
         )
     ):
-        pass
-                    
+        sql = """
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            FROM items
+            WHERE name LIKE %s or emoji_name LIKE %s
+            ORDER BY name ASC
+            LIMIT 1
+        """
+        cursor = db.execute_query_dict(sql, (f"%{itemname}%",) * 2)
+        results = cursor.fetchall()
+        if len(results) == 0:
+            await interaction.send("The item is not found!")
+        else:
+            embed = Embed()
+            item = results[0]
+            embed.title = "Current values of "
+            embed.title += item["name"]
+            embed.description = ">>> "
+            embed.description += item["description"]
+            embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
+            embed.add_field(name="Prices", value=f"**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n{item['trade_price']}")
+            await interaction.send(embed=embed)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
