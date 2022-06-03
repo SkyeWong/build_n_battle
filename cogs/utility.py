@@ -62,7 +62,7 @@ class Utility(commands.Cog, name="Utility"):
             command = command.strip()
             cmd_found = False
             for cog, commands in mapping.values():
-                print(cog.name)
+                print(cog.qualified_name)
                 for i in commands:
                     print(f"    {i.name}")
                     cmd_in_guild = False
