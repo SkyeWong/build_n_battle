@@ -217,8 +217,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             embed.title += item["name"]
             embed.description = ">>> "
             embed.description += item["description"]
+            embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
             embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
-            embed.add_field(name=" ", value=f"**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}")
             view = EditItemView(interaction, item["id"])
             await interaction.send(embed=embed)
 
