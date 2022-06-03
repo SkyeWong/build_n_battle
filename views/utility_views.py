@@ -73,6 +73,8 @@ class HelpView(View):
                     cmd_in_guild = True
             elif isinstance(i, nextcord.ApplicationSubcommand):
                 parent_cmd = i.parent_command
+                while not isinstance(parent_cmd, nextcord.ApplicationCommand):
+                    parent_cmd = parent_cmd.parent_command
                 if parent_cmd:
                     if parent_cmd.is_global:
                         cmd_in_guild = True
