@@ -39,7 +39,7 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_found = True
                         cmd = x
                         break
-                    if len(x.children.values()) > 0:
+                    if len(x.children) > 0:
                         return self.search_subcommand(x, cmd_name)                       
         return cmd_found, cmd
 
