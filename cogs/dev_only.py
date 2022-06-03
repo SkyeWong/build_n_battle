@@ -113,7 +113,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                     await interaction.response.send_message(content=f"There are `{len(emojis_found)}` results for `{emojiname}`.", embed=embed)
             else:
                 await interaction.response.send_message(f"No emoji is found for `{emojiname}`.", delete_after=5)
-
+    
     @nextcord.slash_command(name="no-of-players", description="Shows the number of users in BNB.", guild_ids=[main.DEVS_SERVER_ID])
     async def no_of_players(self, interaction: Interaction):
         sql = "SELECT COUNT(id) AS NoOfUsers FROM users"
@@ -132,11 +132,19 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="user-edit", description="Edit a user's profile", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="modify", guild_ids=[main.DEVS_SERVER_ID])
     async def edit(self, interaction: Interaction):
+        """Modify users and items info.
+        Should not be called."""
+        pass
+
+    @edit.subcommand(name="user", inherit_hooks=True)
+    async def user(self, interaction: Interaction):
+        """Edit a user's profile.
+        Should not be called."""
         pass
     
-    @edit.subcommand(name="gold", description="Modify or set a user's gold", inherit_hooks=True)
+    @user.subcommand(name="gold", description="Modify or set a user's gold", inherit_hooks=True)
     async def gold(
         self, 
         interaction: Interaction, 
@@ -176,10 +184,10 @@ class dev_only(commands.Cog, name="Dev Only"):
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
 
-    @nextcord.slash_command(name="item-mod", guild_ids=[main.DEVS_SERVER_ID])
+    @edit.subcommand(name="item", guild_ids=[main.DEVS_SERVER_ID])
     async def item(self, interaction: Interaction):
         """Add, edit, or delete an item."""
-        return
+        pass
 
     @item.subcommand(name="edit", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
     async def item(
