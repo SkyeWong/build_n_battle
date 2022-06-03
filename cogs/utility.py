@@ -28,6 +28,7 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.response.send_message(embed=embed)
 
     def search_subcommand(self, cmd, cmd_name):
+        cmd_found = False
         subcommands = cmd.children.values()
         if len(subcommands) > 0:
             for x in subcommands:
@@ -52,28 +53,28 @@ class Utility(commands.Cog, name="Utility"):
         )
     ):
         """Get a list of commands or info of a specific command."""
-        command = command.strip()
         mapping = main.get_mapping(interaction)
         if not command:
             view = HelpView(interaction, mapping)
             embed = view.help_embed()
             await interaction.send(embed=embed, view=view)
         else:
+            command = command.strip()
             cmd_found = False
-        for cog, commands in mapping.values():
-            for i in commands:
-                cmd_in_guild = False
-                if i.is_global:
+            for cog, commands in mapping.values():
+                for i in commands:
+                    cmd_in_guild = False
+                    if i.is_global:
+                            cmd_in_guild = True
+                    elif interaction.guild_id in i.guild_ids:
                         cmd_in_guild = True
-                elif interaction.guild_id in i.guild_ids:
-                    cmd_in_guild = True
-                if cmd_in_guild == True:
-                    if i.name == command:
-                        cmd_found = True
-                        cmd = i
-                        break
-                    else:
-                        cmd_found, cmd = self.search_subcommand(i, command)
+                    if cmd_in_guild == True:
+                        if i.name == command:
+                            cmd_found = True
+                            cmd = i
+                            break
+                        else:
+                            cmd_found, cmd = self.search_subcommand(i, command)
             if cmd_found:
                 embed = Embed()
                 name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}"
