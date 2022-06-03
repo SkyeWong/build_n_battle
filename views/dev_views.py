@@ -7,8 +7,8 @@ import asyncio
 import main
 from main import bot
 from nextcord.ext import commands
-from nextcord import Embed, Interaction
-from nextcord.ui import Button, View, button, Modal, TextInput
+from nextcord import Embed, Interaction, SelectOption
+from nextcord.ui import Button, View, button, Modal, TextInput, select, Select
 
 class EmojiView(View):
     
@@ -97,9 +97,64 @@ class EmojiView(View):
             return True
 
 class EditItemView(View):
-    def __init__(self, slash_interaction: Interaction):
-        super().__init__(timeout=30)
+    def __init__(self, slash_interaction: Interaction, item_id):
+        super().__init__(timeout=180)
         self.slash_interaction = slash_interaction
+        self.item_id = item_id
+        sql = """
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            FROM items
+            WHERE id = %s
+            LIMIT 1
+        """
+        cursor = db.execute_query_dict(sql, (item_id) * 2)
+        results = cursor.fetchall()
+        if len(results) != 0:
+            self.item = results[0] 
+        else:
+            self.stop()
+        select = [i for i in self.children if i.custom_id == "item_select"][0]
+        columns = self._get_item_columns()
+        for column in columns:
+            select.options.append(
+                SelectOption(
+                    label = column
+                )
+            )
+            
+    def _get_item_columns(self):
+        sql = """
+            SHOW COLUMNS
+            FROM items
+        """
+        cursor = db.execute_query(sql)
+        results = cursor.fetchall()
+        columns = []
+        for i in results:
+            name = i[0]
+            if name != "id":
+                columns.append(name)
+        return columns
+
+    @select(
+        placeholder = "Choose a value...",
+        options = [],
+        custom_id = "item_select"
+    )
+    async def edit_value(self, select: Select, interaction: Interaction):
+        await interaction.send(select.values[0], ephemeral=True)
+
+    async def on_timeout(self) -> None:
+        for i in self.children:
+            i.disabled = True
+        await self.slash_interaction.edit_original_message(view=self)
+
+    async def interaction_check(self, interaction) -> bool:
+        if interaction.user != self.slash_interaction.user:
+            await interaction.response.send_message(f"This is not for you, sorry.\nUse `/{self.slash_interaction.application_command}`", ephemeral=True)
+            return False
+        else:
+            return True
 
 class EditItemModal(Modal):
     def __init__(self, itemname):
@@ -115,7 +170,7 @@ class EditItemModal(Modal):
         cursor = db.execute_query(sql)
         results = cursor.fetchall()
         self.inputs = []
-        if results > 0:
+        if len(results) > 0:
             self.inputs.append(
                 TextInput(
                     label = "",

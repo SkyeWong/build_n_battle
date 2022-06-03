@@ -12,7 +12,7 @@ from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 import database as db
 from functions.users import Users
-from views.dev_views import EmojiView
+from views.dev_views import EmojiView, EditItemView
 
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
@@ -199,7 +199,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         )
     ):
         sql = """
-            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            SELECT id, name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
             FROM items
             WHERE name LIKE %s or emoji_name LIKE %s
             ORDER BY name ASC
@@ -218,7 +218,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             embed.description = ">>> "
             embed.description += item["description"]
             embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
-            embed.add_field(name="Prices", value=f"**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n{item['trade_price']}")
+            embed.add_field(name=" ", value=f"**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}")
+            view = EditItemView(interaction, item["id"])
             await interaction.send(embed=embed)
 
 
