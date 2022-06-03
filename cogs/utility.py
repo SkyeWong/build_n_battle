@@ -62,7 +62,7 @@ class Utility(commands.Cog, name="Utility"):
             command = command.strip()
             cmd_found = False
             for cog, commands in mapping.values():
-                print(cog)
+                print(cog.name)
                 for i in commands:
                     print(f"    {i.name}")
                     cmd_in_guild = False
@@ -72,6 +72,7 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_in_guild = True
                     if cmd_in_guild:
                         if i.name == command:
+                            print("found!")
                             cmd_found = True
                             cmd = i
                             break
