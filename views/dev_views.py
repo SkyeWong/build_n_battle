@@ -107,7 +107,7 @@ class EditItemView(View):
             WHERE id = %s
             LIMIT 1
         """
-        cursor = db.execute_query_dict(sql, (item_id) * 2)
+        cursor = db.execute_query_dict(sql, (item_id))
         results = cursor.fetchall()
         if len(results) != 0:
             self.item = results[0] 
