@@ -62,10 +62,12 @@ class Utility(commands.Cog, name="Utility"):
             command = command.strip()
             cmd_found = False
             for cog, commands in mapping.values():
+                print(cog)
+                print(commands)
                 for i in commands:
                     cmd_in_guild = False
                     if i.is_global:
-                            cmd_in_guild = True
+                        cmd_in_guild = True
                     elif interaction.guild_id in i.guild_ids:
                         cmd_in_guild = True
                     if cmd_in_guild:
