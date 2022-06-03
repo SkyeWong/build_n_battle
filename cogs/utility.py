@@ -34,7 +34,7 @@ class Utility(commands.Cog, name="Utility"):
         if len(subcommands) > 0:
             for x in subcommands:
                 subcmd_name = x.name
-                if cmd_name in f"{x.full_parent_name} {subcmd_name}":
+                if f"{x.full_parent_name} {subcmd_name}" in cmd_name: 
                     if cmd_name == f"{x.full_parent_name} {subcmd_name}":
                         cmd_found = True
                         cmd = x
