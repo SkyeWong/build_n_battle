@@ -34,12 +34,12 @@ class Utility(commands.Cog, name="Utility"):
             for x in subcommands:
                 subcmd_name = x.name
                 if cmd_name in f"{x.full_parent_name} {subcmd_name}":
-                    if len(x.children.values()) > 0:
-                        return self.search_subcommand(x, cmd_name)
-                    else:
+                    if cmd_name == f"{x.full_parent_name} {subcmd_name}":
                         cmd_found = True
                         cmd = x
                         break
+                    if len(x.children.values()) > 0:
+                        return self.search_subcommand(x, cmd_name)                       
         return cmd_found, cmd
 
     @nextcord.slash_command(name="help")
@@ -62,9 +62,7 @@ class Utility(commands.Cog, name="Utility"):
             command = command.strip()
             cmd_found = False
             for cog, commands in mapping.values():
-                print(cog.qualified_name)
                 for i in commands:
-                    print(f"    {i.name}")
                     cmd_in_guild = False
                     if i.is_global:
                         cmd_in_guild = True
@@ -72,7 +70,6 @@ class Utility(commands.Cog, name="Utility"):
                         cmd_in_guild = True
                     if cmd_in_guild:
                         if i.name == command:
-                            print("found!")
                             cmd_found = True
                             cmd = i
                             break
@@ -82,7 +79,6 @@ class Utility(commands.Cog, name="Utility"):
                                 break
                 if cmd_found: 
                     break
-            print(cmd_found)
             if cmd_found:
                 embed = Embed()
                 name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}"
