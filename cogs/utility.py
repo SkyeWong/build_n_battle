@@ -63,8 +63,8 @@ class Utility(commands.Cog, name="Utility"):
             cmd_found = False
             for cog, commands in mapping.values():
                 print(cog)
-                print(commands)
                 for i in commands:
+                    print(f"    {i.name}")
                     cmd_in_guild = False
                     if i.is_global:
                         cmd_in_guild = True
