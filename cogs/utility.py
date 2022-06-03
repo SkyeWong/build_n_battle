@@ -80,6 +80,7 @@ class Utility(commands.Cog, name="Utility"):
                             cmd_found, cmd = self.search_subcommand(i, command)
                             if cmd_found:
                                 break
+            print(cmd_found)
             if cmd_found:
                 embed = Embed()
                 name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}"
