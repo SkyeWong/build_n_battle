@@ -75,9 +75,10 @@ class Utility(commands.Cog, name="Utility"):
                             cmd = i
                             break
                         else:
-                            cmd_found, cmd = self.search_subcommand(i, command)
-                            if cmd_found:
-                                break
+                            if len(i.children) > 0:
+                                cmd_found, cmd = self.search_subcommand(i, command)
+                                if cmd_found:
+                                    break
                 if cmd_found: 
                     break
             if cmd_found:
