@@ -132,7 +132,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             richest += f"\n`{user.name}`・`{record[1]}⍟`"
         await interaction.followup.send(richest)
 
-    @nextcord.slash_command(name="edit", description="Edit a user's profile or bot items", guild_ids=[main.DEVS_SERVER_ID])
+    @nextcord.slash_command(name="user-edit", description="Edit a user's profile", guild_ids=[main.DEVS_SERVER_ID])
     async def edit(self, interaction: Interaction):
         pass
     
@@ -176,9 +176,10 @@ class dev_only(commands.Cog, name="Dev Only"):
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
 
-    @nextcord.slash_command(name="item")
+    @nextcord.slash_command(name="item-mod", guild_ids=[main.DEVS_SERVER_ID])
     async def item(self, interaction: Interaction):
-        pass
+        """Add, edit, or delete an item."""
+        return
 
     @item.subcommand(name="edit", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
     async def item(
@@ -203,6 +204,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         else:
             embed = Embed()
             item = results[0]
+            embed.colour = random.choice(main.embed_colours)
             embed.title = "Current values of "
             embed.title += item["name"]
             embed.description = ">>> "
