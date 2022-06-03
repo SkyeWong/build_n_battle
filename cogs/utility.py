@@ -28,6 +28,7 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.response.send_message(embed=embed)
 
     def search_subcommand(self, cmd, cmd_name):
+        print(f"searching {cmd_name} in {cmd.name}")
         cmd_found = False
         subcommands = cmd.children.values()
         if len(subcommands) > 0:
