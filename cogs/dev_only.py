@@ -184,7 +184,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         else:
             await interaction.response.send_message("can't set the gold to that, try again")
 
-    @edit.subcommand(name="item", guild_ids=[main.DEVS_SERVER_ID])
+    @edit.subcommand(name="item", inherit_hooks=True)
     async def item(self, interaction: Interaction):
         """Add, edit, or delete an item."""
         pass
