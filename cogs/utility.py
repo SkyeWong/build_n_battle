@@ -68,13 +68,15 @@ class Utility(commands.Cog, name="Utility"):
                             cmd_in_guild = True
                     elif interaction.guild_id in i.guild_ids:
                         cmd_in_guild = True
-                    if cmd_in_guild == True:
+                    if cmd_in_guild:
                         if i.name == command:
                             cmd_found = True
                             cmd = i
                             break
                         else:
                             cmd_found, cmd = self.search_subcommand(i, command)
+                            if cmd_found:
+                                break
             if cmd_found:
                 embed = Embed()
                 name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}"
