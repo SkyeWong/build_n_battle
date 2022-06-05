@@ -115,10 +115,10 @@ class HelpView(View):
                 option.default = True
         await self.slash_interaction.edit_original_message(embed=embed, view=self)
 
-    async def get_page_start_index(self):
+    def get_page_start_index(self):
         return (self.page - 1) * self.cmd_per_page
 
-    async def get_page_end_index(self):
+    def get_page_end_index(self):
         index = self.get_page_start_index + self.cmd_per_page
         return index if index < len(self.cmd_list) else len(self.cmd_list)
     
