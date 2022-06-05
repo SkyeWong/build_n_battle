@@ -132,7 +132,7 @@ class HelpView(View):
             first_btn.disabled = False
         next_btn = [i for i in self.children if i.custom_id=="next"][0]
         last_btn = [i for i in self.children if i.custom_id=="last"][0]
-        if self.get_page_end_index == len(self.cmd_list):
+        if self.get_page_end_index == len(self.cmd_list) - 1:
             next_btn.disabled = True
             last_btn.disabled = True
         else:
