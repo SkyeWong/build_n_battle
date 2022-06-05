@@ -122,7 +122,7 @@ class HelpView(View):
         index = self.get_page_start_index() + self.cmd_per_page
         return index if index < len(self.cmd_list) else len(self.cmd_list) - 1
     
-    async def btn_disable(self, interaction: Interaction):
+    async def btn_disable(self):
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
         first_btn = [i for i in self.children if i.custom_id=="first"][0]
         if self.page == 1:
@@ -139,7 +139,7 @@ class HelpView(View):
         else:
             next_btn.disabled = False
             last_btn.disabled = False
-        await interaction.response.edit_message(view=self)
+        await self.slash_interaction.response.edit_message(view=self)
 
     @button(
         emoji = "⏮️",
