@@ -24,6 +24,7 @@ class HelpView(View):
         cog_select_menu.options = self._get_cogs_option()
         self.page = 1
         self.cmd_per_page = 8
+        self.btn_disable(slash_interaction)
     
     def _get_cogs_option(self) -> list[SelectOption]:
         options: list[SelectOption] = []
@@ -133,7 +134,7 @@ class HelpView(View):
             first_btn.disabled = False
         next_btn = [i for i in self.children if i.custom_id=="next"][0]
         last_btn = [i for i in self.children if i.custom_id=="last"][0]
-        if self.page == len(self.emoji_list):
+        if self.page == len(self.cmd_list):
             next_btn.disabled = True
             last_btn.disabled = True
         else:
