@@ -57,6 +57,7 @@ class Utility(commands.Cog, name="Utility"):
         if not command:
             view = HelpView(interaction, mapping)
             embed = view.help_embed()
+            await view.btn_disable(interaction)
             await interaction.send(embed=embed, view=view)
         else:
             command = command.strip()
@@ -89,6 +90,8 @@ class Utility(commands.Cog, name="Utility"):
                     view = HelpView(interaction, mapping)
                     view.cmd_list = cmd.children.values()
                     embed = view.help_embed(author_name=f"Subcommands of /{name}")
+                    await view.btn_disable(interaction)
+                    await interaction.send(embed=embed, view=view)
                 else:
                     embed.description = cmd.description
                     cmd_options = [i for i in list(cmd.options.values())]
@@ -102,8 +105,8 @@ class Utility(commands.Cog, name="Utility"):
                     usage += "`"
                     embed.add_field(name="Usage", value=usage)
                     embed.set_footer(text="Syntax: <required> [optional]")
+                    await interaction.send(embed=embed)
                 embed.colour = random.choice(main.embed_colours)
-                await interaction.send(embed=embed)
             else:
                 await interaction.send("The command is not found! Use `/help` for a list of available commands")
 

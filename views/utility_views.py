@@ -24,7 +24,6 @@ class HelpView(View):
         cog_select_menu.options = self._get_cogs_option()
         self.page = 1
         self.cmd_per_page = 8
-        self.btn_disable(slash_interaction)
     
     def _get_cogs_option(self) -> list[SelectOption]:
         options: list[SelectOption] = []
@@ -93,7 +92,7 @@ class HelpView(View):
             if len(value) > 50:
                 value = f"{value[:50]}..."
             embed.add_field(
-                name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}",
+                name = f"/{cmd.name}" if isinstance(cmd, nextcord.ApplicationCommand) else f"/{cmd.full_parent_name} {cmd.name}",
                 value = f"`➸` {value}",
                 inline = False
             )
@@ -121,7 +120,7 @@ class HelpView(View):
 
     def get_page_end_index(self):
         index = self.get_page_start_index() + self.cmd_per_page
-        return index if index < len(self.cmd_list) else len(self.cmd_list)
+        return index if index < len(self.cmd_list) else len(self.cmd_list) - 1
     
     async def btn_disable(self, interaction: Interaction):
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
