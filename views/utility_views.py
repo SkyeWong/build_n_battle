@@ -85,7 +85,6 @@ class HelpView(View):
                         cmd_in_guild = True
             if cmd_in_guild:
                 filtered.append(i)
-        print(self.get_page_start_index(), self.get_page_end_index() + 1)
         final_cmd_list = filtered[self.get_page_start_index():self.get_page_end_index()+1]
         for cmd in final_cmd_list:
             value = cmd.description if cmd.description else "..."
@@ -122,7 +121,7 @@ class HelpView(View):
         index = self.get_page_start_index() + self.cmd_per_page
         return index if index < len(self.cmd_list) else len(self.cmd_list) - 1
     
-    async def btn_disable(self):
+    def btn_disable(self):
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
         first_btn = [i for i in self.children if i.custom_id=="first"][0]
         if self.page == 1:
@@ -133,7 +132,7 @@ class HelpView(View):
             first_btn.disabled = False
         next_btn = [i for i in self.children if i.custom_id=="next"][0]
         last_btn = [i for i in self.children if i.custom_id=="last"][0]
-        if self.page == len(self.cmd_list):
+        if self.get_page_end_index == len(self.cmd_list):
             next_btn.disabled = True
             last_btn.disabled = True
         else:
@@ -148,7 +147,7 @@ class HelpView(View):
     )
     async def first(self, button: Button, btn_interaction: Interaction):
         self.page = 1
-        await self.btn_disable()
+        self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed)
 
