@@ -119,7 +119,7 @@ class HelpView(View):
         return (self.page - 1) * self.cmd_per_page
 
     def get_page_end_index(self):
-        index = self.get_page_start_index + self.cmd_per_page
+        index = self.get_page_start_index() + self.cmd_per_page
         return index if index < len(self.cmd_list) else len(self.cmd_list)
     
     async def btn_disable(self, interaction: Interaction):
