@@ -149,7 +149,7 @@ class HelpView(View):
         self.page = 1
         self.btn_disable()
         embed = self.help_embed()
-        await self.slash_interaction.edit_original_message(embed=embed)
+        await self.slash_interaction.edit_original_message(embed=embed, view=self)
 
     @button(
         emoji = "◀️",
@@ -159,9 +159,9 @@ class HelpView(View):
     )
     async def back(self, button: Button, btn_interaction: Interaction):
         self.page -= 1
-        await self.btn_disable()
+        self.btn_disable()
         embed = self.help_embed()
-        await self.slash_interaction.edit_original_message(embed=embed)
+        await self.slash_interaction.edit_original_message(embed=embed, view=self)
 
     @button(
         emoji = "▶️",
@@ -170,9 +170,9 @@ class HelpView(View):
     )
     async def next(self, button: Button, btn_interaction: Interaction):
         self.page += 1
-        await self.btn_disable()
+        self.btn_disable()
         embed = self.help_embed()
-        await self.slash_interaction.edit_original_message(embed=embed)
+        await self.slash_interaction.edit_original_message(embed=embed, view=self)
 
     @button(
         emoji = "⏭️",
@@ -181,9 +181,9 @@ class HelpView(View):
     )
     async def last(self, button: Button, btn_interaction: Interaction):
         self.page = len(self.cmd_list)
-        await self.btn_disable()
+        self.btn_disable()
         embed = self.help_embed()
-        await self.slash_interaction.edit_original_message(embed=embed)
+        await self.slash_interaction.edit_original_message(embed=embed, view=self)
     
     async def on_timeout(self) -> None:
         for i in self.children:
