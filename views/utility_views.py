@@ -85,6 +85,7 @@ class HelpView(View):
                         cmd_in_guild = True
             if cmd_in_guild:
                 filtered.append(i)
+        print(self.get_page_start_index(), self.get_page_end_index())
         final_cmd_list = filtered[self.get_page_start_index():self.get_page_end_index()]
         for cmd in final_cmd_list:
             value = cmd.description if cmd.description else "..."
