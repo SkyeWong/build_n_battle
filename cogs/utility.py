@@ -28,7 +28,6 @@ class Utility(commands.Cog, name="Utility"):
         await interaction.response.send_message(embed=embed)
 
     def search_subcommand(self, cmd, cmd_name):
-        print(f"searching {cmd_name} in {cmd.name}")
         cmd_found = False
         subcommands = cmd.children.values()
         if len(subcommands) > 0:
@@ -88,7 +87,8 @@ class Utility(commands.Cog, name="Utility"):
                 embed.set_author(name=bot.user.name, icon_url=bot.user.display_avatar.url)
                 if len(cmd.children) > 0:
                     view = HelpView(interaction, mapping)
-                    embed = view.help_embed(command_list=cmd.children.values(), author_name=f"Subcommands of /{name}")
+                    view.cmd_list = cmd.children.values()
+                    embed = view.help_embed(author_name=f"Subcommands of /{name}")
                 else:
                     embed.description = cmd.description
                     cmd_options = [i for i in list(cmd.options.values())]

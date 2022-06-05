@@ -19,8 +19,11 @@ class HelpView(View):
         self.slash_interaction = slash_interaction
         self.mapping = mapping
         self.default_cog_name = default_cog_name
+        self.cmd_list = mapping[default_cog_name][1]
         cog_select_menu = [i for i in self.children if i.custom_id == "cog_select"][0]
         cog_select_menu.options = self._get_cogs_option()
+        self.page = 1
+        self.cmd_per_page = 8
     
     def _get_cogs_option(self) -> list[SelectOption]:
         options: list[SelectOption] = []
@@ -47,10 +50,10 @@ class HelpView(View):
     def help_embed(
         self, 
         description: Optional[str] = None, 
-        command_list: Optional[list[nextcord.ApplicationCommand]] = None, 
         set_author: bool = True,
         author_name: str = "Commands"
-    ):
+    ):  
+        command_list = self.cmd_list
         embed = Embed()
         embed.colour = random.choice(main.embed_colours)
         if description:
@@ -82,12 +85,13 @@ class HelpView(View):
                         cmd_in_guild = True
             if cmd_in_guild:
                 filtered.append(i)
-        for cmd in filtered:
+        final_cmd_list = filtered[self.get_page_start_index:self.get_page_end_index]
+        for cmd in final_cmd_list:
             value = cmd.description if cmd.description else "..."
             if len(value) > 50:
                 value = f"{value[:50]}..."
             embed.add_field(
-                name = cmd.name,
+                name = cmd.name if isinstance(cmd, nextcord.ApplicationCommand) else f"{cmd.full_parent_name} {cmd.name}",
                 value = f"`➸` {value}",
                 inline = False
             )
@@ -101,13 +105,87 @@ class HelpView(View):
         custom_id = "cog_select"
     )
     async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
-        embed = self.help_embed(command_list=self.mapping[select.values[0]][1])
+        self.page = 1
+        self.cmd_list = self.mapping[select.values[0]][1]
+        embed = self.help_embed()
         for option in select.options:
             option.default = False
             if option.label == select.values[0]:
                 option.default = True
         await self.slash_interaction.edit_original_message(embed=embed, view=self)
 
+    async def get_page_start_index(self):
+        return (self.page - 1) * self.cmd_per_page
+
+    async def get_page_end_index(self):
+        index = self.get_page_start_index + self.cmd_per_page
+        return index if index < len(self.cmd_list) else len(self.cmd_list)
+    
+    async def btn_disable(self, interaction: Interaction):
+        back_btn = [i for i in self.children if i.custom_id=="back"][0]
+        first_btn = [i for i in self.children if i.custom_id=="first"][0]
+        if self.page == 1:
+            back_btn.disabled = True
+            first_btn.disabled = True
+        else:
+            back_btn.disabled = False
+            first_btn.disabled = False
+        next_btn = [i for i in self.children if i.custom_id=="next"][0]
+        last_btn = [i for i in self.children if i.custom_id=="last"][0]
+        if self.page == len(self.emoji_list):
+            next_btn.disabled = True
+            last_btn.disabled = True
+        else:
+            next_btn.disabled = False
+            last_btn.disabled = False
+        await interaction.response.edit_message(view=self)
+
+    @button(
+        emoji = "⏮️",
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "first",
+        disabled = True
+    )
+    async def first(self, button: Button, btn_interaction: Interaction):
+        self.page = 1
+        await self.btn_disable(btn_interaction)
+        embed = self.help_embed()
+        await self.slash_interaction.edit_original_message(embed=embed)
+
+    @button(
+        emoji = "◀️",
+        style = nextcord.ButtonStyle.blurple,
+        disabled = True,
+        custom_id = "back"
+    )
+    async def back(self, button: Button, btn_interaction: Interaction):
+        self.page -= 1
+        await self.btn_disable(btn_interaction)
+        embed = self.help_embed()
+        await self.slash_interaction.edit_original_message(embed=embed)
+
+    @button(
+        emoji = "▶️",
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "next"
+    )
+    async def next(self, button: Button, btn_interaction: Interaction):
+        self.page += 1
+        await self.btn_disable(btn_interaction)
+        embed = self.help_embed()
+        await self.slash_interaction.edit_original_message(embed=embed)
+
+    @button(
+        emoji = "⏭️",
+        style = nextcord.ButtonStyle.blurple,
+        custom_id = "last"
+    )
+    async def last(self, button: Button, btn_interaction: Interaction):
+        self.page = len(self.cmd_list)
+        await self.btn_disable(btn_interaction)
+        embed = self.help_embed()
+        await self.slash_interaction.edit_original_message(embed=embed)
+    
     async def on_timeout(self) -> None:
         for i in self.children:
             i.disabled = True
