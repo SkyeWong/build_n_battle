@@ -148,7 +148,7 @@ class HelpView(View):
     )
     async def first(self, button: Button, btn_interaction: Interaction):
         self.page = 1
-        await self.btn_disable(btn_interaction)
+        await self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed)
 
@@ -160,7 +160,7 @@ class HelpView(View):
     )
     async def back(self, button: Button, btn_interaction: Interaction):
         self.page -= 1
-        await self.btn_disable(btn_interaction)
+        await self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed)
 
@@ -171,7 +171,7 @@ class HelpView(View):
     )
     async def next(self, button: Button, btn_interaction: Interaction):
         self.page += 1
-        await self.btn_disable(btn_interaction)
+        await self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed)
 
@@ -182,7 +182,7 @@ class HelpView(View):
     )
     async def last(self, button: Button, btn_interaction: Interaction):
         self.page = len(self.cmd_list)
-        await self.btn_disable(btn_interaction)
+        await self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed)
     
