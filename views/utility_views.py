@@ -139,7 +139,7 @@ class HelpView(View):
         else:
             next_btn.disabled = False
             last_btn.disabled = False
-        await self.slash_interaction.response.edit_message(view=self)
+        await self.slash_interaction.edit_original_message(view=self)
 
     @button(
         emoji = "⏮️",
