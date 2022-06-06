@@ -186,6 +186,7 @@ class EditItemModal(Modal):
             self.input = TextInput(
                 label = column
             )
+            self.add_item(self.input)
     
     async def callback(self, interaction: Interaction):
         sql = """
