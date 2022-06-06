@@ -107,6 +107,7 @@ class HelpView(View):
     async def select_cog(self, select: nextcord.ui.Select, interaction: Interaction):
         self.page = 1
         self.cmd_list = self.mapping[select.values[0]][1]
+        self.btn_disable()
         embed = self.help_embed()
         for option in select.options:
             option.default = False
@@ -122,7 +123,6 @@ class HelpView(View):
         return index if index < len(self.cmd_list) else len(self.cmd_list) - 1
     
     def btn_disable(self):
-        print("disabling buttons...")
         back_btn = [i for i in self.children if i.custom_id=="back"][0]
         first_btn = [i for i in self.children if i.custom_id=="first"][0]
         if self.page == 1:
@@ -133,7 +133,6 @@ class HelpView(View):
             first_btn.disabled = False
         next_btn = [i for i in self.children if i.custom_id=="next"][0]
         last_btn = [i for i in self.children if i.custom_id=="last"][0]
-        print("self.get_page_end_index == len(self.cmd_list) - 1", self.get_page_end_index == len(self.cmd_list) - 1)
         if self.get_page_end_index() == len(self.cmd_list) - 1:
             next_btn.disabled = True
             last_btn.disabled = True
