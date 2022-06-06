@@ -23,7 +23,7 @@ class HelpView(View):
         cog_select_menu = [i for i in self.children if i.custom_id == "cog_select"][0]
         cog_select_menu.options = self._get_cogs_option()
         self.page = 1
-        self.cmd_per_page = 8
+        self.cmd_per_page = 6
     
     def _get_cogs_option(self) -> list[SelectOption]:
         options: list[SelectOption] = []
@@ -35,8 +35,8 @@ class HelpView(View):
             emoji = getattr(cog, "COG_EMOJI", None)
             description = ""
             if cog.description:
-                if len(cog.description) > 90:
-                    description = f"{cog.description[:90]}..."
+                if len(cog.description) > 120:
+                    description = f"{cog.description[:120]}..."
                 else:
                     description = cog.description
             options.append(SelectOption(
