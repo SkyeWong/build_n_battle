@@ -91,6 +91,8 @@ class Utility(commands.Cog, name="Utility"):
                     view.cmd_list = cmd.children.values()
                     embed = view.help_embed(author_name=f"Subcommands of /{name}")
                     view.btn_disable()
+                    select = [i for i in view.children if i.custom_id == "cog_select"][0]
+                    view.remove_item(select)
                     await interaction.send(embed=embed, view=view)
                 else:
                     embed.description = cmd.description
