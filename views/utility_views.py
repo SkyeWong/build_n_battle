@@ -181,7 +181,7 @@ class HelpView(View):
         custom_id = "last"
     )
     async def last(self, button: Button, btn_interaction: Interaction):
-        self.page = len(self.cmd_list)
+        self.page = math.ceil(len(self.cmd_list) / self.cmd_per_page)
         self.btn_disable()
         embed = self.help_embed()
         await self.slash_interaction.edit_original_message(embed=embed, view=self)
