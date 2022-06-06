@@ -144,8 +144,8 @@ class EditItemView(View):
         custom_id = "item_select"
     )
     async def edit_value(self, select: Select, interaction: Interaction):
-        await interaction.send(select.values[0], ephemeral=True)
         await interaction.response.send_modal(EditItemModal(self.item_id, select.values[0]))
+        await interaction.send(select.values[0], ephemeral=True)
 
     async def on_timeout(self) -> None:
         for i in self.children:
