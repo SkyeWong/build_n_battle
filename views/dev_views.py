@@ -115,7 +115,7 @@ class EditItemView(View):
             self.stop()
         select = [i for i in self.children if i.custom_id == "item_select"][0]
         columns = self._get_item_columns()
-        for column in columns:
+        for column in columns: 
             select.options.append(
                 SelectOption(
                     label = column
@@ -145,6 +145,7 @@ class EditItemView(View):
     )
     async def edit_value(self, select: Select, interaction: Interaction):
         await interaction.send(select.values[0], ephemeral=True)
+        await interaction.response.send_modal(EditItemModal(self.item_id, select.values[0]))
 
     async def on_timeout(self) -> None:
         for i in self.children:
@@ -159,24 +160,39 @@ class EditItemView(View):
             return True
 
 class EditItemModal(Modal):
-    def __init__(self, itemname):
+    def __init__(self, item_id, column):
+        sql = """
+            SELECT name
+            FROM items
+            WHERE id = %s
+            LIMIT 1
+        """
+        cursor = db.execute_query_dict(sql, (item_id,))
+        results = cursor.fetchall()
+        item = results[0]
         super().__init__(
-            title = f"Edit the item {itemname}",
+            title = f"Edit the item {item['name']}",
             timeout = None
         )
-        self.itemname = itemname
+        self.item_id = item_id
+        self.column = column
         sql = """
             SHOW COLUMNS
             FROM items
         """
         cursor = db.execute_query(sql)
         results = cursor.fetchall()
-        self.inputs = []
-        if len(results) > 0:
-            self.inputs.append(
-                TextInput(
-                    label = "",
-                    min_length = 4,
-                    max_length = 4
-                )
+        if column in results:
+            self.input = TextInput(
+                label = column
             )
+    
+    async def callback(self, interaction: Interaction):
+        sql = """
+            UPDATE items
+            SET %s = %s
+            WHERE id = 1
+        """
+        cursor = db.execute_query(sql, (self.column, self.input.value))
+        db.conn.commit()
+        await interaction.send(f"set {self.column} to {self.input.value}")
