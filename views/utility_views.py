@@ -95,6 +95,7 @@ class HelpView(View):
                 value = f"`➸` {value}",
                 inline = False
             )
+        embed.set_footer(text=f"Page {self.page}/{math.ceil(len(self.cmd_list) / self.cmd_per_page)}")
         return embed
 
     @select(
@@ -119,7 +120,7 @@ class HelpView(View):
         return (self.page - 1) * self.cmd_per_page
 
     def get_page_end_index(self):
-        index = self.get_page_start_index() + self.cmd_per_page
+        index = self.get_page_start_index() + self.cmd_per_page - 1
         return index if index < len(self.cmd_list) else len(self.cmd_list) - 1
     
     def btn_disable(self):
