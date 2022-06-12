@@ -9,6 +9,7 @@ from main import bot
 from nextcord.ext import commands
 from nextcord import Embed, Interaction, SelectOption
 from nextcord.ui import Button, View, button, Modal, TextInput, select, Select
+from mysql.connector import Error
 
 class EmojiView(View):
     
@@ -143,7 +144,6 @@ class EditItemView(View):
     )
     async def edit_value(self, select: Select, interaction: Interaction):
         await interaction.response.send_modal(EditItemModal(self.item_id, select.values[0]))
-        await interaction.send(select.values[0], ephemeral=True)
 
     async def on_timeout(self) -> None:
         for i in self.children:
@@ -197,6 +197,10 @@ class EditItemModal(Modal):
             SET %s = %s
             WHERE id = 1
         """
-        cursor = db.execute_query(sql, (self.column, self.input.value))
-        db.conn.commit()
-        await interaction.send(f"set {self.column} to {self.input.value}")
+        try:
+            cursor = db.execute_query(sql, (self.column, self.input.value))
+            db.conn.commit()
+        except (AttributeError, Error):
+            await interaction.send("invalid value.", ephemeral=True)
+
+        await interaction.send(f"{interaction.user.mention} set {self.column} to {self.input.value}")
