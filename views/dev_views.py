@@ -194,7 +194,7 @@ class EditItemModal(Modal):
     async def callback(self, interaction: Interaction):
         value = self.input.value
         if self.column in ("buy_price", "sell_price", "trade_price"):
-            value = main.text_to_num(self.input.value)
+            value = str(main.text_to_num(self.input.value))
         sql = """
             UPDATE items
             SET %s = %s
