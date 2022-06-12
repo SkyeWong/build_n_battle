@@ -192,6 +192,8 @@ class EditItemModal(Modal):
             self.add_item(self.input)
     
     async def callback(self, interaction: Interaction):
+        if self.column in ("buy_price", "sell_price", "trade_price"):
+            self.input.value = main.text_to_num(self.input.value)
         sql = """
             UPDATE items
             SET %s = %s
@@ -201,6 +203,6 @@ class EditItemModal(Modal):
             cursor = db.execute_query(sql, (self.column, self.input.value))
             db.conn.commit()
         except (AttributeError, Error):
-            await interaction.send("invalid value.", ephemeral=True)
+            await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             return
         await interaction.send(f"{interaction.user.mention} set {self.column} to {self.input.value}")
