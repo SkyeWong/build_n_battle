@@ -222,6 +222,26 @@ class dev_only(commands.Cog, name="Dev Only"):
             view = EditItemView(interaction, item["id"])
             await interaction.send(embed=embed, view=view)
 
+    @nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.")
+    async def dm_spam(
+        self, 
+        interaction: Interaction, 
+        user: nextcord.User = SlashOption(
+            description = "the user to spam", 
+            required = True
+        ),
+        message: str = SlashOption(
+            description = "the msg to show",
+            required = True
+        ),
+        times: int = SlashOption(
+            description = "spam him for how many times?", 
+            required = True,
+            min_value = 1
+        )
+    ):
+        for i in range(1, times+1):
+            await user.send(f"`{i}` - {message} from {interaction.user.name}")
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
