@@ -9,14 +9,17 @@ TOKEN = os.environ["DISCORD_TOKEN"]
 DEVS_SERVER_ID = 919223073054539858
 
 def get_prefix(bot, message): # define get_prefix
-    sql = f"""
-            SELECT prefix
-            FROM server_prefixes
-            WHERE server_id = {message.guild.id}
-        """
-    cursor = db.execute_query(sql)
-    server_prefix = cursor.fetchall()[0][0]
-    return server_prefix #recieve the prefix for the guild id given
+    if message.guild:
+        sql = f"""
+                SELECT prefix
+                FROM server_prefixes
+                WHERE server_id = {message.guild.id}
+            """
+        cursor = db.execute_query(sql)
+        server_prefix = cursor.fetchall()[0][0]
+        return server_prefix #recieve the prefix for the guild id given
+    else:
+        return "+"
 
 bot = commands.Bot(command_prefix=(get_prefix), case_insensitive=True, activity=nextcord.Game(name="+help"), owner_ids={806334528230129695, 706126877668147272, 708141816020729867, 798720829583523861, 823522605352484916})
 embed_colours = [
