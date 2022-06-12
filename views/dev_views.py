@@ -180,11 +180,17 @@ class EditItemModal(Modal):
         """
         cursor = db.execute_query(sql)
         results = cursor.fetchall()
-        if column in results:
+        columns = []
+        for i in results:
+            name = i[0]
+            if name.lower() != "id":
+                columns.append(name)
+        if column in columns:
             self.input = TextInput(
                 label = column
             )
             self.add_item(self.input)
+        self.add_item(self.test)
     
     async def callback(self, interaction: Interaction):
         sql = """
