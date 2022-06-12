@@ -6,6 +6,7 @@ from datetime import datetime
 import random
 import asyncio
 import main
+import math
 from main import bot
 from nextcord.ext import commands, tasks, application_checks
 from nextcord import Embed, Interaction, SlashOption
@@ -238,13 +239,43 @@ class dev_only(commands.Cog, name="Dev Only"):
             description = "spam him for how many times?", 
             required = True,
             min_value = 1, 
-            max_value = 100
+            max_value = 5000
+        ),
+        show_author: bool = SlashOption(
+            name = "show-author",
+            description = "show that you spammed him or not",
+            choices = {
+                "YESSSS": True,
+                "NOOOOO": False
+            },
+            default = True,
+            required = False
+        ),
+        time_interval: float = SlashOption(
+            name = "time-interval",
+            description = "time interval between a select number of messages. defaults to 1",
+            default = 1, 
+            required = False,
+            min_value = 0,
+            max_value = 15
+        ),
+        messages_between_time_interval: int = SlashOption(
+            name = "messages-between-each-time-interval",
+            description = "pretty self-descriptive. defaults to 1",
+            default = 1,
+            required = False
         )
     ):
         await interaction.send("||fuck you||", delete_after=0.05)
         notify_author = await interaction.user.send(f"spamming {user.name} for {times} times with the msg `{message}`")
-        for i in range(1, times+1):
-            await user.send(f"`{i}` - _`{message}`_ from `{interaction.user.name}`")
+        message_sent = 0
+        for i in range(1, math.ceil(times / messages_between_time_interval) + 1):
+            for j in range(messages_between_time_interval):
+                msg = f"`{i}` - _`{message}`_"
+                msg += f"from `{interaction.user.name}`" if show_author == True else ""
+                await user.send(msg)
+                message_sent += 1
+                await asyncio.sleep(time_interval)
         content = notify_author.content
         await notify_author.edit(f"{content}\nedit: spamming is done.")
 
