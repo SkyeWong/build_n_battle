@@ -202,5 +202,5 @@ class EditItemModal(Modal):
             db.conn.commit()
         except (AttributeError, Error):
             await interaction.send("invalid value.", ephemeral=True)
-
+            return
         await interaction.send(f"{interaction.user.mention} set {self.column} to {self.input.value}")
