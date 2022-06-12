@@ -190,7 +190,6 @@ class EditItemModal(Modal):
                 label = column
             )
             self.add_item(self.input)
-        self.add_item(self.test)
     
     async def callback(self, interaction: Interaction):
         sql = """
