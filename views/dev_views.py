@@ -132,8 +132,6 @@ class EditItemView(View):
         columns = []
         for i in results:
             name = i[0]
-            name = name.replace("_", " ")
-            name = name.title()
             if name.lower() != "id":
                 columns.append(name)
         return columns
