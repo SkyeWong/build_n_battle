@@ -222,7 +222,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             view = EditItemView(interaction, item["id"])
             await interaction.send(embed=embed, view=view)
 
-    @nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.")
+    @nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.", guild_ids=[main.DEVS_SERVER_ID])
     async def dm_spam(
         self, 
         interaction: Interaction, 
