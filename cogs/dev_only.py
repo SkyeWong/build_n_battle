@@ -241,10 +241,10 @@ class dev_only(commands.Cog, name="Dev Only"):
             max_value = 100
         )
     ):
-        await interaction.send("ignore this", delete_after=0.1)
-        notify_author = await interaction.user.send(f"spamming {user.name} for {times} with the msg _```{message}```_")
+        await interaction.send("||fuck you||", delete_after=0.05)
+        notify_author = await interaction.user.send(f"spamming {user.name} for {times} times with the msg `{message}`")
         for i in range(1, times+1):
-            await user.send(f"`{i}` - _```{message}```_ from {interaction.user.name}")
+            await user.send(f"`{i}` - _`{message}`_ from `{interaction.user.name}`")
         content = notify_author.content
         await notify_author.edit(f"{content}\nedit: spamming is done.")
 
