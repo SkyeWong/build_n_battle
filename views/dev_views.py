@@ -203,7 +203,7 @@ class EditItemModal(Modal):
         try:
             cursor = db.execute_query(sql, (self.column, value))
             db.conn.commit()
-        except (AttributeError, Error):
+        except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
-            return
+            raise error
         await interaction.send(f"{interaction.user.mention} set {self.column} to {self.input.value}")
