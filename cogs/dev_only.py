@@ -245,8 +245,8 @@ class dev_only(commands.Cog, name="Dev Only"):
             name = "show-author",
             description = "show that you spammed him or not",
             choices = {
-                "YESSSS": True,
-                "NOOOOO": False
+                "YESSSS": 1,
+                "NOOOOO": 0
             },
             default = True,
             required = False
@@ -259,9 +259,9 @@ class dev_only(commands.Cog, name="Dev Only"):
             min_value = 0,
             max_value = 15
         ),
-        messages_between_time_interval: int = SlashOption(
-            name = "messages-between-each-time-interval",
-            description = "pretty self-descriptive. defaults to 1",
+        between_time_interval: int = SlashOption(
+            name = "between-time-interval",
+            description = "messages sent between each time interval defaults to 1",
             default = 1,
             required = False
         )
@@ -269,10 +269,10 @@ class dev_only(commands.Cog, name="Dev Only"):
         await interaction.send("||fuck you||", delete_after=0.05)
         notify_author = await interaction.user.send(f"spamming {user.name} for {times} times with the msg `{message}`")
         message_sent = 0
-        for i in range(1, math.ceil(times / messages_between_time_interval) + 1):
-            for j in range(messages_between_time_interval):
+        for i in range(1, math.ceil(times / between_time_interval) + 1):
+            for j in range(between_time_interval):
                 msg = f"`{i}` - _`{message}`_"
-                msg += f"from `{interaction.user.name}`" if show_author == True else ""
+                msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                 await user.send(msg)
                 message_sent += 1
                 await asyncio.sleep(time_interval)
