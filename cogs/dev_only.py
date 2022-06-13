@@ -248,7 +248,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 "YESSSS": 1,
                 "NOOOOO": 0
             },
-            default = True,
+            default = 1,
             required = False
         ),
         time_interval: float = SlashOption(
