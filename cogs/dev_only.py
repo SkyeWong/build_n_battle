@@ -241,7 +241,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             min_value = 1, 
             max_value = 5000
         ),
-        show_author: bool = SlashOption(
+        show_author: int = SlashOption(
             name = "show-author",
             description = "show that you spammed him or not",
             choices = {
