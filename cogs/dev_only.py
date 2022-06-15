@@ -291,6 +291,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.add_field(name=f"Time intervals", value=f"{between_time_interval} times every {time_interval} sec")
         estimated_finish_time = int(math.ceil(datetime.now().timestamp() + math.ceil(times / between_time_interval) * time_interval))
         embed.add_field(name=f"Estimated finishing time", value=f"<t:{estimated_finish_time}:R> | <t:{estimated_finish_time}:F>")
+        embed.set_footer(text="The estimated finishing time may be inaccurate (too early) bcs of lag")
         notify_author = await interaction.user.send(embed=embed)
         messages_sent = 1
         for i in range(math.ceil(times / between_time_interval)):
