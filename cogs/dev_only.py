@@ -227,7 +227,7 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def dm_spam(
         self, 
         interaction: Interaction, 
-        user: int = SlashOption(
+        user: nextcord.User = SlashOption(
             description = "the id of that user", 
             required = True
         ),
@@ -264,13 +264,19 @@ class dev_only(commands.Cog, name="Dev Only"):
             description = "messages sent between each time interval. defaults to 1",
             default = 1,
             required = False
-        )
+        ),
+        userid: str = SlashOption(
+            description = "the id of that user. if this is set, this overrides the User option.", 
+            required = False
+        ),
     ):
-        try:
-            user = await bot.fetch_user(user)
-        except:
-            await interaction.send("user not found", ephermal=True)
-            return
+        if userid:
+            userid = int(userid)
+            try:
+                user = await bot.fetch_user(userid)
+            except:
+                await interaction.send("user not found", ephermal=True)
+                return
         await interaction.send("||fuck you||", delete_after=0.05)
         str_len = len(str(times))
         embed = Embed()
