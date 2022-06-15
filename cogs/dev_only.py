@@ -261,7 +261,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         between_time_interval: int = SlashOption(
             name = "between-time-interval",
-            description = "messages sent between each time interval. defaults to 1",
+            description = "messages sent between each time interval. unadvised to set this too high. undefaults to 1",
             default = 1,
             required = False
         ),
