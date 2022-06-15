@@ -267,7 +267,13 @@ class dev_only(commands.Cog, name="Dev Only"):
         )
     ):
         await interaction.send("||fuck you||", delete_after=0.05)
-        notify_author = await interaction.user.send(f"spamming {user.name} for {times} times with the msg `{message}`")
+        embed = Embed()
+        embed.title = f"Spamming {user.name}..."
+        embed.add_field(name=f"MSG", value=message)
+        embed.add_field(name=f"Total number of messages", value=times)
+        embed.add_field(name=f"Time intervals", value=f"{between_time_interval} times every {time_interval} sec")
+        embed.add_field(name=f"Estimated finishing time", value=f"<t:{int(datetime.now().timestamp()) + math.ceil(times / between_time_interval) * time_interval}:F>")
+        notify_author = await interaction.user.send(embed=embed)
         message_sent = 0
         for i in range(1, math.ceil(times / between_time_interval) + 1):
             for j in range(between_time_interval):
@@ -276,8 +282,9 @@ class dev_only(commands.Cog, name="Dev Only"):
                 await user.send(msg)
                 message_sent += 1
                 await asyncio.sleep(time_interval)
-        content = notify_author.content
-        await notify_author.edit(f"{content}\nedit: spamming is done at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
+        embed.title = f"Spammed {user.name}! Happy now?"
+        embed.add_field(name="Finished spamming", value="at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
+        await notify_author.edit(embed=embed)
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
