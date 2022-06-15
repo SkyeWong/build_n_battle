@@ -295,7 +295,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                     msg = f"`{(str_len - len(str(messages_sent))) * '0'}{messages_sent}` - `{message}`"
                     msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                     await user.send(msg)
-                    message_sent += 1
+                    messages_sent += 1
                 else:
                     break
             await asyncio.sleep(time_interval)
