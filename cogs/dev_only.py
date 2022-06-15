@@ -267,6 +267,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         )
     ):
         await interaction.send("||fuck you||", delete_after=0.05)
+        str_len = len(str(times))
         embed = Embed()
         embed.colour = random.choice(main.embed_colours)
         embed.title = f"Spamming {user.name}..."
@@ -276,11 +277,11 @@ class dev_only(commands.Cog, name="Dev Only"):
         estimated_finish_time = int(math.ceil(datetime.now().timestamp() + math.ceil(times / between_time_interval) * time_interval))
         embed.add_field(name=f"Estimated finishing time", value=f"<t:{estimated_finish_time}:R> | <t:{estimated_finish_time}:F>")
         notify_author = await interaction.user.send(embed=embed)
-        message_sent = 1
-        for i in range(1, math.ceil(times / between_time_interval) + 1):
+        messages_sent = 1
+        for i in range(math.ceil(times / between_time_interval)):
             for j in range(between_time_interval):
-                if message_sent < times:
-                    msg = f"`{message_sent}` - `{message}`"
+                if messages_sent <= times:
+                    msg = f"`{(len(messages_sent) - str_len) * '0'}{messages_sent}` - `{message}`"
                     msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                     await user.send(msg)
                     message_sent += 1
