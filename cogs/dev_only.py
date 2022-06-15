@@ -271,7 +271,11 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
     ):
         if userid:
-            userid = int(userid)
+            if userid.isnumeric()
+                userid = int(userid)
+            else:
+                await interaction.send("not a valid id", ephermal=True)
+                return
             try:
                 user = await bot.fetch_user(userid)
             except:
