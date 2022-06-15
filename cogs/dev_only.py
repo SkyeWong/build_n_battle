@@ -278,13 +278,13 @@ class dev_only(commands.Cog, name="Dev Only"):
         message_sent = 0
         for i in range(1, math.ceil(times / between_time_interval) + 1):
             for j in range(between_time_interval):
-                msg = f"`{i}` - `{message}`"
+                msg = f"`{message_sent}` - `{message}`"
                 msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                 await user.send(msg)
                 message_sent += 1
                 await asyncio.sleep(time_interval)
         embed.title = f"Spammed {user.name}! Happy now?"
-        embed.add_field(name="Finished spamming", value="at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
+        embed.add_field(name="Finished spamming", value=f"at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
         await notify_author.edit(embed=embed)
 
 def setup(bot: commands.Bot):
