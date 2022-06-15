@@ -276,14 +276,14 @@ class dev_only(commands.Cog, name="Dev Only"):
         estimated_finish_time = int(math.ceil(datetime.now().timestamp() + math.ceil(times / between_time_interval) * time_interval))
         embed.add_field(name=f"Estimated finishing time", value=f"<t:{estimated_finish_time}:R> | <t:{estimated_finish_time}:F>")
         notify_author = await interaction.user.send(embed=embed)
-        message_sent = 0
+        message_sent = 1
         for i in range(1, math.ceil(times / between_time_interval) + 1):
             for j in range(between_time_interval):
                 msg = f"`{message_sent}` - `{message}`"
                 msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                 await user.send(msg)
                 message_sent += 1
-                await asyncio.sleep(time_interval)
+            await asyncio.sleep(time_interval)
         embed.title = f"Spammed {user.name}! Happy now?"
         embed.add_field(name="Finished spamming", value=f"at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
         await notify_author.edit(embed=embed)
