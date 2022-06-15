@@ -271,7 +271,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
     ):
         if userid:
-            if userid.isnumeric()
+            if userid.isnumeric():
                 userid = int(userid)
             else:
                 await interaction.send("not a valid id", ephermal=True)
