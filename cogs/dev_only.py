@@ -271,7 +271,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         message_sent = 0
         for i in range(1, math.ceil(times / between_time_interval) + 1):
             for j in range(between_time_interval):
-                msg = f"`{i}` - _`{message}`_"
+                msg = f"`{i}` - `{message}`"
                 msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
                 await user.send(msg)
                 message_sent += 1
