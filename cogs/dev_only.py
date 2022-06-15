@@ -277,7 +277,7 @@ class dev_only(commands.Cog, name="Dev Only"):
                 message_sent += 1
                 await asyncio.sleep(time_interval)
         content = notify_author.content
-        await notify_author.edit(f"{content}\nedit: spamming is done.")
+        await notify_author.edit(f"{content}\nedit: spamming is done at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
