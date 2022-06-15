@@ -243,7 +243,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         show_author: int = SlashOption(
             name = "show-author",
-            description = "show that you spammed him or not",
+            description = "show who spammed him or not (showing who spammed is not a good idea)",
             choices = {
                 "YESSSS": 1,
                 "NOOOOO": 0
@@ -261,7 +261,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         between_time_interval: int = SlashOption(
             name = "between-time-interval",
-            description = "messages sent between each time interval defaults to 1",
+            description = "messages sent between each time interval. defaults to 1",
             default = 1,
             required = False
         )
@@ -270,7 +270,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed = Embed()
         embed.colour = random.choice(main.embed_colours)
         embed.title = f"Spamming {user.name}..."
-        embed.add_field(name=f"MSG", value=message)
+        embed.add_field(name=f"Message", value=message)
         embed.add_field(name=f"Total number of messages", value=times)
         embed.add_field(name=f"Time intervals", value=f"{between_time_interval} times every {time_interval} sec")
         estimated_finish_time = int(math.ceil(datetime.now().timestamp() + math.ceil(times / between_time_interval) * time_interval))
@@ -279,13 +279,16 @@ class dev_only(commands.Cog, name="Dev Only"):
         message_sent = 1
         for i in range(1, math.ceil(times / between_time_interval) + 1):
             for j in range(between_time_interval):
-                msg = f"`{message_sent}` - `{message}`"
-                msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
-                await user.send(msg)
-                message_sent += 1
+                if message_sent < times:
+                    msg = f"`{message_sent}` - `{message}`"
+                    msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
+                    await user.send(msg)
+                    message_sent += 1
+                else:
+                    break
             await asyncio.sleep(time_interval)
-        embed.title = f"Spammed {user.name}! Happy now?"
-        embed.add_field(name="Finished spamming", value=f"at <t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
+        embed.title = f"Spammed {user.name}!"
+        embed.add_field(name="Finished spamming at", value=f"<t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>.")
         await notify_author.edit(embed=embed)
 
 def setup(bot: commands.Bot):
