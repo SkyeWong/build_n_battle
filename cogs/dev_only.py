@@ -253,7 +253,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         time_interval: float = SlashOption(
             name = "time-interval",
-            description = "time interval between a select number of messages. defaults to 1",
+            description = "number of seconds between a select number of messages. defaults to 1",
             default = 1, 
             required = False,
             min_value = 0,
@@ -268,11 +268,12 @@ class dev_only(commands.Cog, name="Dev Only"):
     ):
         await interaction.send("||fuck you||", delete_after=0.05)
         embed = Embed()
+        embed.colour = random.choice(main.embed_colours)
         embed.title = f"Spamming {user.name}..."
         embed.add_field(name=f"MSG", value=message)
         embed.add_field(name=f"Total number of messages", value=times)
         embed.add_field(name=f"Time intervals", value=f"{between_time_interval} times every {time_interval} sec")
-        embed.add_field(name=f"Estimated finishing time", value=f"<t:{int(datetime.now().timestamp()) + math.ceil(times / between_time_interval) * time_interval}:F>")
+        embed.add_field(name=f"Estimated finishing time", value=f"<t:{int(math.ceil(datetime.now().timestamp()) + math.ceil(times / between_time_interval) * time_interval))}:F>")
         notify_author = await interaction.user.send(embed=embed)
         message_sent = 0
         for i in range(1, math.ceil(times / between_time_interval) + 1):
