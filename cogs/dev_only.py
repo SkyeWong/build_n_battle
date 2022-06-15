@@ -227,8 +227,8 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def dm_spam(
         self, 
         interaction: Interaction, 
-        user: nextcord.User = SlashOption(
-            description = "the user to spam", 
+        user: int = SlashOption(
+            description = "the id of that user", 
             required = True
         ),
         message: str = SlashOption(
@@ -266,6 +266,11 @@ class dev_only(commands.Cog, name="Dev Only"):
             required = False
         )
     ):
+        try:
+            user = await bot.fetch_user(user)
+        except:
+            await interaction.send("user not found", ephermal=True)
+            return
         await interaction.send("||fuck you||", delete_after=0.05)
         str_len = len(str(times))
         embed = Embed()
