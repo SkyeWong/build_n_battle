@@ -274,20 +274,12 @@ class dev_only(commands.Cog, name="Dev Only"):
             if userid.isnumeric():
                 userid = int(userid)
             else:
-<<<<<<< HEAD
                 await interaction.send("not a valid id", ephemeral=True)
-=======
-                await interaction.send("not a valid id", ephermal=True)
->>>>>>> eebbe67e70ff1714a255ff8cba4143ed7a0d6ba7
                 return
             try:
                 user = await bot.fetch_user(userid)
             except:
-<<<<<<< HEAD
                 await interaction.send("user not found", ephemeral=True)
-=======
-                await interaction.send("user not found", ephermal=True)
->>>>>>> eebbe67e70ff1714a255ff8cba4143ed7a0d6ba7
                 return
         await interaction.send("||fuck you||", delete_after=0.05)
         str_len = len(str(times))
@@ -316,10 +308,6 @@ class dev_only(commands.Cog, name="Dev Only"):
         embed.title = f"Spammed {user.name}!"
         embed.add_field(name="Finished spamming at", value=f"<t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>")
         await notify_author.edit(embed=embed)
-<<<<<<< HEAD
-
-=======
->>>>>>> eebbe67e70ff1714a255ff8cba4143ed7a0d6ba7
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
