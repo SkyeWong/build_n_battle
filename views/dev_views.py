@@ -195,14 +195,13 @@ class EditItemModal(Modal):
         value = self.input.value
         if self.column in ("buy_price", "sell_price", "trade_price"):
             value = str(main.text_to_num(self.input.value))
-        sql = """
+        sql = f"""
             UPDATE items
-            SET %s = '%s'
+            SET {self.column} = %s
             WHERE id = 1
         """
         try:
-            print(self.column)
-            cursor = db.execute_query(sql, (self.column, value))
+            cursor = db.execute_query(sql, (value,))
             db.conn.commit()
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
