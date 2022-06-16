@@ -228,7 +228,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         self, 
         interaction: Interaction, 
         user: nextcord.User = SlashOption(
-            description = "the user to spam", 
+            description = "the id of that user", 
             required = True
         ),
         message: str = SlashOption(
@@ -243,7 +243,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         show_author: int = SlashOption(
             name = "show-author",
-            description = "show that you spammed him or not",
+            description = "show who spammed him or not (showing who spammed is not a good idea)",
             choices = {
                 "YESSSS": 1,
                 "NOOOOO": 0
@@ -253,7 +253,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         time_interval: float = SlashOption(
             name = "time-interval",
-            description = "time interval between a select number of messages. defaults to 1",
+            description = "number of seconds between a select number of messages. defaults to 1",
             default = 1, 
             required = False,
             min_value = 0,
@@ -261,24 +261,54 @@ class dev_only(commands.Cog, name="Dev Only"):
         ),
         between_time_interval: int = SlashOption(
             name = "between-time-interval",
-            description = "messages sent between each time interval defaults to 1",
+            description = "messages sent between each time interval. unadvised to set this too high. undefaults to 1",
             default = 1,
             required = False
-        )
+        ),
+        userid: str = SlashOption(
+            description = "the id of that user. if this is set, this overrides the User option.", 
+            required = False
+        ),
     ):
+        if userid:
+            if userid.isnumeric():
+                userid = int(userid)
+            else:
+                await interaction.send("not a valid id", ephemeral=True)
+                return
+            try:
+                user = await bot.fetch_user(userid)
+            except:
+                await interaction.send("user not found", ephemeral=True)
+                return
         await interaction.send("||fuck you||", delete_after=0.05)
-        notify_author = await interaction.user.send(f"spamming {user.name} for {times} times with the msg `{message}`")
-        message_sent = 0
-        for i in range(1, math.ceil(times / between_time_interval) + 1):
+        str_len = len(str(times))
+        embed = Embed()
+        embed.colour = random.choice(main.embed_colours)
+        embed.title = f"Spamming {user.name}..."
+        embed.add_field(name=f"Message", value=message)
+        embed.add_field(name=f"Total number of messages", value=times)
+        embed.add_field(name=f"Time intervals", value=f"{between_time_interval} times every {time_interval} sec")
+        estimated_finish_time = int(math.ceil(datetime.now().timestamp() + math.ceil(times / between_time_interval) * time_interval))
+        embed.add_field(name=f"Estimated finishing time", value=f"<t:{estimated_finish_time}:R> | <t:{estimated_finish_time}:F>")
+        embed.set_footer(text="The estimated finishing time may be inaccurate (too early) bcs of lag")
+        notify_author = await interaction.user.send(embed=embed)
+        messages_sent = 1
+        for i in range(math.ceil(times / between_time_interval)):
             for j in range(between_time_interval):
-                msg = f"`{i}` - _`{message}`_"
-                msg += f"from `{interaction.user.name}`" if show_author == 1 else ""
-                await user.send(msg)
-                message_sent += 1
+                if messages_sent <= times:
+                    msg = f"`{(str_len - len(str(messages_sent))) * '0'}{messages_sent}` - `{message}`"
+                    msg += f" from `{interaction.user.name}`" if show_author == 1 else ""
+                    await user.send(msg)
+                    messages_sent += 1
+                else:
+                    break
+            if messages_sent <= times:
                 await asyncio.sleep(time_interval)
-        content = notify_author.content
-        await notify_author.edit(f"{content}\nedit: spamming is done.")
+        embed.title = f"Spammed {user.name}!"
+        embed.add_field(name="Finished spamming at", value=f"<t:{int(datetime.now().timestamp())}:R> | <t:{int(datetime.now().timestamp())}:F>")
+        await notify_author.edit(embed=embed)
+
 
 def setup(bot: commands.Bot):
     bot.add_cog(dev_only(bot))
-
