@@ -201,6 +201,7 @@ class EditItemModal(Modal):
             WHERE id = 1
         """
         try:
+            print(self.column)
             cursor = db.execute_query(sql, (str(self.column), value))
             db.conn.commit()
         except (AttributeError, Error) as error:
