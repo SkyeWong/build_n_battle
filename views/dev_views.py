@@ -155,7 +155,7 @@ class EditItemView(View):
         custom_id = "item_select"
     )
     async def edit_value(self, select: Select, interaction: Interaction):
-        await interaction.response.send_modal(EditItemModal(self.slash_interaction, self.item_id, select.values[0], self.get_item_embed))
+        await interaction.response.send_modal(EditItemModal(self.slash_interaction, self.item_id, select.values[0]))
 
     async def on_timeout(self) -> None:
         for i in self.children:
@@ -170,9 +170,8 @@ class EditItemView(View):
             return True
 
 class EditItemModal(Modal):
-    def __init__(self, slash_interaction: Interaction, item_id: int, column, item_embed_func):
+    def __init__(self, slash_interaction: Interaction, item_id: int, column):
         self.slash_interaction = slash_interaction
-        self.item_embed_func = item_embed_func
         sql = """
             SELECT name
             FROM items
@@ -205,6 +204,18 @@ class EditItemModal(Modal):
             )
             self.add_item(self.input)
     
+    def get_item_embed(self):
+        embed = Embed()
+        item = self.item
+        embed.colour = random.choice(main.embed_colours)
+        embed.title = "Current values of "
+        embed.title += item["name"]
+        embed.description = ">>> "
+        embed.description += item["description"]
+        embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
+        embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
+        return embed
+    
     async def callback(self, interaction: Interaction):
         value = self.input.value
         if self.column in ("buy_price", "sell_price", "trade_price"):
@@ -220,5 +231,5 @@ class EditItemModal(Modal):
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
-        await self.slash_interaction.edit_original_message(embed=self.item_embed_func())
+        await self.slash_interaction.edit_original_message(embed=self.get_item_embed())
         await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item_name} to {self.input.value}")
