@@ -216,9 +216,25 @@ class EditItemModal(Modal):
         return embed
     
     async def callback(self, interaction: Interaction):
+        # get the value from the modal
         value = self.input.value
+        # if value in one of these convert them from "2k" to 2000
         if self.column in ("buy_price", "sell_price", "trade_price"):
-            value = str(main.text_to_num(self.input.value))
+            # if the value is NULL, change it to None
+            if value == "NULL":
+                value = None
+            else:
+                value = str(main.text_to_num(self.input.value))
+        # if value is name max length = 30
+        if self.column == "name" and len(value) > 30:
+            value = False
+        # if value is description max length = 100
+        if self.column == "description" and len(value) > 100:
+            value = False 
+        # if it is an invalid value send a message and return the function
+        if value == False:
+            await interaction.send("invalid value", ephemeral=True)
+            return
         sql = f"""
             UPDATE items
             SET {self.column} = %s
