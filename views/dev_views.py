@@ -173,16 +173,15 @@ class EditItemModal(Modal):
     def __init__(self, slash_interaction: Interaction, item_id: int, column):
         self.slash_interaction = slash_interaction
         sql = """
-            SELECT name
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
             FROM items
             WHERE id = %s
             LIMIT 1
         """
         cursor = db.execute_query_dict(sql, (item_id,))
-        item = cursor.fetchall()[0]
-        self.item_name = item["name"]
+        self.item = cursor.fetchall()[0]
         super().__init__(
-            title = f"Editing the item {self.item_name}",
+            title = f"Editing the item {self.item['name']}",
             timeout = None
         )
         self.item_id = item_id
