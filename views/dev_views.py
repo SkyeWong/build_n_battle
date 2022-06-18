@@ -115,8 +115,8 @@ class EditItemView(View):
         else:
             self.stop()
         select = [i for i in self.children if i.custom_id == "item_select"][0]
-        columns = self._get_item_columns()
-        for column in columns: 
+        select.options = []
+        for column in self._get_item_columns(): 
             select.options.append(
                 SelectOption(
                     label = column
@@ -136,6 +136,18 @@ class EditItemView(View):
             if name.lower() != "id":
                 columns.append(name)
         return columns
+
+    def get_item_embed(self):
+        embed = Embed()
+        item = self.item
+        embed.colour = random.choice(main.embed_colours)
+        embed.title = "Current values of "
+        embed.title += item["name"]
+        embed.description = ">>> "
+        embed.description += item["description"]
+        embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
+        embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
+        return embed
 
     @select(
         placeholder = "Choose a value...",
@@ -198,12 +210,12 @@ class EditItemModal(Modal):
         sql = f"""
             UPDATE items
             SET {self.column} = %s
-            WHERE id = 1
+            WHERE id = %s
         """
         try:
-            cursor = db.execute_query(sql, (value,))
+            cursor = db.execute_query(sql, (value, self.item_id))
             db.conn.commit()
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
-        await interaction.send(f"{interaction.user.mention} set {self.column} to {self.input.value}")
+        await interaction.send(f"{interaction.user.mention} set the {self.column} of to {self.input.value}")

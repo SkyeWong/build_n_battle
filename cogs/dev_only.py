@@ -211,16 +211,9 @@ class dev_only(commands.Cog, name="Dev Only"):
         if len(results) == 0:
             await interaction.send("The item is not found!")
         else:
-            embed = Embed()
             item = results[0]
-            embed.colour = random.choice(main.embed_colours)
-            embed.title = "Current values of "
-            embed.title += item["name"]
-            embed.description = ">>> "
-            embed.description += item["description"]
-            embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
-            embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
             view = EditItemView(interaction, item["id"])
+            embed = view.get_item_embed()
             await interaction.send(embed=embed, view=view)
 
     @nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.", guild_ids=[main.DEVS_SERVER_ID])
