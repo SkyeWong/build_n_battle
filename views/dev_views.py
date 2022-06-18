@@ -230,5 +230,14 @@ class EditItemModal(Modal):
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
+        original_value = self.item[self.column]
+        sql = """
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            FROM items
+            WHERE id = %s
+            LIMIT 1
+        """
+        cursor = db.execute_query_dict(sql, (self.item_id,))
+        self.item = cursor.fetchall()[0]
         await self.slash_interaction.edit_original_message(embed=self.get_item_embed())
-        await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item['name']} to {self.input.value}")
+        await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item['name']} from {original_value} to {self.input.value}")
