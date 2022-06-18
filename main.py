@@ -54,6 +54,7 @@ def check_if_it_is_skye(interaction: Interaction):
     return interaction.user.id == 806334528230129695
 
 def text_to_num(text: str):
+    text = text.lower()
     text = text.split()
     gold = 0
     for i in text:

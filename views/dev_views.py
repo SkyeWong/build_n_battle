@@ -235,7 +235,7 @@ class EditItemModal(Modal):
         if self.column == "description" and len(value) > 100:
             errors.append("The description must not be more than 100 characters in length.")        
         # if it is an invalid value send a message and return the function
-        if not errors == []:
+        if len(errors) > 0:
             msg = "The following errors occured:"
             for i in errors:
                 msg += f"\n{i}"
