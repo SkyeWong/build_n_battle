@@ -220,5 +220,5 @@ class EditItemModal(Modal):
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
-        self.slash_interaction.edit_original_message(embed=self.item_embed_func())
+        await self.slash_interaction.edit_original_message(embed=self.item_embed_func())
         await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item_name} to {self.input.value}")
