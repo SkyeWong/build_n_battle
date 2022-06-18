@@ -155,7 +155,7 @@ class EditItemView(View):
         custom_id = "item_select"
     )
     async def edit_value(self, select: Select, interaction: Interaction):
-        await interaction.response.send_modal(EditItemModal(self.item_id, select.values[0]))
+        await interaction.response.send_modal(EditItemModal(self.slash_interaction, self.item_id, select.values[0], self.get_item_embed))
 
     async def on_timeout(self) -> None:
         for i in self.children:
@@ -170,7 +170,9 @@ class EditItemView(View):
             return True
 
 class EditItemModal(Modal):
-    def __init__(self, item_id, column):
+    def __init__(self, slash_interaction: Interaction, item_id: int, column, item_embed_func):
+        self.slash_interaction = slash_interaction
+        self.item_embed_func = item_embed_func
         sql = """
             SELECT name
             FROM items
@@ -178,10 +180,10 @@ class EditItemModal(Modal):
             LIMIT 1
         """
         cursor = db.execute_query_dict(sql, (item_id,))
-        results = cursor.fetchall()
-        item = results[0]
+        item = cursor.fetchall()[0]
+        self.item_name = item["name"]
         super().__init__(
-            title = f"Edit the item {item['name']}",
+            title = f"Editing the item {self.item_name}",
             timeout = None
         )
         self.item_id = item_id
@@ -218,4 +220,5 @@ class EditItemModal(Modal):
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
-        await interaction.send(f"{interaction.user.mention} set the {self.column} of to {self.input.value}")
+        self.slash_interaction.edit_original_message(embed=self.item_embed_func())
+        await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item_name} to {self.input.value}")
