@@ -196,7 +196,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         name: str = SlashOption(required=True),
         description: str = SlashOption(required=True),
         emoji_name: str = SlashOption(required=True),
-        emoji_id: int = SlashOption(required=True),
+        emoji_id: str = SlashOption(required=True),
         rarity: int = SlashOption(
             choices = {
                 "common": 0,
@@ -229,6 +229,9 @@ class dev_only(commands.Cog, name="Dev Only"):
         # if value is description max length = 100
         if description and len(description) > 100:
             errors.append("The description must not be more than 100 characters in length.")
+        # change emoji id to int
+        if not emoji_id.isnumeric():
+            errors.append("The emoji id is invalid")
         # if it is an invalid value send a message and return the function
         if len(errors) > 0:
             msg = "The following errors occured:"
@@ -259,8 +262,8 @@ class dev_only(commands.Cog, name="Dev Only"):
         # 3 - epic
         # 4 - legendary
         # 5 - godly
-        rarity = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
-        embed.add_field(name="Rarity", value=rarity[rarity])
+        rarities = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
+        embed.add_field(name="Rarity", value=rarities[rarity])
         embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{emoji_id}.png")
         await interaction.send(embed=embed)
 
