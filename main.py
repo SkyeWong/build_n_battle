@@ -67,12 +67,15 @@ def text_to_num(text: str):
         if not isinstance(i, str):
             # Non-strings are bad are missing data in poster's submission
             return False
+        elif i.isnumeric():
+            gold += int(i)
         elif i[-1] in d:
             # separate out the K, M, or B
             num, magnitude = i[:-1], i[-1]
-            gold += int(num) * d[magnitude]
-        elif i.isnumeric():
-            gold += int(i)
+            if num.isnumeric():
+                gold += int(num) * d[magnitude]
+            else:
+                return False
         else:
             return False
     return gold

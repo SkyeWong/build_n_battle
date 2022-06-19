@@ -103,7 +103,7 @@ class EditItemView(View):
         self.slash_interaction = slash_interaction
         self.item_id = item_id
         sql = """
-            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity
             FROM items
             WHERE id = %s
             LIMIT 1
@@ -146,6 +146,15 @@ class EditItemView(View):
         embed.description = ">>> "
         embed.description += item["description"]
         embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
+        # **rarity**
+        # 0 - common
+        # 1 - uncommon
+        # 2 - rare
+        # 3 - epic
+        # 4 - legendary
+        # 5 - godly
+        rarity = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
+        embed.add_field(name="Rarity", value=rarity[item["rarity"]])
         embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
         return embed
 
@@ -173,7 +182,7 @@ class EditItemModal(Modal):
     def __init__(self, slash_interaction: Interaction, item_id: int, column):
         self.slash_interaction = slash_interaction
         sql = """
-            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity
             FROM items
             WHERE id = %s
             LIMIT 1
@@ -233,7 +242,25 @@ class EditItemModal(Modal):
             errors.append("The name must not be more than 30 characters in length.")
         # if value is description max length = 100
         if self.column == "description" and len(value) > 100:
-            errors.append("The description must not be more than 100 characters in length.")        
+            errors.append("The description must not be more than 100 characters in length.")
+        # **rarity**
+        # 0 - common
+        # 1 - uncommon
+        # 2 - rare
+        # 3 - epic
+        # 4 - legendary
+        # 5 - godly
+        rarity = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
+        if self.column == "rarity":
+            value = value.lower()
+            if value.isnumeric():
+                if int(value) < 0 or int(value) > 5 :
+                    errors.append("use numbers 0-5 respectively representing `common`, `uncommon`, `rare`, `epic`, `legendary`, `epic` only")
+            else:
+                if value in rarity:
+                    value = rarity.index(value)
+                else:
+                    errors.append("The rarity must be one of these: `common`, `uncommon`, `rare`, `epic`, `legendary`, `epic`")
         # if it is an invalid value send a message and return the function
         if len(errors) > 0:
             msg = "The following errors occured:"
@@ -262,4 +289,4 @@ class EditItemModal(Modal):
         cursor = db.execute_query_dict(sql, (self.item_id,))
         self.item = cursor.fetchall()[0]
         await self.slash_interaction.edit_original_message(embed=self.get_item_embed())
-        await interaction.send(f"{interaction.user.mention} set the {self.column} of {self.item['name']} from {original_value} to {self.input.value}")
+        await interaction.guild.get_channel(988046548309016586).send(f"{interaction.user.mention} set the `{self.column}` of `{self.item['name']}` from `{original_value}` to `{self.input.value}`, or `{value}`")
