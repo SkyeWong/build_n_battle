@@ -1,7 +1,5 @@
-import os
 from nextcord import ButtonStyle
 import nextcord
-import json 
 from datetime import datetime
 import random
 import asyncio
@@ -14,6 +12,7 @@ from nextcord.ui import Button, View
 import database as db
 from functions.users import Users
 from views.dev_views import EmojiView, EditItemView
+from mysql.connector import Error
 
 class dev_only(commands.Cog, name="Dev Only"):
     """Commands only for the devs."""
@@ -190,8 +189,83 @@ class dev_only(commands.Cog, name="Dev Only"):
         """Add, edit, or delete an item."""
         pass
 
+    @item.subcommand(name="add", description="Add a new item into the game", inherit_hooks=True)
+    async def add_item(
+        self,
+        interaction: Interaction,
+        name: str = SlashOption(required=True),
+        description: str = SlashOption(required=True),
+        emoji_name: str = SlashOption(required=True),
+        emoji_id: int = SlashOption(required=True),
+        rarity: int = SlashOption(
+            choices = {
+                "common": 0,
+                "uncommon": 1,
+                "rare": 2,
+                "epic": 3,
+                "legendary": 4,
+                "godly": 5
+            }, 
+            required=True
+        ),
+        buy_price: int = SlashOption(required=False, default=0),
+        sell_price: int = SlashOption(required=False, default=0),
+        trade_price: int = SlashOption(required=False, default=0),
+    ):
+        errors = []
+        prices = [buy_price, sell_price, trade_price]
+        for index, price in enumerate(prices):
+            # if the value is NULL, change it to None
+            if price == 0:
+                prices[index] = None
+            else:
+                # if value in one of these convert them from "2k" to 2000
+                prices[index] = str(main.text_to_num(self.input.value))
+            if prices[index] == False:
+                errors.append("This is not a valid number. Tip: use `2k` for _2,000_, `5m 4k` for _5,004,000_")
+        # if value is name max length = 30
+        if name and len(name) > 30:
+            errors.append("The name must not be more than 30 characters in length.")
+        # if value is description max length = 100
+        if description and len(description) > 100:
+            errors.append("The description must not be more than 100 characters in length.")
+        # if it is an invalid value send a message and return the function
+        if len(errors) > 0:
+            msg = "The following errors occured:"
+            for i in errors:
+                msg += f"\n{i}"
+            await interaction.send(msg, ephemeral=True)
+            return
+        sql = """
+            INSERT INTO items (name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        try:
+            cursor = db.execute_query(sql, (name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity))
+            db.conn.commit()
+        except (AttributeError, Error) as error:
+            await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
+            raise error
+        embed = Embed()
+        embed.title = f"Added {name}"
+        embed.colour = random.choice(main.embed_colours)
+        embed.description = ">>> "
+        embed.description += description
+        embed.description += f"\n\n**BUY** - {buy_price}\n**SELL** - {sell_price}\n**TRADE** - {trade_price}"
+        # **rarity**
+        # 0 - common
+        # 1 - uncommon
+        # 2 - rare
+        # 3 - epic
+        # 4 - legendary
+        # 5 - godly
+        rarity = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
+        embed.add_field(name="Rarity", value=rarity[rarity])
+        embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{emoji_id}.png")
+        await interaction.send(embed=embed)
+
     @item.subcommand(name="edit", description="Edit an item's name, description, trade price etc", inherit_hooks=True)
-    async def item(
+    async def edit_item(
         self, 
         interaction: Interaction,
         itemname: str = SlashOption(
@@ -200,7 +274,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         )
     ):
         sql = """
-            SELECT id, name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            SELECT id, name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity
             FROM items
             WHERE name LIKE %s or emoji_name LIKE %s
             ORDER BY name ASC

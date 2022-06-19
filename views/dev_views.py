@@ -230,8 +230,8 @@ class EditItemModal(Modal):
         errors = []
         # if value in one of these convert them from "2k" to 2000
         if self.column in ("buy_price", "sell_price", "trade_price"):
-            # if the value is NULL, change it to None
-            if value == "NULL":
+            # if the value is 0, change it to None
+            if value == 0:
                 value = None
             else:
                 value = str(main.text_to_num(self.input.value))
