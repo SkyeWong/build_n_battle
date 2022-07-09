@@ -290,7 +290,7 @@ class EditItemModal(Modal):
             raise error
         original_value = self.item[self.column]
         sql = """
-            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price
+            SELECT name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity
             FROM items
             WHERE id = %s
             LIMIT 1
