@@ -246,6 +246,7 @@ class dev_only(commands.Cog, name="Dev Only"):
         try:
             cursor = db.execute_query(sql, (name, description, emoji_name, emoji_id, buy_price, sell_price, trade_price, rarity))
             db.conn.commit()
+            print(cursor.rowcount, "record inserted.", "id: ", cursor.lastrowid)
         except (AttributeError, Error) as error:
             await interaction.send("either you entered an invalid value or an internal error occured.", ephemeral=True)
             raise error
