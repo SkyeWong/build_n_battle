@@ -300,7 +300,8 @@ class EditItemModal(Modal):
         await self.slash_interaction.edit_original_message(embed=self.get_item_embed())
         await interaction.guild.get_channel(988046548309016586).send(f"{interaction.user.mention} set the `{self.column}` of `{self.item['name']}` from `{original_value}` to `{self.input.value}`, or `{value}`")
 
-class ConfirmDelete():
+class ConfirmDelete(View):
+
     def __init__(self, slash_interaction: Interaction, item):
         super().__init__(timeout=30)
         self.slash_interaction = slash_interaction
