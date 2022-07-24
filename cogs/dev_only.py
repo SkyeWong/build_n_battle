@@ -303,12 +303,15 @@ class dev_only(commands.Cog, name="Dev Only"):
             choices = main.get_all_item_names()
         )
     ):
-        embed = Embed()
-        embed.set_author(name="Delete item?", icon_url="https://discord.com/assets/d0b3037b528406cab8072a6c30cb3267.svg")    
-        embed.colour = random.choice(main.embed_colours)
-        embed.description = f"Item: {item}"
-        view = ConfirmDelete(interaction, item)
-        await interaction.send(embed=embed, view=view)
+        if item in main.get_all_item_names:
+            embed = Embed()
+            embed.set_author(name="Delete item?", icon_url="https://discord.com/assets/d0b3037b528406cab8072a6c30cb3267.svg")    
+            embed.colour = random.choice(main.embed_colours)
+            embed.description = f"Item: {item}"
+            view = ConfirmDelete(interaction, item)
+            await interaction.send(embed=embed, view=view)
+        else:
+            await interaction.send("the item is not found!")
         
     nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.", guild_ids=[main.DEVS_SERVER_ID])
     async def dm_spam(

@@ -98,12 +98,25 @@ class Currency(commands.Cog, name="Currency"):
         if len(results) == 0:
             await interaction.send("The item is not found!")
         else:
-            msg = ""
+            embed = Embed()
             item = results[0]
-            for i in range(len(item)):
-                msg += f"\n`{cursor.description[i][0]}` {item[i]}"
-            msg += f"\n<:{item[2]}:{item[3]}>"
-            await interaction.send(msg)
+            embed.colour = random.choice(main.embed_colours)
+            embed.title = "Current values of "
+            embed.title += item["name"]
+            embed.description = ">>> "
+            embed.description += item["description"]
+            embed.description += f"\n\n**BUY** - {item['buy_price']}\n**SELL** - {item['sell_price']}\n**TRADE** - {item['trade_price']}"
+            # **rarity**
+            # 0 - common
+            # 1 - uncommon
+            # 2 - rare
+            # 3 - epic
+            # 4 - legendary
+            # 5 - godly
+            rarity = ["common", "uncommon", "rare", "epic", "legendary", "godly"]
+            embed.add_field(name="Rarity", value=rarity[item["rarity"]])
+            embed.set_thumbnail(url=f"https://cdn.discordapp.com/emojis/{item['emoji_id']}.png")
+            await interaction.send(embed=embed)
         
     @commands.command(name="buttons")
     @commands.cooldown(1, 30, commands.BucketType.user)
