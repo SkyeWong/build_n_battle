@@ -93,7 +93,7 @@ class Currency(commands.Cog, name="Currency"):
             ORDER BY name ASC
             LIMIT 1
         """
-        cursor = db.execute_query(sql, (f"%{itemname}%",) * 2)
+        cursor = db.execute_query_dict(sql, (f"%{itemname}%",) * 2)
         results = cursor.fetchall()
         if len(results) == 0:
             await interaction.send("The item is not found!")
