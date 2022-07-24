@@ -302,6 +302,7 @@ class EditItemModal(Modal):
 
 class ConfirmDelete():
     def __init__(self, slash_interaction: Interaction, item):
+        super().__init__(timeout=30)
         self.slash_interaction = slash_interaction
         self.item = item
         embed = Embed()
