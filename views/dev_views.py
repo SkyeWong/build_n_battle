@@ -299,3 +299,41 @@ class EditItemModal(Modal):
         self.item = cursor.fetchall()[0]
         await self.slash_interaction.edit_original_message(embed=self.get_item_embed())
         await interaction.guild.get_channel(988046548309016586).send(f"{interaction.user.mention} set the `{self.column}` of `{self.item['name']}` from `{original_value}` to `{self.input.value}`, or `{value}`")
+
+class ConfirmDelete():
+    def __init__(self, slash_interaction: Interaction, item):
+        self.slash_interaction = slash_interaction
+        self.item = item
+        embed = Embed()
+        embed.colour = random.choice(main.embed_colours)
+        embed.description = f"Item: {item}"
+        embed.set_author(name=" ", icon_url="https://discord.com/assets/d0b3037b528406cab8072a6c30cb3267.svg")
+        self.embed = embed
+
+    @button(
+        emoji = "✔️", 
+        style = nextcord.ButtonStyle.blurple
+    )
+    async def confirm(self, button: Button, interaction: Interaction):
+        sql = """
+        DELETE 
+        FROM items 
+        WHERE name = %s
+        """
+        cursor = db.execute_query(sql, (self.item,))
+        db.conn.commit()
+        self.embed.title = "Item deleted!"
+        button.style = nextcord.ButtonStyle.green
+        await self.slash_interaction.edit_original_message(view=self)
+        await interaction.send(embed=self.embed)
+        await interaction.guild.get_channel(988046548309016586).send(f"{self.slash_interaction.user.mention} deleted the item {self.item}")
+    
+    @button(
+        emoji = "❌",
+        style = nextcord.ButtonStyle.blurple
+    )
+    async def cancel(self, button: Button, interaction: Interaction):
+        self.embed.title = "Item deleted!"
+        button.style = nextcord.ButtonStyle.red
+        await self.slash_interaction.edit_original_message(view=self)
+        await interaction.send(embed=self.embed)

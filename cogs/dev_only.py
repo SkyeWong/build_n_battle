@@ -11,7 +11,7 @@ from nextcord import Embed, Interaction, SlashOption
 from nextcord.ui import Button, View
 import database as db
 from functions.users import Users
-from views.dev_views import EmojiView, EditItemView
+from views.dev_views import EmojiView, EditItemView, ConfirmDelete
 from mysql.connector import Error
 
 class dev_only(commands.Cog, name="Dev Only"):
@@ -272,7 +272,7 @@ class dev_only(commands.Cog, name="Dev Only"):
     async def edit_item(
         self, 
         interaction: Interaction,
-        itemname: str = SlashOption(
+        item: str = SlashOption(
             description="The item to edit",
             choices = main.get_all_item_names()
         )
@@ -284,7 +284,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             ORDER BY name ASC
             LIMIT 1
         """
-        cursor = db.execute_query_dict(sql, (f"%{itemname}%",) * 2)
+        cursor = db.execute_query_dict(sql, (f"%{item}%",) * 2)
         results = cursor.fetchall()
         if len(results) == 0:
             await interaction.send("The item is not found!")
@@ -294,7 +294,23 @@ class dev_only(commands.Cog, name="Dev Only"):
             embed = view.get_item_embed()
             await interaction.send(embed=embed, view=view)
 
-    @nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.", guild_ids=[main.DEVS_SERVER_ID])
+    @item.subcommand(name="delete", description="Delete an existing item", inherit_hooks=True)
+    async def delete_item(
+        self, 
+        interaction: Interaction, 
+        item: str = SlashOption(
+            description="The item to delete",
+            choices = main.get_all_item_names()
+        )
+    ):
+        embed = Embed()
+        embed.set_author(name="Delete item?", icon_url="https://discord.com/assets/d0b3037b528406cab8072a6c30cb3267.svg")    
+        embed.colour = random.choice(main.embed_colours)
+        embed.description = f"Item: {item}"
+        view = ConfirmDelete(interaction, item)
+        await interaction.send(embed=embed, view=view)
+        
+    nextcord.slash_command(name="dm-spam", description="DM spam a user with the message and the amount of times.", guild_ids=[main.DEVS_SERVER_ID])
     async def dm_spam(
         self, 
         interaction: Interaction, 
