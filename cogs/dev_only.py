@@ -303,7 +303,7 @@ class dev_only(commands.Cog, name="Dev Only"):
             choices = main.get_all_item_names()
         )
     ):
-        if item in main.get_all_item_names:
+        if item in main.get_all_item_names():
             embed = Embed()
             embed.set_author(name="Delete item?", icon_url="https://discord.com/assets/d0b3037b528406cab8072a6c30cb3267.svg")    
             embed.colour = random.choice(main.embed_colours)
